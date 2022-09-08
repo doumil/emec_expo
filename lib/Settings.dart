@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ActivitesScreen extends StatefulWidget {
-  const ActivitesScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen ({Key? key}) : super(key: key);
 
   @override
-  _ActivitesScreenState createState() => _ActivitesScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _ActivitesScreenState extends State<ActivitesScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
   }
@@ -45,7 +45,7 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
             color: Color(0x37e9edef),
             child: Column(
               children: [
-                Text("Activites"),
+                Text("Settings"),
               ],
             ),
           ),
