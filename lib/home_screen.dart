@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               color:
                                                                   Colors.white),
                                                           overflow: TextOverflow
-                                                              .ellipsis,
+                                                              .visible,
                                                         ),
                                                       ),
                                                     )

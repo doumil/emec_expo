@@ -1,6 +1,10 @@
+import 'package:emec_expo/tabs/FACEBOOK.dart';
+import 'package:emec_expo/tabs/INSTAGRAM.dart';
+import 'package:emec_expo/tabs/LINKEDIN.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SocialMScreen extends StatefulWidget {
   const SocialMScreen({Key? key}) : super(key: key);
@@ -37,15 +41,46 @@ class _SocialMScreenState extends State<SocialMScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _onWillPop,
+    return DefaultTabController(
+        length: 3,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
-            color: Color(0x37e9edef),
             child: Column(
               children: [
-                Text("Social Media"),
+               Container(
+                 color: Color(0xff261350),
+                 child: TabBar(
+                     unselectedLabelColor: const Color(0xff00c1c1),
+                     labelColor:Colors.white,
+                     tabs:[
+                       Tab(
+                         child: Text("FACEBOOK"),
+                       ),
+                       Tab(
+                         text:"INSTAGRAM",
+                       ),
+                       Tab(
+                         text:"LINKEDIN",
+                       )
+                     ]
+                 ),
+
+               ),
+                Expanded(
+                    child:TabBarView(children: [
+                      Container(
+                        child :FacebookScreen(),
+                      ),
+                      Container(
+                        child: InstagramScreen(),
+                      ),
+                      Container(
+                        child: LINKEDINScreen(),
+                      ),
+                    ],
+                    ),
+                ),
               ],
             ),
           ),
