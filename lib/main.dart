@@ -113,6 +113,7 @@ class _WelcomPageState extends State<WelcomPage> {
     }
     return Scaffold(
       appBar: AppBar(
+        title: Text("EMEC EXPO"),
         backgroundColor: Color(0xff261350),
         actions: <Widget>[],
         elevation: 0,

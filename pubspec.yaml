@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   font_awesome_flutter:
   webview_flutter:
+  flutter_carousel_slider:
 
 
 dev_dependencies:

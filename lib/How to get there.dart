@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class GetThereScreen extends StatefulWidget {
   const GetThereScreen ({Key? key}) : super(key: key);
@@ -41,13 +42,9 @@ class _GetThereScreenState extends State<GetThereScreen> {
         onWillPop: _onWillPop,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("How to get There"),
-              ],
-            ),
+          body: WebView(
+            javascriptMode: JavascriptMode.unrestricted,
+            initialUrl: 'https://www.google.com/maps/place/Hyatt+Regency+Casablanca/@33.5961817,-7.6210396,17z/data=!3m1!4b1!4m8!3m7!1s0xda7d284d7ccd05f:0xd0a597e123812ee5!5m2!4m1!1i2!8m2!3d33.5961773!4d-7.6188509',
           ),
         ));
   }

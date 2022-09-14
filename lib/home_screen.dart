@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
+import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 
 import 'Busniess Safe.dart';
+import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,9 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ],
                                         ))),
                                 Container(
-                                  height: height * 0.08,
+                                  height: height * 0.06,
                                   width: 0.7,
-                                  color: Colors.black38,
+                                  color:  const Color(0xff00c1c1),
                                 ),
                                 Expanded(
                                     flex: 11,
@@ -163,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width * 0.04,
                                             width * 0.01),
                                           child: Image.asset(
-                                            "assets/banner.jpg",
+                                            "assets/banner.png",
                                           ),
                                       ),
                                     ),
@@ -183,20 +187,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: <Widget>[
                                     Center(
                                       child: Container(
+                                        height:435,
+                                        width: 500,
                                         padding: EdgeInsets.fromLTRB(
-                                            width * 0.04, 0, width * 0.04, 0),
-                                        child: Text(
-                                          '',
-                                          style: TextStyle(fontSize: 20),
-                                          textAlign: TextAlign.left,
+                                            width * 0.04,
+                                            width * 0.04,
+                                            width * 0.04,
+                                            width * 0.01),
+                                        child: CarouselSlider(
+                                           enableAutoSlider: true,
+                                           autoSliderDelay:  const Duration(seconds:2),
+                                           slideTransform: CubeTransform(),
+                                          unlimitedMode: true,
+                                          slideIndicator: CircularSlideIndicator(
+                                            padding: EdgeInsets.only(bottom: 3),
+                                            currentIndicatorColor: const Color(0xff00c1c1),
+                                            indicatorBackgroundColor: Colors.white12,
+                                          ),
+                                          children: [
+                                            Container(
+                                              child: Image.asset(
+                                                "assets/slide1.jpg",
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Image.asset(
+                                                "assets/slide2.jpg",
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Image.asset(
+                                                "assets/slide3.jpg",
+                                              ),
+                                            ),
+
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                                 margin: EdgeInsets.only(top: height * 0.01),
-                                padding: EdgeInsets.only(
-                                    bottom: height * 0.02, top: height * 0.02),
+                                padding: EdgeInsets.only(bottom: height * 0.01),
                                 width: width * 0.9,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -218,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           leading: Icon(Icons.work_outline),
                                           title: Text('Exhibitors'),
                                           onTap: () {
+
                                           },
                                         ),
                                       ),
