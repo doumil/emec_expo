@@ -338,10 +338,10 @@ class _ContactScreenState extends State<ContactScreen> {
                                               ),
                                             ),
                                             Container(
-                                              child: Text(" if you have any questions \n"
-                                                  "or comments, please do \n"
-                                                  "not hesitate to contact us \n"
-                                                  "by phone or email.",style: TextStyle(fontSize: 22.00,color: Colors.white,fontWeight: FontWeight.bold),),
+                                             // child: Text(" if you have any questions \n"
+                                               //   "or comments, please do \n"
+                                                 // "not hesitate to contact us \n"
+                                                  //"by phone or email.",style: TextStyle(fontSize: 22.00,color: Colors.white,fontWeight: FontWeight.bold),),
                                             ),
                                             Container(
                                               child: Container(

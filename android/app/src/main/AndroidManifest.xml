@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.emec_expo">
     <uses-permission android:name="android.permission.INTERNET" />
-   <application
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <application
         android:label="EMEC EXPO"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

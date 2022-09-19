@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       child: Container(
                                                         width: width * 0.4,
                                                         child: Text(
-                                                          " 10-11 Mai 2023",
+                                                          "10-11 Mai 2023",
                                                           style: TextStyle(
                                                               fontSize: height *
                                                                   0.018,
@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             width * 0.01),
                                         child: CarouselSlider(
                                            enableAutoSlider: true,
-                                           autoSliderDelay:  const Duration(seconds:2),
+                                           autoSliderDelay:  const Duration(seconds:4),
                                            slideTransform: CubeTransform(),
                                           unlimitedMode: true,
                                           slideIndicator: CircularSlideIndicator(
