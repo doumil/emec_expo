@@ -45,7 +45,7 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
             color: Color(0x37e9edef),
             child: Column(
               children: [
-                Text("Exhibitors"),
+                Text("my agenda"),
               ],
             ),
           ),

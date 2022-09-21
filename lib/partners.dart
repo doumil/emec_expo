@@ -19,7 +19,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
       context: context,
       builder: (context) => new AlertDialog(
         title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+        content: new Text('Voulez-vous quitter cette application'),
         actions: <Widget>[
           new TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -37,16 +37,174 @@ class _PartnersScreenState extends State<PartnersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("Partners"),
-              ],
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  //technopark
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/partners/technopark.png",
+                      ),
+                    ),
+                  ),
+                  //la startup
+                  Center(
+                    child: Container(
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/partners/lastartupstation.png",
+                      ),
+                    ),
+                  ),
+                  //nortis
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/nortis.png",
+                      ),
+                    ),
+                  ),
+                  //okysolutions
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.08),
+                      padding: EdgeInsets.only(bottom: height * 0.06),
+                      child: Image.asset(
+                        "assets/partners/okysolutions.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/ES2IM.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/AHK.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/diplomatique.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/KOMPASS.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/infomediaire.jpg",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/Aujourdhui.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/industrie.jpg",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/lebrif.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/partners/conso.jpg",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      width: 200,
+                      height:200,
+                      child: Image.asset(
+                        "assets/partners/hitradio.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/medi1tv.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/mediradio.png",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
