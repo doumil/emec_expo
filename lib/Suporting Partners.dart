@@ -16,37 +16,136 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Êtes-vous sûr'),
+            content: new Text('Voulez-vous quitter une application'),
+            actions: <Widget>[
+              new TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Non'),
+              ),
+              new TextButton(
+                onPressed: () => SystemNavigator.pop(),
+                child: new Text('Oui '),
+              ),
+            ],
           ),
-          new TextButton(
-            onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
-          ),
-        ],
-      ),
-    )) ??
+        )) ??
         false;
   }
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("Supporting Partners"),
-              ],
+          body: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                   Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: height * 0.01),
+                        padding: EdgeInsets.only(bottom: height * 0.01),
+                        child: const Text("SPONSOR GOLD",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      )),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      padding: EdgeInsets.only(bottom: height * 0.01),
+                      width: 340,
+                      child: Image.asset(
+                        "assets/sponsors/zoho.png",
+                      ),
+                    ),
+                  ),
+                   Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: height * 0.04),
+                        padding: EdgeInsets.only(bottom: height * 0.04),
+                        child: const Text("SPONSOR SILVER",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      )),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: height * 0.04),
+                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          child: Image.asset(
+                            "assets/sponsors/vertigo.jpg",
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          child: Image.asset(
+                            "assets/sponsors/kertys.png",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Container(
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/sponsors/chrono.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: height * 0.04),
+                        padding: EdgeInsets.only(bottom: height * 0.04),
+                        child: const Text("SPONSOR BRONZE",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      )),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: height * 0.04),
+                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          child: Image.asset(
+                            "assets/sponsors/devcorp.png",
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          child: Image.asset(
+                            "assets/sponsors/ipaid.png",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: height * 0.04),
+                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/sponsors/BPM24.jpg",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
