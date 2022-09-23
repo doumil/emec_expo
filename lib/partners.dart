@@ -212,39 +212,49 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                     // margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/industrie.jpg",
+                        "assets/partners/industrie-du-maroc.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/lebrif.png",
+                        "assets/partners/lebrief.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/conso.jpg",
+                        "assets/partners/media7.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 200,
-                      height:200,
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/conso-news.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                     // margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
+                      height:150,
                       child: Image.asset(
                         "assets/partners/hitradio.png",
                       ),
@@ -252,8 +262,9 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
                         "assets/partners/medi1tv.png",
                       ),
@@ -261,10 +272,11 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/mediradio.png",
+                        "assets/partners/medi1radio.png",
                       ),
                     ),
                   ),
