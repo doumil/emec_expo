@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class FoodScreen extends StatefulWidget {
-  const FoodScreen ({Key? key}) : super(key: key);
+  const FoodScreen({Key? key}) : super(key: key);
 
   @override
   _FoodScreenState createState() => _FoodScreenState();
@@ -16,22 +16,22 @@ class _FoodScreenState extends State<FoodScreen> {
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Êtes-vous sûr'),
+            content: new Text('Voulez-vous quitter une application'),
+            actions: <Widget>[
+              new TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Non'),
+              ),
+              new TextButton(
+                onPressed: () => SystemNavigator.pop(),
+                child: new Text('Oui '),
+              ),
+            ],
           ),
-          new TextButton(
-            onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
-          ),
-        ],
-      ),
-    )) ??
+        )) ??
         false;
   }
 
@@ -42,12 +42,11 @@ class _FoodScreenState extends State<FoodScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("Food"),
-              ],
-            ),
+            child: Center(
+                child: Text(
+              "COMING SOON",
+              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 26.00),
+            )),
           ),
         ));
   }

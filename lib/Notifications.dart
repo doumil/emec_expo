@@ -14,7 +14,7 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  List<Notification> litems = [];
+  List<NotifClass> litems = [];
   bool isLoading = true;
   void initState() {
     litems.clear();
@@ -25,10 +25,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   _loadData() async {
     var url = "http://192.168.8.100/emecexpo/loadspeakers.php";
     var res = await http.post(Uri.parse(url));
-    List<Notifications> notif = (json.decode(res.body) as List)
-        .map((data) => Notifications.fromJson(data))
+    List<NotifClass> notif = (json.decode(res.body) as List)
+        .map((data) => NotifClass.fromJson(data))
         .toList();
-    litems=notif.cast<Notification>();
+    litems=notif;
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -85,16 +85,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         )),
                     title:Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text("${litems[position].} ${litems[position].lname}",
+                      child: Text("${litems[position].name} ${litems[position].dtime} ${litems[position].dtime}",
                         style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
                       ),
                     ),
-                    subtitle: new Text("${litems[position].characteristic}",
+                    subtitle: new Text("${litems[position].discriptions}",
                       style: TextStyle(color: Colors.white70,height: 2),
                     ),
                     trailing: Wrap(
                       children: [
-                        Text("\n${litems[position].definition}",
+                        Text("\n",
                             style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
                       ],
                     ),

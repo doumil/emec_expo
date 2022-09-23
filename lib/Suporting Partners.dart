@@ -50,15 +50,15 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                    Center(
                       child: Container(
                         margin: EdgeInsets.only(top: height * 0.01),
-                        padding: EdgeInsets.only(bottom: height * 0.01),
+                        //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR GOLD",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
                       )),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      padding: EdgeInsets.only(bottom: height * 0.01),
-                      width: 340,
+                      height: 200,
+                     // margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Image.asset(
                         "assets/sponsors/zoho.png",
                       ),
@@ -66,28 +66,30 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                   ),
                    Center(
                       child: Container(
-                        margin: EdgeInsets.only(top: height * 0.04),
-                        padding: EdgeInsets.only(bottom: height * 0.04),
+                        //margin: EdgeInsets.only(top: height * 0.01),
+                        //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR SILVER",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
                       )),
                   Row(
                     children: [
                       Expanded(
                         flex: 1,
                         child: Container(
-                          margin: EdgeInsets.only(top: height * 0.04),
-                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/vertigo.jpg",
+                            "assets/sponsors/vertigotax.png",
                           ),
                         ),
                       ),
                       Expanded(
                         flex: 1,
                         child: Container(
+                          height: 150,
                           margin: EdgeInsets.only(top: height * 0.01),
-                          padding: EdgeInsets.only(bottom: height * 0.04),
+                         // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
                             "assets/sponsors/kertys.png",
                           ),
@@ -97,27 +99,29 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                   ),
                   Center(
                     child: Container(
+                      height: 150,
                       //margin: EdgeInsets.only(top: height * 0.01),
-                      padding: EdgeInsets.only(bottom: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Image.asset(
-                        "assets/sponsors/chrono.png",
+                        "assets/sponsors/chrono-diali.png",
                       ),
                     ),
                   ),
                   Center(
                       child: Container(
-                        margin: EdgeInsets.only(top: height * 0.04),
-                        padding: EdgeInsets.only(bottom: height * 0.04),
+                        //margin: EdgeInsets.only(top: height * 0.01),
+                        //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR BRONZE",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
                       )),
                   Row(
                     children: [
                       Expanded(
                         flex: 1,
                         child: Container(
-                          margin: EdgeInsets.only(top: height * 0.04),
-                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          height: 150,
+                          //margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
                             "assets/sponsors/devcorp.png",
                           ),
@@ -126,10 +130,11 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          padding: EdgeInsets.only(bottom: height * 0.04),
+                          height: 150,
+                          //margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/ipaid.png",
+                            "assets/sponsors/ipaidthat.png",
                           ),
                         ),
                       ),
@@ -137,10 +142,11 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Image.asset(
-                        "assets/sponsors/BPM24.jpg",
+                        "assets/sponsors/bpm-24.png",
                       ),
                     ),
                   ),

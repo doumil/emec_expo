@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'model/congress_model.dart';
+import 'model/activities_model.dart';
+import 'package:http/http.dart' as http;
 
 class ActivitesScreen extends StatefulWidget {
   const ActivitesScreen({Key? key}) : super(key: key);
@@ -10,8 +15,26 @@ class ActivitesScreen extends StatefulWidget {
 }
 
 class _ActivitesScreenState extends State<ActivitesScreen> {
+  List<ActivitiesClass> litems = [];
+  bool isLoading = true;
   void initState() {
+    litems.clear();
+    isLoading = true;
+    _loadData();
     super.initState();
+  }
+  _loadData() async {
+    var url = "http://192.168.8.100/emecexpo/loadactivities.php";
+    var res = await http.post(Uri.parse(url));
+    List<ActivitiesClass> act = (json.decode(res.body) as List)
+        .map((data) => ActivitiesClass.fromJson(data))
+        .toList();
+    litems=act;
+    if (this.mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<bool> _onWillPop() async {
@@ -41,14 +64,48 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
         onWillPop: _onWillPop,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("Activites"),
-              ],
-            ),
-          ),
+          body: isLoading == true
+              ? Center(
+              child: SpinKitThreeBounce(
+                color: Color(0xff00c1c1),
+                size: 30.0,
+              ))
+              : new ListView.builder(
+              itemCount: litems.length,
+              itemBuilder: (_, int position) {
+                return new Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(50.0),
+                        right: Radius.circular(0.0),
+                      )
+                  ),
+                  child: new ListTile(
+                    leading: new ClipOval(
+                        child: Image.asset(
+                          'assets/av.jpg',
+                        )),
+                    title:Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text("${litems[position].name}",
+                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                      ),
+                    ),
+                    subtitle: new Text("${litems[position].shortname}",
+                      style: TextStyle(color: Colors.white70,height: 2),
+                    ),
+                    trailing: Wrap(
+                      children: [
+                        Text("\n${litems[position].discription}",
+                            style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
+                      ],
+                    ),
+                    onTap: (){},
+                  ),
+                  color: Color(0xff682062),
+                  elevation: 3.0,
+                );
+              }),
         ));
   }
 }

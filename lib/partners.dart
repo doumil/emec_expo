@@ -50,16 +50,38 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   //technopark
                   Center(
                     child: Container(
+                      height: 150,
                       margin: EdgeInsets.only(top: height * 0.01),
-                      padding: EdgeInsets.only(bottom: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Image.asset(
                         "assets/partners/technopark.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/partners/ammc.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/partners/cicp.png",
                       ),
                     ),
                   ),
                   //la startup
                   Center(
                     child: Container(
+                      height: 150,
                       //margin: EdgeInsets.only(top: height * 0.01),
                       //padding: EdgeInsets.only(bottom: height * 0.01),
                       child: Image.asset(
@@ -70,8 +92,9 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   //nortis
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
                         "assets/partners/nortis.png",
                       ),
@@ -80,8 +103,9 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   //okysolutions
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.08),
-                      padding: EdgeInsets.only(bottom: height * 0.06),
+                      height: 150,
+                     // margin: EdgeInsets.only(top: height * 0.08),
+                      //padding: EdgeInsets.only(bottom: height * 0.06),
                       child: Image.asset(
                         "assets/partners/okysolutions.png",
                       ),
@@ -89,27 +113,48 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.08),
+                      //padding: EdgeInsets.only(bottom: height * 0.06),
                       child: Image.asset(
-                        "assets/partners/ES2IM.png",
+                        "assets/partners/buzzevents.png",
+                      ),
+                    ),
+                  ),            Center(
+                    child: Container(
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.08),
+                      //padding: EdgeInsets.only(bottom: height * 0.06),
+                      child: Image.asset(
+                        "assets/partners/tdm.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                     // margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/AHK.png",
+                        "assets/partners/es2im.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/ahk.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
                         "assets/partners/diplomatique.png",
                       ),
@@ -117,29 +162,49 @@ class _PartnersScreenState extends State<PartnersScreen> {
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/KOMPASS.png",
+                        "assets/partners/telecontact.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/infomediaire.jpg",
+                        "assets/partners/kerixnet.png",
                       ),
                     ),
                   ),
                   Center(
                     child: Container(
-                      margin: EdgeInsets.only(top: height * 0.04),
-                      padding: EdgeInsets.only(bottom: height * 0.04),
-                      width: 340,
+                      height: 150,
+                     // margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/kompass.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                     // margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
+                      child: Image.asset(
+                        "assets/partners/infomediaire.png",
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                      //margin: EdgeInsets.only(top: height * 0.04),
+                      //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
                         "assets/partners/Aujourdhui.png",
                       ),
