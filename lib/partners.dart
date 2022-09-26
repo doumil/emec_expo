@@ -206,7 +206,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
                       //margin: EdgeInsets.only(top: height * 0.04),
                       //padding: EdgeInsets.only(bottom: height * 0.04),
                       child: Image.asset(
-                        "assets/partners/Aujourdhui.png",
+                        "assets/partners/aujourdhui.png",
                       ),
                     ),
                   ),
