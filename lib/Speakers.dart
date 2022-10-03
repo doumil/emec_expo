@@ -24,13 +24,18 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     super.initState();
   }
   _loadData() async {
-    var url = "http://192.168.8.100/emecexpo/loadspeakers.php";
-    var res = await http.post(Uri.parse(url));
-    print("test load");
-    List<Speakers> speaker = (json.decode(res.body) as List)
-        .map((data) => Speakers.fromJson(data))
-        .toList();
-    litems=speaker;
+    //var url = "http://192.168.8.100/emecexpo/loadspeakers.php";
+    //var res = await http.post(Uri.parse(url));
+    //List<Speakers> speaker = (json.decode(res.body) as List)
+      //  .map((data) => Speakers.fromJson(data))
+       // .toList();
+    var sp1=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/ali.jpg");
+    litems.add(sp1);
+    var sp2=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/hamza.jpg");
+    litems.add(sp2);
+    var sp3=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/ouafaa.jpg");
+    litems.add(sp3);
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -60,6 +65,8 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
@@ -70,42 +77,47 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : new ListView.builder(
-              itemCount: litems.length,
-              itemBuilder: (_, int position) {
-                return new Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50.0),
-                        right: Radius.circular(0.0),
-                      )
-                  ),
-                  child: new ListTile(
-                    leading: new ClipOval(
-                        child: Image.asset(
-                          'assets/av.jpg',
-                        )),
-                    title:Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text("${litems[position].fname} ${litems[position].lname}",
-                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+              : Container(
+                color:Colors.black26,
+                child: new ListView.builder(
+                itemCount: litems.length,
+                itemBuilder: (_, int position) {
+                  return new Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(5.0),
+                          right: Radius.circular(5.0),
+                        )
+                    ),
+                    child: new ListTile(
+                      leading:  ClipOval(
+                          child: Image.asset(
+                            width:80,
+                            height: 80,
+                            '${litems[position].image}',
+                          )),
+                      title:Container(
+                        color: Color(0xff261350),
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
+                          child: Text("${litems[position].fname} ${litems[position].lname}",
+                            style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff00c1c1)),
+                              overflow:TextOverflow.visible,
+                          ),
+                        ),
                       ),
+                      subtitle: Container(
+                        child: new Text("${litems[position].characteristic}",
+                          style: TextStyle(height: 2),
+                          overflow:TextOverflow.visible,
+                        ),
+                      ),
+                      onTap: (){},
                     ),
-                    subtitle: new Text("${litems[position].characteristic}",
-                      style: TextStyle(color: Colors.white70,height: 2),
-                    ),
-                    trailing: Wrap(
-                      children: [
-                        Text("\n${litems[position].definition}",
-                            style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
-                      ],
-                    ),
-                    onTap: (){},
-                  ),
-                  color: Color(0xff682062),
-                  elevation: 3.0,
-                );
-              }),
+                    elevation: 3.0,
+                  );
+                }),
+              ),
         ));
   }
 }

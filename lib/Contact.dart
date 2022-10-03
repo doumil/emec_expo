@@ -98,16 +98,9 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                 width: width * 0.4,
                                                                 child: Text(
                                                                   " 10-11 Mai 2023",
-                                                                  style: TextStyle(
-                                                                      fontSize: height *
-                                                                          0.018,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                      color:
-                                                                      Colors.white),
-                                                                  overflow: TextOverflow
-                                                                      .ellipsis,
+                                                                  style: TextStyle(fontSize: height * 0.018, fontWeight: FontWeight.w300,
+                                                                      color: Colors.white),
+                                                                  overflow: TextOverflow.ellipsis,
                                                                 ),
                                                               ),
                                                             )
