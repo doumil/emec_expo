@@ -23,12 +23,20 @@ class _CongressScreenState extends State<CongressScreen> {
     super.initState();
   }
   _loadData() async {
-    var url = "http://192.168.8.100/emecexpo/loadcongress.php";
-    var res = await http.post(Uri.parse(url));
-    List<CongressClass> Congress = (json.decode(res.body) as List)
-        .map((data) => CongressClass.fromJson(data))
-        .toList();
-    litems=Congress;
+   // var url = "http://192.168.8.100/emecexpo/loadcongress.php";
+    //var res = await http.post(Uri.parse(url));
+    //List<CongressClass> Congress = (json.decode(res.body) as List)
+      //  .map((data) => CongressClass.fromJson(data))
+        //.toList();
+   // litems=Congress;
+    var con1=CongressClass(1, "CEO & leadership Summit");
+    litems.add(con1);
+    var con2=CongressClass(2, "CIO Summit");
+    litems.add(con2);
+    var con3=CongressClass(3, "HR Summit");
+    litems.add(con3);
+    var con4=CongressClass(4, "CDO Summit & Big Data Eries");
+    litems.add(con4);
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -69,33 +77,39 @@ class _CongressScreenState extends State<CongressScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : new ListView.builder(
-              itemCount: litems.length,
-              itemBuilder: (_, int position) {
-                return new Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50.0),
-                        right: Radius.circular(0.0),
-                      )
-                  ),
-                  child: new ListTile(
-                    leading: new ClipOval(
-                        child: Image.asset(
-                          'assets/av.jpg',
-                        )),
-                    title:Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text("${litems[position].title}",
-                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
-                      ),
+              : Container(
+            color: Colors.white,
+            child: new ListView.builder(
+                itemCount: litems.length,
+                itemBuilder: (_, int position) {
+                  return new Card(
+                    color: Colors.white,
+                    shape: BorderDirectional(
+                      bottom:BorderSide(color: Colors.black12, width: 1),
                     ),
-                    onTap: (){},
-                  ),
-                  color: Color(0xff682062),
-                  elevation: 3.0,
-                );
-              }),
+                    child: new ListTile(
+                      leading: new ClipOval(
+                        child: Icon(
+                            Icons.web,
+                          color: Colors.black,
+                        )
+                      ),
+                      title: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          "${litems[position].title}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      onTap: () {
+                      },
+                    ),
+                  );
+                }),
+          ),
         ));
   }
 }

@@ -34,7 +34,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     var sp2=Speakers("hamza", "aboulfeth", "fondateur",
         "président-directeur général de genious communications","assets/speakers/hamza.jpg");
     litems.add(sp2);
-    var sp3=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/ouafaa.jpg");
+    var sp3=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/ouafa.jpg");
     litems.add(sp3);
     if (this.mounted) {
       setState(() {
@@ -97,7 +97,13 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                             '${litems[position].image}',
                           )),
                       title:Container(
-                        color: Color(0xff261350),
+                        decoration: BoxDecoration(
+                          //color: Color(0xff261350),
+                  borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(5.0),
+                  right: Radius.circular(5.0),
+                  ),
+                        ),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
                           child: Text("${litems[position].fname} ${litems[position].lname}",
