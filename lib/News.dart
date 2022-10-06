@@ -23,12 +23,28 @@ class _NewsScreenState extends State<NewsScreen> {
     super.initState();
   }
   _loadData() async {
-    var url = "http://192.168.8.100/emecexpo/loadcongress.php";
-    var res = await http.post(Uri.parse(url));
-    List<NewsClass> news = (json.decode(res.body) as List)
-        .map((data) => NewsClass.fromJson(data))
-        .toList();
-    litems=news;
+    //var url = "http://192.168.8.100/emecexpo/loadcongress.php";
+    //var res = await http.post(Uri.parse(url));
+    //List<NewsClass> news = (json.decode(res.body) as List)
+      //  .map((data) => NewsClass.fromJson(data))
+        //.toList();
+    //litems=news;
+    var ns1=NewsClass("MAGISTRI", "we have recovred the figure of the "
+        "techer dressed in an innovative format : "
+        "master classes with cinematographic quality");
+    var ns2=NewsClass("MAGISTRI", "we have recovred the figure of the "
+        "techer dressed in an innovative format : "
+        "master classes with cinematographic quality");
+    var ns3=NewsClass("MAGISTRI", "we have recovred the figure of the "
+        "techer dressed in an innovative format : "
+        "master classes with cinematographic quality");
+    var ns4=NewsClass("MAGISTRI", "we have recovred the figure of the "
+        "techer dressed in an innovative format : "
+        "master classes with cinematographic quality");
+    litems.add(ns1);
+    litems.add(ns2);
+    litems.add(ns3);
+    litems.add(ns4);
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -73,36 +89,44 @@ class _NewsScreenState extends State<NewsScreen> {
               itemCount: litems.length,
               itemBuilder: (_, int position) {
                 return new Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50.0),
-                        right: Radius.circular(0.0),
-                      )
+                  color: Colors.white,
+                  shape: BorderDirectional(
+                    bottom:BorderSide(color: Colors.black12, width: 1),
                   ),
-                  child: new ListTile(
-                    leading: new ClipOval(
-                        child: Image.asset(
-                          'assets/av.jpg',
-                        )),
-                    title:Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text("${litems[position].title}}",
-                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+                  child:Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 20,
+                        child: Container(
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/ICON-EMEC.png',
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    subtitle: new Text("${litems[position].discription}",
-                      style: TextStyle(color: Colors.white70,height: 2),
-                    ),
-                    trailing: Wrap(
-                      children: [
-                        Text("\n",
-                            style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
-                      ],
-                    ),
-                    onTap: (){},
+                      Expanded(
+                        flex: 80,
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                width: double.maxFinite,
+                                //color: Color(0xff261350),
+                                child: Text("${litems[position].title}",style: TextStyle(color:Color(0xff261350),fontSize: 16,fontWeight: FontWeight.bold),),
+                              ),
+                              Container(
+                                child: Text("${litems[position].discription}\n"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  color: Color(0xff682062),
-                  elevation: 3.0,
                 );
               }),
         ));

@@ -106,7 +106,7 @@ _click(){
                             ),
                           ),
                           subtitle: new Text(
-                            "${litems[position].stand}",
+                            "Stand :${litems[position].stand}",
                             style: TextStyle(color: Colors.black26, height: 2),
                           ),
                           trailing: Wrap(

@@ -22,12 +22,20 @@ class _ProductScreenState extends State<ProductScreen> {
     super.initState();
   }
   _loadData() async {
-    var url = "http://192.168.8.100/emecexpo/loadproduct.php";
-    var res = await http.post(Uri.parse(url));
-    List<ProductClass> prod = (json.decode(res.body) as List)
-        .map((data) => ProductClass.fromJson(data))
-        .toList();
-    litems=prod;
+   // var url = "http://192.168.8.100/emecexpo/loadproduct.php";
+    //var res = await http.post(Uri.parse(url));
+    //List<ProductClass> prod = (json.decode(res.body) as List)
+      //  .map((data) => ProductClass.fromJson(data))
+        //.toList();
+    //litems=prod;
+    var prod1=ProductClass("Appinio","Appinio","100% Digital mortage EVO","");
+    litems.add(prod1);
+    var prod2=ProductClass("IotSesns","IotSesns","AMR Gatway","");
+    litems.add(prod2);
+    var prod3=ProductClass("RED.sos","REDSHIFT GLOBAL","Adaptive Soc Services","");
+    litems.add(prod3);
+    var prod4=ProductClass("Agency 04","Automating 30+ processes using Camunda BPM","","");
+    litems.add(prod4);
     if (this.mounted) {
       setState(() {
         isLoading = false;
@@ -68,42 +76,48 @@ class _ProductScreenState extends State<ProductScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : new ListView.builder(
-              itemCount: litems.length,
-              itemBuilder: (_, int position) {
-                return new Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(50.0),
-                        right: Radius.circular(0.0),
-                      )
-                  ),
-                  child: new ListTile(
-                    leading: new ClipOval(
-                        child: Image.asset(
-                          'assets/av.jpg',
-                        )),
-                    title:Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text("${litems[position].name}}",
-                        style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold),
+              : Container(
+            color: Colors.white,
+            child: new ListView.builder(
+                itemCount: litems.length,
+                itemBuilder: (_, int position) {
+                  return new Card(
+                    color: Colors.white,
+                    shape: BorderDirectional(
+                      bottom:BorderSide(color: Colors.black12, width: 1),
+                    ),
+                    child: new ListTile(
+                      leading: new ClipOval(
+                          child: Image.asset(
+                            'assets/ICON-EMEC.png',
+                          ),
                       ),
+                      title: Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          "${litems[position].name}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      subtitle:Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Text(
+                          "${litems[position].shortname}\n${litems[position].shortdiscription}",
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      onTap: () {
+                      },
                     ),
-                    subtitle: new Text("${litems[position].shortname}",
-                      style: TextStyle(color: Colors.white70,height: 2),
-                    ),
-                    trailing: Wrap(
-                      children: [
-                        Text("\n\n${litems[position].shortdiscription}",
-                            style: TextStyle(color: Colors.white70, fontSize: 15,fontWeight:FontWeight.bold)),
-                      ],
-                    ),
-                    onTap: (){},
-                  ),
-                  color: Color(0xff682062),
-                  elevation: 3.0,
-                );
-              }),
+                  );
+                }),
+          ),
         ));
   }
 }
