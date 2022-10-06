@@ -107,7 +107,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
                           child: Text("${litems[position].fname} ${litems[position].lname}",
-                            style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff00c1c1)),
+                            style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff261350)),
                               overflow:TextOverflow.visible,
                           ),
                         ),

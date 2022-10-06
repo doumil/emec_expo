@@ -47,228 +47,292 @@ class _PartnersScreenState extends State<PartnersScreen> {
             child: Container(
               child: Column(
                 children: [
-                  //technopark
-                  Center(
-                    child: Container(
-                      height: 150,
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/partners/technopark.png",
+                  //technopark/ammc
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/technopark.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/ammc.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/partners/ammc.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/cicp.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/lastartupstation.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/partners/cicp.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/nortis.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/okysolutions.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  //la startup
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/partners/lastartupstation.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/buzzevents.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/tdm.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  //nortis
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/nortis.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/es2im.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/ahk.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  //okysolutions
-                  Center(
-                    child: Container(
-                      height: 150,
-                     // margin: EdgeInsets.only(top: height * 0.08),
-                      //padding: EdgeInsets.only(bottom: height * 0.06),
-                      child: Image.asset(
-                        "assets/partners/okysolutions.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/diplomatique.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/telecontact.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.08),
-                      //padding: EdgeInsets.only(bottom: height * 0.06),
-                      child: Image.asset(
-                        "assets/partners/buzzevents.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/kerixnet.png",
+                          ),
+                        ),
                       ),
-                    ),
-                  ),            Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.08),
-                      //padding: EdgeInsets.only(bottom: height * 0.06),
-                      child: Image.asset(
-                        "assets/partners/tdm.png",
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/kompass.png",
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                     // margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/es2im.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/infomediaire.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/aujourdhui.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/ahk.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/industrie-du-maroc.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/lebrief.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/diplomatique.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/media7.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/conso-news.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/telecontact.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/hitradio.png",
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/kerixnet.png",
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/partners/medi1tv.png",
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                     // margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/kompass.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                     // margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/infomediaire.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/aujourdhui.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                     // margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/industrie-du-maroc.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/lebrief.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/media7.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/conso-news.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                     // margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      height:150,
-                      child: Image.asset(
-                        "assets/partners/hitradio.png",
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.04),
-                      //padding: EdgeInsets.only(bottom: height * 0.04),
-                      child: Image.asset(
-                        "assets/partners/medi1tv.png",
-                      ),
-                    ),
+                    ],
                   ),
                   Center(
                     child: Container(

@@ -125,12 +125,19 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xff261350),
+                                  borderRadius: BorderRadius.horizontal(
+                                    left: Radius.circular(5.0),
+                                    right: Radius.circular(5.0),
+                                  ),
+                                ),
                                 width: double.maxFinite,
-                                color: Color(0xff261350),
-                                child: Text("${litems[position].datetime}",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
+                                child: Text("  ${litems[position].datetime}",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
                               ),
                               Container(
-                                child: Text("${litems[position].shortname}\n",style: TextStyle(color: Colors.grey,fontSize: 15,fontWeight: FontWeight.bold)),
+                                padding: EdgeInsets.fromLTRB(0, 4, 0,0),
+                                child: Text("${litems[position].shortname}\n",style: TextStyle(color: Colors.grey,fontSize: 14,fontWeight: FontWeight.bold)),
                               ),
                               Container(
                                 child: Text("${litems[position].discription}\n"),
