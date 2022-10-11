@@ -124,7 +124,6 @@ class _WelcomPageState extends State<WelcomPage> {
           child: Container(
             child: Column(
               children: [
-
                 MyHeaderDrawer(),
                 const SizedBox(
                   height: 05.0,
@@ -154,8 +153,8 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage == DrawerSections.congress ? true : false),
           menuItem(4, "Speakers", Icons.speaker_group_outlined,
               currentPage == DrawerSections.speakers ? true : false),
-          menuItem(5, "Official Events", Icons.event,
-              currentPage == DrawerSections.officialEvents ? true : false),
+          //menuItem(5, "Official Events", Icons.event,
+              //currentPage == DrawerSections.officialEvents ? true : false),
           menuItem(6, "Partners", Icons.account_tree_outlined,
               currentPage == DrawerSections.partners ? true : false),
           menuItem(7, "Exhibitors", Icons.work_outline,
@@ -184,8 +183,8 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage == DrawerSections.getThere ? true : false),
           menuItem(19, "Food", Icons.fastfood_outlined,
               currentPage == DrawerSections.food ? true : false),
-          menuItem(20, "Business Safe", Icons.business,
-              currentPage == DrawerSections.business ? true : false),
+          //menuItem(20, "Business Safe", Icons.business,
+              //currentPage == DrawerSections.business ? true : false),
           menuItem(21, "Notifications", Icons.notifications_none,
               currentPage == DrawerSections.notifications ? true : false),
           menuItem(22, "Settings", Icons.settings,

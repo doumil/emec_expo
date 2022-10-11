@@ -50,7 +50,7 @@ class _ContactScreenState extends State<ContactScreen> {
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints viewportConstraints) {
                   return Container(
-                    color: Colors.black,
+                    color: Colors.black26,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         minHeight: viewportConstraints.maxHeight,
@@ -169,7 +169,6 @@ class _ContactScreenState extends State<ContactScreen> {
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Container(
-                                  color: Colors.black, // white
                                   alignment: Alignment.center,
                                   child: Column(
                                     children: <Widget>[
@@ -195,7 +194,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                         padding: EdgeInsets.only(bottom: height * 0.02),
                                         width: width * 0.9,
                                         decoration: BoxDecoration(
-                                          color: Colors.black,
+                                          color: Colors.black26,
                                             //color:const Color(0xff5a5a5a),
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5.0))),
@@ -508,7 +507,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                         padding: EdgeInsets.only(bottom: height * 0.03),
                                         width: width * 0.9,
                                         decoration: BoxDecoration(
-                                            color: Colors.white12,
+                                            color: Colors.black54,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0))),
                                       ),

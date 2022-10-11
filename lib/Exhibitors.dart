@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:emec_expo/detailEx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'main.dart';
 import 'model/exhibitors_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,9 +69,7 @@ _click(){
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
+    return Scaffold(
           extendBodyBehindAppBar: true,
           body: isLoading == true
               ? Center(
@@ -89,7 +89,6 @@ _click(){
                         ),
                         child: new ListTile(
                           leading: new ClipOval(
-
                               child: Image.asset(
                                 width: 80,
                                 height: 80,
@@ -123,10 +122,16 @@ _click(){
                               ),
                             ],
                           ),
+                          onTap: () {
+                           Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                builder: (context) => DetailScreen()));
+                          },
                         ),
                       );
                     }),
               ),
-        ));
+        );
   }
 }

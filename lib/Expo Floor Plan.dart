@@ -16,22 +16,22 @@ class _EFPScreenState extends State<EFPScreen> {
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Êtes-vous sûr'),
+            content: new Text('Voulez-vous quitter une application'),
+            actions: <Widget>[
+              new TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('Non'),
+              ),
+              new TextButton(
+                onPressed: () => SystemNavigator.pop(),
+                child: new Text('Oui '),
+              ),
+            ],
           ),
-          new TextButton(
-            onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
-          ),
-        ],
-      ),
-    )) ??
+        )) ??
         false;
   }
 
@@ -42,12 +42,7 @@ class _EFPScreenState extends State<EFPScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
-            color: Color(0x37e9edef),
-            child: Column(
-              children: [
-                Text("Expo Floor Plan"),
-              ],
-            ),
+            child:Center(child: Image.asset("assets/expo.png")),
           ),
         ));
   }
