@@ -44,12 +44,12 @@ class _SchelduleScreenState extends State<SchelduleScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
-            padding: EdgeInsets.fromLTRB(2, 2, 2,2),
+            padding: EdgeInsets.fromLTRB(10,10,10,2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(4, 1,1,1),
+                  padding: EdgeInsets.fromLTRB(4, 4,4,4),
                   decoration: BoxDecoration(
                     color: Color(0xff261350),
                     borderRadius: BorderRadius.horizontal(

@@ -75,6 +75,8 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
@@ -89,6 +91,7 @@ class _NewsScreenState extends State<NewsScreen> {
               itemCount: litems.length,
               itemBuilder: (_, int position) {
                 return new Card(
+                  margin: EdgeInsets.only(top: height * 0.01),
                   color: Colors.white,
                   shape: BorderDirectional(
                     bottom:BorderSide(color: Colors.black12, width: 1),

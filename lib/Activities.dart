@@ -100,6 +100,7 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
               itemCount: litems.length,
               itemBuilder: (_, int position) {
                 return new Card(
+                  margin: EdgeInsets.only(top: height * 0.01),
                   color: Colors.white,
                   shape: BorderDirectional(
                     bottom:BorderSide(color: Colors.black12, width: 1),
@@ -114,6 +115,8 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
                           child: ClipOval(
                             child: Image.asset(
                               'assets/ICON-EMEC.png',
+                              width: 50,
+                              height: 50,
                             ),
                           ),
                         ),
@@ -142,7 +145,6 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
                               Container(
                                 child: Text("${litems[position].discription}\n"),
                               ),
-
                             ],
                           ),
                         ),

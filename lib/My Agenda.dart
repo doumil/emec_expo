@@ -64,10 +64,17 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: isLoading == true
           ? Container(
+        margin: EdgeInsets.only(
+            top: height * 0.02),
+        padding: EdgeInsets.only(
+            left:  height * 0.02,
+            bottom: height * 0.02),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
             children: [

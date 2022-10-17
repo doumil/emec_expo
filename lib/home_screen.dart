@@ -241,12 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: <Widget>[
                                     Center(
                                       child: Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.01),
-                                        child:                ListTile(
+                                        child:  ListTile(
                                           leading: Icon(Icons.work_outline),
                                           title: Text('Exhibitors'),
                                           onTap: () {
@@ -272,11 +267,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: <Widget>[
                                     Center(
                                       child: Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.01),
                                         child:                ListTile(
                                           leading: Icon(Icons.web),
                                           title: Text('Congress'),
@@ -302,11 +292,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: <Widget>[
                                     Center(
                                       child: Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.01),
                                         child:                ListTile(
                                           leading: Icon(Icons.business),
                                           title: Text('Business Safe'),

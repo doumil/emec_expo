@@ -76,6 +76,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
@@ -90,6 +92,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   itemCount: litems.length,
                   itemBuilder: (_, int position) {
                     return new Card(
+                      margin: EdgeInsets.only(
+                        left: height * 0.016,
+                          right: height * 0.016,
+                          top: height * 0.016),
                       color: Colors.white,
                       shape: BorderDirectional(
                         bottom: BorderSide(color: Colors.black12, width: 1),
@@ -107,6 +113,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                   child: ClipOval(
                                     child: Image.asset(
                                       'assets/ICON-EMEC.png',
+                                      width: 25,
+                                      height: 25,
                                     ),
                                   ),
                                 ),

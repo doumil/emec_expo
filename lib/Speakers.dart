@@ -29,7 +29,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     //List<Speakers> speaker = (json.decode(res.body) as List)
       //  .map((data) => Speakers.fromJson(data))
        // .toList();
-    var sp1=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/ali.jpg");
+    var sp1=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/av.jpg");
     litems.add(sp1);
     var sp2=Speakers("hamza", "aboulfeth", "fondateur",
         "président-directeur général de genious communications","assets/speakers/hamza.jpg");
@@ -83,6 +83,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                 itemCount: litems.length,
                 itemBuilder: (_, int position) {
                   return new Card(
+                    margin: EdgeInsets.only(top: height * 0.01),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.horizontal(
                           left: Radius.circular(5.0),
@@ -92,18 +93,11 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                     child: new ListTile(
                       leading:  ClipOval(
                           child: Image.asset(
-                            width:80,
-                            height: 80,
+                            width:60,
+                            height: 60,
                             '${litems[position].image}',
                           )),
                       title:Container(
-                        decoration: BoxDecoration(
-                          //color: Color(0xff261350),
-                  borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(5.0),
-                  right: Radius.circular(5.0),
-                  ),
-                        ),
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
                           child: Text("${litems[position].fname} ${litems[position].lname}",

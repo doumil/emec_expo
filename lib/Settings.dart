@@ -55,6 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
+            margin: EdgeInsets.only(top: height * 0.01),
+            padding: EdgeInsets.only(bottom: height * 0.02, top: height * 0.02),
+            width: width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -87,7 +90,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: Text('Receive Notification',
                                 style: TextStyle(fontSize: height * 0.022))),
                       ])),
-                      Container(),
+                      new Divider(
+                        color: Color.fromRGBO(150, 150, 150, 0.4),
+                        height: 5.0,
+                      ),
+                      Container(
+                        child: ListTile(
+                          title: new Text("Tone"),
+                          subtitle: new Text("notification_001"),
+                        ),
+                      ),
+                      new Divider(
+                        color: Color.fromRGBO(150, 150, 150, 0.4),
+                        height: 5.0,
+                      ),
                       Container(
                           child: Row(children: <Widget>[
                         Container(
@@ -111,6 +127,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child: Text('Vibrate',
                                 style: TextStyle(fontSize: height * 0.022,))),
                       ])),
+                      new Divider(
+                        color: Color.fromRGBO(150, 150, 150, 0.4),
+                        height: 5.0,
+                      ),
                       Container(
                           child: Row(children: <Widget>[
                         Container(
@@ -139,9 +159,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
-            margin: EdgeInsets.only(top: height * 0.01),
-            padding: EdgeInsets.only(bottom: height * 0.02, top: height * 0.02),
-            width: width * 0.9,
           ),
         ));
   }
