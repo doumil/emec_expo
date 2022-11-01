@@ -39,7 +39,12 @@ dependencies:
   flutter_carousel_slider:
   flutter_easyloading:
   http:
-
+  flutter_native_splash:
+flutter_native_splash:
+  image: assets/logo16.png
+  color: "#261350"
+  android_gravity: center
+  #background_image: "assets/slide.png"
 
 
 dev_dependencies:
