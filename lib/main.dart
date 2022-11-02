@@ -17,6 +17,7 @@ import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart';
 import 'package:flutter/material.dart';
 import 'package:emec_expo/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Activities.dart';
 import 'My Agenda.dart';
 import 'Suporting Partners.dart';
@@ -41,7 +42,37 @@ class WelcomPage extends StatefulWidget {
 
 class _WelcomPageState extends State<WelcomPage> {
   var currentPage = DrawerSections.home;
+  var _data="";
+  void initState() {
+    _loadData();
+    super.initState();
+  }
+  _loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _data = (prefs.getString("Data") ?? '');
+    print(_data);
+    setState(() {
+      if(_data=="1")
+      {
+        currentPage=DrawerSections.exhibitors;
+      }
+      else if(_data=="2")
+        {
+          currentPage=DrawerSections.congress;
 
+        }
+      else if(_data=="3")
+        {
+          currentPage=DrawerSections.business;
+
+        }
+      else
+        {
+          currentPage=DrawerSections.home;
+        }
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     var container;

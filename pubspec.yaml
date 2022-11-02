@@ -40,6 +40,7 @@ dependencies:
   flutter_easyloading:
   http:
   flutter_native_splash:
+  shared_preferences:
 flutter_native_splash:
   image: assets/logo16.png
   color: "#261350"

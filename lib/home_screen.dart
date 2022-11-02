@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Busniess Safe.dart';
 import 'main.dart';
 
@@ -16,6 +16,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late SharedPreferences prefs;
+  void initState() {
+    _loadData();
+    super.initState();
+  }
+  _loadData()async{
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("Data", "0");
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -220,7 +229,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 "assets/slide3.jpg",
                                               ),
                                             ),
-
                                           ],
                                         ),
                                       ),
@@ -244,8 +252,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child:  ListTile(
                                           leading: Icon(Icons.work_outline),
                                           title: Text('Exhibitors'),
-                                          onTap: () {
-
+                                          onTap: () async{
+                                            prefs = await SharedPreferences.getInstance();
+                                            prefs.setString("Data", "1");
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => WelcomPage()));
                                           },
                                         ),
                                       ),
@@ -270,7 +283,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child:                ListTile(
                                           leading: Icon(Icons.web),
                                           title: Text('Congress'),
-                                          onTap: () {
+                                          onTap: () async{
+                                            prefs = await SharedPreferences.getInstance();
+                                            prefs.setString("Data", "2");
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => WelcomPage()));
                                           },
                                         ),
                                       ),
@@ -295,12 +314,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child:                ListTile(
                                           leading: Icon(Icons.business),
                                           title: Text('Business Safe'),
-                                          onTap: () {
-                                          },
-                                        ),
+                                onTap: () async{
+                                  prefs = await SharedPreferences.getInstance();
+                                  prefs.setString("Data", "3");
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WelcomPage()));
+                                },
                                       ),
                                     ),
-                                  ],
+                                    )],
                                 ),
                                 margin: EdgeInsets.only(
                                     top: height * 0.01, bottom: height * 0.01),

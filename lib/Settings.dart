@@ -14,7 +14,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
-  bool _isEnabled=true;
+  bool _isEnabled=false;
 
   void initState() {
     super.initState();
