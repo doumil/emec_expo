@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:animate_do/animate_do.dart';
+
 
 class PartnersScreen extends StatefulWidget {
   const PartnersScreen({Key? key}) : super(key: key);
@@ -44,63 +46,64 @@ class _PartnersScreenState extends State<PartnersScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: SingleChildScrollView(
-            child: Container(
+            child: FadeInDown(
+              duration: Duration(milliseconds: 500),
               child: Column(
                 children: [
                   //technopark/ammc
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          //padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/technopark.png",
+                     Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            //padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/technopark.png",
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          // padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/ammc.png",
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            // padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/ammc.png",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          //padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/cicp.png",
+                      ],
+                    ),
+            Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            //padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/cicp.png",
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          // padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/lastartupstation.png",
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            // padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/lastartupstation.png",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
+                      ],
+                    ),
+Row(
                     children: [
                       Expanded(
                         flex: 1,
@@ -126,58 +129,59 @@ class _PartnersScreenState extends State<PartnersScreen> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          //padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/buzzevents.png",
+               Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            //padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/buzzevents.png",
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          // padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/tdm.png",
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            // padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/tdm.png",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          //padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/es2im.png",
+                      ],
+                    ),
+            Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            //padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/es2im.png",
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          // padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Image.asset(
-                            "assets/partners/ahk.png",
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 150,
+                            margin: EdgeInsets.only(top: height * 0.01),
+                            // padding: EdgeInsets.only(bottom: height * 0.01),
+                            child: Image.asset(
+                              "assets/partners/ahk.png",
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+
                   Row(
                     children: [
                       Expanded(

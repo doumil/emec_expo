@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +45,8 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: SingleChildScrollView(
-            child: Container(
+            child: FadeInDown(
+              duration: Duration(milliseconds: 500),
               child: Column(
                 children: [
                    Center(

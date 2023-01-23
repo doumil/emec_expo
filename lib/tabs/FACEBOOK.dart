@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class FacebookScreen extends StatefulWidget {
   const FacebookScreen ({Key? key}) : super(key: key);
@@ -11,7 +13,8 @@ class FacebookScreen extends StatefulWidget {
 }
 
 class _FacebookScreenState extends State<FacebookScreen> {
-
+  bool isLoading=true;
+  final _key = UniqueKey();
   void initState() {
     super.initState();
   }
@@ -19,9 +22,24 @@ class _FacebookScreenState extends State<FacebookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
           extendBodyBehindAppBar: true,
-          body:WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: 'https://web.facebook.com/EMECEXPO/?_rdc=1&_rdr',
+          body: Stack(
+            children: <Widget>[
+              WebView(
+                key: _key,
+                initialUrl: 'https://web.facebook.com/EMECEXPO/?_rdc=1&_rdr',
+                javascriptMode: JavascriptMode.unrestricted,
+                onPageFinished: (finish) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+              ),
+              isLoading ? Center( child: SpinKitThreeBounce(
+                color: Color(0xff00c1c1),
+                size: 30.0,
+              ),)
+                  : Stack(),
+            ],
           ),
         );
   }

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -159,183 +160,186 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Container(
-                          color: Colors.black26, // white
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.01),
-                                          child: Image.asset(
-                                            "assets/banner.png",
+                        child: FadeInDown(
+                          duration: Duration(milliseconds: 500),
+                          child: Container(
+                            color: Colors.black26, // white
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          padding: EdgeInsets.fromLTRB(
+                                              width * 0.04,
+                                              width * 0.04,
+                                              width * 0.04,
+                                              width * 0.01),
+                                            child: Image.asset(
+                                              "assets/banner.png",
+                                            ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  margin: EdgeInsets.only(top: height * 0.01),
+                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  width: width * 0.9,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
+                                ),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          height:435,
+                                          width: 500,
+                                          padding: EdgeInsets.fromLTRB(
+                                              width * 0.04,
+                                              width * 0.04,
+                                              width * 0.04,
+                                              width * 0.01),
+                                          child: CarouselSlider(
+                                             enableAutoSlider: true,
+                                             autoSliderDelay:  const Duration(seconds:4),
+                                             slideTransform: CubeTransform(),
+                                            unlimitedMode: true,
+                                            slideIndicator: CircularSlideIndicator(
+                                              padding: EdgeInsets.only(bottom: 3),
+                                              currentIndicatorColor: const Color(0xff00c1c1),
+                                              indicatorBackgroundColor: Colors.white12,
+                                            ),
+                                            children: [
+                                              Container(
+                                                child: Image.asset(
+                                                  "assets/slide1.jpg",
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Image.asset(
+                                                  "assets/slide2.jpg",
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Image.asset(
+                                                  "assets/slide3.jpg",
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  margin: EdgeInsets.only(top: height * 0.01),
+                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  width: width * 0.9,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
                                 ),
-                                margin: EdgeInsets.only(top: height * 0.01),
-                                padding: EdgeInsets.only(bottom: height * 0.01),
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        height:435,
-                                        width: 500,
-                                        padding: EdgeInsets.fromLTRB(
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.04,
-                                            width * 0.01),
-                                        child: CarouselSlider(
-                                           enableAutoSlider: true,
-                                           autoSliderDelay:  const Duration(seconds:4),
-                                           slideTransform: CubeTransform(),
-                                          unlimitedMode: true,
-                                          slideIndicator: CircularSlideIndicator(
-                                            padding: EdgeInsets.only(bottom: 3),
-                                            currentIndicatorColor: const Color(0xff00c1c1),
-                                            indicatorBackgroundColor: Colors.white12,
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          child:  ListTile(
+                                            leading: Icon(Icons.work_outline),
+                                            title: Text('Exhibitors'),
+                                            onTap: () async{
+                                              prefs = await SharedPreferences.getInstance();
+                                              prefs.setString("Data", "1");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => WelcomPage()));
+                                            },
                                           ),
-                                          children: [
-                                            Container(
-                                              child: Image.asset(
-                                                "assets/slide1.jpg",
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Image.asset(
-                                                "assets/slide2.jpg",
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Image.asset(
-                                                "assets/slide3.jpg",
-                                              ),
-                                            ),
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      top: height * 0.01, bottom: height * 0.01),
+                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  width: width * 0.9,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
                                 ),
-                                margin: EdgeInsets.only(top: height * 0.01),
-                                padding: EdgeInsets.only(bottom: height * 0.01),
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        child:  ListTile(
-                                          leading: Icon(Icons.work_outline),
-                                          title: Text('Exhibitors'),
-                                          onTap: () async{
-                                            prefs = await SharedPreferences.getInstance();
-                                            prefs.setString("Data", "1");
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => WelcomPage()));
-                                          },
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          child:                ListTile(
+                                            leading: Icon(Icons.web),
+                                            title: Text('Congress'),
+                                            onTap: () async{
+                                              prefs = await SharedPreferences.getInstance();
+                                              prefs.setString("Data", "2");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => WelcomPage()));
+                                            },
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      top: height * 0.01, bottom: height * 0.01),
+                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  width: width * 0.9,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
                                 ),
-                                margin: EdgeInsets.only(
-                                    top: height * 0.01, bottom: height * 0.01),
-                                padding: EdgeInsets.only(bottom: height * 0.01),
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        child:                ListTile(
-                                          leading: Icon(Icons.web),
-                                          title: Text('Congress'),
-                                          onTap: () async{
-                                            prefs = await SharedPreferences.getInstance();
-                                            prefs.setString("Data", "2");
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => WelcomPage()));
-                                          },
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Container(
+                                          child:                ListTile(
+                                            leading: Icon(Icons.business),
+                                            title: Text('Business Safe'),
+                                  onTap: () async{
+                                    prefs = await SharedPreferences.getInstance();
+                                    prefs.setString("Data", "3");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WelcomPage()));
+                                  },
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      )],
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      top: height * 0.01, bottom: height * 0.01),
+                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  width: width * 0.9,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))),
                                 ),
-                                margin: EdgeInsets.only(
-                                    top: height * 0.01, bottom: height * 0.01),
-                                padding: EdgeInsets.only(bottom: height * 0.01),
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: Container(
-                                        child:                ListTile(
-                                          leading: Icon(Icons.business),
-                                          title: Text('Business Safe'),
-                                onTap: () async{
-                                  prefs = await SharedPreferences.getInstance();
-                                  prefs.setString("Data", "3");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WelcomPage()));
-                                },
-                                      ),
-                                    ),
-                                    )],
-                                ),
-                                margin: EdgeInsets.only(
-                                    top: height * 0.01, bottom: height * 0.01),
-                                padding: EdgeInsets.only(bottom: height * 0.01),
-                                width: width * 0.9,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

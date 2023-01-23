@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,39 +78,42 @@ class _CongressScreenState extends State<CongressScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : Container(
+              :  FadeInDown(
+            duration: Duration(milliseconds: 500),
+                child: Container(
             color: Colors.white,
             child: new ListView.builder(
-                itemCount: litems.length,
-                itemBuilder: (_, int position) {
-                  return new Card(
-                    color: Colors.white,
-                    shape: BorderDirectional(
-                      bottom:BorderSide(color: Colors.black12, width: 1),
-                    ),
-                    child: new ListTile(
-                      leading: new ClipOval(
-                        child: Icon(
-                            Icons.web,
-                          color: Colors.black,
-                        )
+                  itemCount: litems.length,
+                  itemBuilder: (_, int position) {
+                    return new Card(
+                      color: Colors.white,
+                      shape: BorderDirectional(
+                        bottom:BorderSide(color: Colors.black12, width: 1),
                       ),
-                      title: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: Text(
-                          "${litems[position].title}",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                      child: new ListTile(
+                        leading: new ClipOval(
+                          child: Icon(
+                              Icons.web,
+                            color: Colors.black,
+                          )
                         ),
+                        title: Padding(
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                            "${litems[position].title}",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        onTap: () {
+                        },
                       ),
-                      onTap: () {
-                      },
-                    ),
-                  );
-                }),
+                    );
+                  }),
           ),
+              ),
         ));
   }
 }

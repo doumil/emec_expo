@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,46 +78,49 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : Container(
-                color:Colors.black26,
-                child: new ListView.builder(
-                itemCount: litems.length,
-                itemBuilder: (_, int position) {
-                  return new Card(
-                    margin: EdgeInsets.only(top: height * 0.01),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(5.0),
-                          right: Radius.circular(5.0),
-                        )
-                    ),
-                    child: new ListTile(
-                      leading:  ClipOval(
-                          child: Image.asset(
-                            width:60,
-                            height: 60,
-                            '${litems[position].image}',
-                          )),
-                      title:Container(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
-                          child: Text("${litems[position].fname} ${litems[position].lname}",
-                            style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff261350)),
-                              overflow:TextOverflow.visible,
+              :  FadeInDown(
+            duration: Duration(milliseconds: 500),
+                child: Container(
+                  color:Colors.black26,
+                  child: new ListView.builder(
+                  itemCount: litems.length,
+                  itemBuilder: (_, int position) {
+                    return new Card(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(5.0),
+                            right: Radius.circular(5.0),
+                          )
+                      ),
+                      child: new ListTile(
+                        leading:  ClipOval(
+                            child: Image.asset(
+                              width:60,
+                              height: 60,
+                              '${litems[position].image}',
+                            )),
+                        title:Container(
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
+                            child: Text("${litems[position].fname} ${litems[position].lname}",
+                              style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff261350)),
+                                overflow:TextOverflow.visible,
+                            ),
                           ),
                         ),
-                      ),
-                      subtitle: Container(
-                        child: new Text("${litems[position].characteristic}",
-                          style: TextStyle(height: 2),
-                          overflow:TextOverflow.visible,
+                        subtitle: Container(
+                          child: new Text("${litems[position].characteristic}",
+                            style: TextStyle(height: 2),
+                            overflow:TextOverflow.visible,
+                          ),
                         ),
+                        onTap: (){},
                       ),
-                      onTap: (){},
-                    ),
-                    elevation: 3.0,
-                  );
-                }),
+                      elevation: 3.0,
+                    );
+                  }),
+                ),
               ),
         ));
   }

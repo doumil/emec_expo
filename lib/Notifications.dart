@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,91 +89,96 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   color: Color(0xff00c1c1),
                   size: 30.0,
                 ))
-              : new ListView.builder(
-                  itemCount: litems.length,
-                  itemBuilder: (_, int position) {
-                    return new Card(
-                      margin: EdgeInsets.only(
-                        left: height * 0.016,
-                          right: height * 0.016,
-                          top: height * 0.016),
-                      color: Colors.white,
-                      shape: BorderDirectional(
-                        bottom: BorderSide(color: Colors.black12, width: 1),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
+              : FadeInDown(
+            duration: Duration(milliseconds: 500),
+                child: Container(
+                  child: new ListView.builder(
+                      itemCount: litems.length,
+                      itemBuilder: (_, int position) {
+                        return new Card(
+                          margin: EdgeInsets.only(
+                            left: height * 0.016,
+                              right: height * 0.016,
+                              top: height * 0.016),
+                          color: Colors.white,
+                          shape: BorderDirectional(
+                            bottom: BorderSide(color: Colors.black12, width: 1),
+                          ),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: 10,
-                                child: Container(
-                                  //padding: EdgeInsets.only(bottom: height * 0.01),
-                                  child: ClipOval(
-                                    child: Image.asset(
-                                      'assets/ICON-EMEC.png',
-                                      width: 25,
-                                      height: 25,
+                            children: <Widget>[
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 10,
+                                    child: Container(
+                                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                                      child: ClipOval(
+                                        child: Image.asset(
+                                          'assets/ICON-EMEC.png',
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 60,
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Text(
-                                          "${litems[position].name}",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                  Expanded(
+                                    flex: 60,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(
+                                              "${litems[position].name}",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 30,
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        width: double.maxFinite,
-                                        child: Text(
-                                          "${litems[position].date} ${litems[position].dtime}",
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,)
-                                          ,maxLines: 1,
-                                        ),
+                                  Expanded(
+                                    flex: 30,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            width: double.maxFinite,
+                                            child: Text(
+                                              "${litems[position].date} ${litems[position].dtime}",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,)
+                                              ,maxLines: 1,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Text("\n ${litems[position].discriptions}\n"),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text("\n ${litems[position].discriptions}\n"),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
 
-                    );
-                  }),
+                        );
+                      }),
+                ),
+              ),
         ));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,56 +88,59 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
         ]),
 
       )
-          : Container(
+          : FadeInDown(
+        duration: Duration(milliseconds: 500),
+            child: Container(
         color: Colors.white,
         child: new ListView.builder(
-            itemCount: litems.length,
-            itemBuilder: (_, int position) {
-              return new Card(
-                color: Colors.white,
-                shape: BorderDirectional(
-                  bottom: BorderSide(color: Colors.black12, width: 1),
-                ),
-                child: new ListTile(
-                  leading: new ClipOval(
-                      child: Image.asset(
-                        width: 80,
-                        height: 80,
-                        '${litems[position].image}',
-                      )),
-                  title: Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      "${litems[position].title}",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+              itemCount: litems.length,
+              itemBuilder: (_, int position) {
+                return new Card(
+                  color: Colors.white,
+                  shape: BorderDirectional(
+                    bottom: BorderSide(color: Colors.black12, width: 1),
+                  ),
+                  child: new ListTile(
+                    leading: new ClipOval(
+                        child: Image.asset(
+                          width: 80,
+                          height: 80,
+                          '${litems[position].image}',
+                        )),
+                    title: Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "${litems[position].title}",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
+                    subtitle: new Text(
+                      "Stand :${litems[position].stand}",
+                      style: TextStyle(color: Colors.black26, height: 2),
+                    ),
+                    trailing: Wrap(
+                      children: [
+                        new IconButton(
+                          icon: new Icon(Icons.verified_outlined),
+                          highlightColor: Colors.pink,
+                          onPressed: _click(),
+                        ),
+                        new IconButton(
+                          icon: new Icon(Icons.star_border),
+                          disabledColor: Color(0xff00c1c1),
+                          onPressed: _click(),
+                        ),
+                      ],
+                    ),
+                    onTap: () {},
                   ),
-                  subtitle: new Text(
-                    "Stand :${litems[position].stand}",
-                    style: TextStyle(color: Colors.black26, height: 2),
-                  ),
-                  trailing: Wrap(
-                    children: [
-                      new IconButton(
-                        icon: new Icon(Icons.verified_outlined),
-                        highlightColor: Colors.pink,
-                        onPressed: _click(),
-                      ),
-                      new IconButton(
-                        icon: new Icon(Icons.star_border),
-                        disabledColor: Color(0xff00c1c1),
-                        onPressed: _click(),
-                      ),
-                    ],
-                  ),
-                  onTap: () {},
-                ),
-              );
-            }),
+                );
+              }),
       ),
+          ),
     );
   }
 }

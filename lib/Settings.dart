@@ -1,7 +1,9 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
+import 'package:torch_light/torch_light.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -23,6 +25,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _isEnabled = !_isEnabled;
     });
+  }
+  torch() async{
+
   }
 
   Future<bool> _onWillPop() async {
@@ -54,110 +59,114 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onWillPop: _onWillPop,
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          body: Container(
-            margin: EdgeInsets.only(top: height * 0.01),
-            padding: EdgeInsets.only(bottom: height * 0.02, top: height * 0.02),
-            width: width * 0.9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                  child: Container(
-                    child: Column(children: <Widget>[
-                      Container(
-                          child: Row(children: <Widget>[
+          body: FadeInDown(
+            duration: Duration(milliseconds: 500),
+            child: Container(
+              margin: EdgeInsets.only(top: height * 0.01),
+              padding: EdgeInsets.only(bottom: height * 0.02, top: height * 0.02),
+              width: width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      child: Column(children: <Widget>[
                         Container(
-                            padding: EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
-                            child: Checkbox(
-                              value: isChecked1,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  isChecked1 = value!;
-                                  if(isChecked1==false)
-                                    {
-                                      _onChanged();
+                            child: Row(children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
+                              child: Checkbox(
+                                value: isChecked1,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isChecked1 = value!;
+                                    if(isChecked1==false)
+                                      {
+                                        _onChanged();
+                                      }
+                                    else{
+                                      _isEnabled=true;
                                     }
-                                  else{
-                                    _isEnabled=true;
-                                  }
-                                });
+                                  });
+                                },
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {});
                               },
-                            )),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Text('Receive Notification',
-                                style: TextStyle(fontSize: height * 0.022))),
-                      ])),
-                      new Divider(
-                        color: Color.fromRGBO(150, 150, 150, 0.4),
-                        height: 5.0,
-                      ),
-                      Container(
-                        child: ListTile(
-                          title: new Text("Tone"),
-                          subtitle: new Text("notification_001"),
+                              child: Text('Receive Notification',
+                                  style: TextStyle(fontSize: height * 0.022))),
+                        ])),
+                        new Divider(
+                          color: Color.fromRGBO(150, 150, 150, 0.4),
+                          height: 5.0,
                         ),
-                      ),
-                      new Divider(
-                        color: Color.fromRGBO(150, 150, 150, 0.4),
-                        height: 5.0,
-                      ),
-                      Container(
-                          child: Row(children: <Widget>[
                         Container(
-                            padding:
-                                EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
-                            child: Checkbox(
-                              value: isChecked2,
-                              onChanged: _isEnabled?
-                                  (bool? value) {
-                                setState(() {
-                                  isChecked2 = value!;
-                                  HapticFeedback.vibrate();
-                                });
-                              }
-                              :null,
-                            )),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Text('Vibrate',
-                                style: TextStyle(fontSize: height * 0.022,))),
-                      ])),
-                      new Divider(
-                        color: Color.fromRGBO(150, 150, 150, 0.4),
-                        height: 5.0,
-                      ),
-                      Container(
-                          child: Row(children: <Widget>[
+                          child: ListTile(
+                            title: new Text("Tone"),
+                            subtitle: new Text("notification_001"),
+                          ),
+                        ),
+                        new Divider(
+                          color: Color.fromRGBO(150, 150, 150, 0.4),
+                          height: 5.0,
+                        ),
                         Container(
-                            padding:
-                                EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
-                            child: Checkbox(
-                              value: isChecked3,
-                              onChanged: _isEnabled?
-                                  (bool? value) {
-                                setState(() {
-                                  isChecked3 = value!;
+                            child: Row(children: <Widget>[
+                          Container(
+                              padding:
+                                  EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
+                              child: Checkbox(
+                                value: isChecked2,
+                                onChanged: _isEnabled?
+                                    (bool? value) {
+                                  setState(() {
+                                    isChecked2 = value!;
+                                    HapticFeedback.vibrate();
+                                  });
+                                }
+                                :null,
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {});
+                              },
+                              child: Text('Vibrate',
+                                  style: TextStyle(fontSize: height * 0.022,))),
+                        ])),
+                        new Divider(
+                          color: Color.fromRGBO(150, 150, 150, 0.4),
+                          height: 5.0,
+                        ),
+                        Container(
+                            child: Row(children: <Widget>[
+                          Container(
+                              padding:
+                                  EdgeInsets.fromLTRB(width * 0.045, 0, 0, 0),
+                              child: Checkbox(
+                                value: isChecked3,
+                                onChanged: _isEnabled?
+                                    (bool? value) {
+                                  setState(() {
+                                    isChecked3 = value!;
+                                    torch();
 
-                                });
-                              }
-                                  :null,
-                            )),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Text('Blink LED',
-                                style: TextStyle(fontSize: height * 0.022))),
-                      ])),
-                    ]),
+                                  });
+                                }
+                                    :null,
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {});
+                              },
+                              child: Text('Blink LED',
+                                  style: TextStyle(fontSize: height * 0.022))),
+                        ])),
+                      ]),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));

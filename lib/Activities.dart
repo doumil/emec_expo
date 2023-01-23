@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,63 +97,68 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
                 color: Color(0xff00c1c1),
                 size: 30.0,
               ))
-              : new ListView.builder(
-              itemCount: litems.length,
-              itemBuilder: (_, int position) {
-                return new Card(
-                  margin: EdgeInsets.only(top: height * 0.01),
-                  color: Colors.white,
-                  shape: BorderDirectional(
-                    bottom:BorderSide(color: Colors.black12, width: 1),
-                  ),
-                 child:Row(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 20,
-                        child: Container(
-                          //padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'assets/ICON-EMEC.png',
-                              width: 50,
-                              height: 50,
+              :  FadeInDown(
+            duration: Duration(milliseconds: 500),
+                child: Container(
+                  child: new ListView.builder(
+                  itemCount: litems.length,
+                  itemBuilder: (_, int position) {
+                    return new Card(
+                      margin: EdgeInsets.only(top: height * 0.01),
+                      color: Colors.white,
+                      shape: BorderDirectional(
+                        bottom:BorderSide(color: Colors.black12, width: 1),
+                      ),
+                     child:Row(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 20,
+                            child: Container(
+                              //padding: EdgeInsets.only(bottom: height * 0.01),
+                              child: ClipOval(
+                                child: Image.asset(
+                                  'assets/ICON-EMEC.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 80,
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xff261350),
-                                  borderRadius: BorderRadius.horizontal(
-                                    left: Radius.circular(5.0),
-                                    right: Radius.circular(5.0),
+                          Expanded(
+                            flex: 80,
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff261350),
+                                      borderRadius: BorderRadius.horizontal(
+                                        left: Radius.circular(5.0),
+                                        right: Radius.circular(5.0),
+                                      ),
+                                    ),
+                                    width: double.maxFinite,
+                                    child: Text("  ${litems[position].datetime}",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
                                   ),
-                                ),
-                                width: double.maxFinite,
-                                child: Text("  ${litems[position].datetime}",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(0, 4, 0,0),
+                                    child: Text("${litems[position].shortname}\n",style: TextStyle(color: Colors.grey,fontSize: 14,fontWeight: FontWeight.bold)),
+                                  ),
+                                  Container(
+                                    child: Text("${litems[position].discription}\n"),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 4, 0,0),
-                                child: Text("${litems[position].shortname}\n",style: TextStyle(color: Colors.grey,fontSize: 14,fontWeight: FontWeight.bold)),
-                              ),
-                              Container(
-                                child: Text("${litems[position].discription}\n"),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }),
+                    );
+                  }),
+                ),
+              ),
         ));
   }
 }
