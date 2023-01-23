@@ -43,7 +43,7 @@ dependencies:
   shared_preferences:
   animate_do:
   flutter_animate:
-  flashlight:
+  mobile_scanner:
 flutter_native_splash:
   image: assets/logo16.png
   color: "#261350"

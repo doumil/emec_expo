@@ -2,6 +2,7 @@
     package="com.example.emec_expo">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <application
         android:label="EMEC EXPO"
         android:name="${applicationName}"
