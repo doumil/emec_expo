@@ -36,7 +36,7 @@ class _LINKEDINScreenState extends State<LINKEDINScreen> {
             },
           ),
           isLoading ? Center( child: SpinKitThreeBounce(
-            color: Color(0xff00c1c1),
+            color: Color(0xff0059b1),
             size: 30.0,
           ),)
               : Stack(),

@@ -35,7 +35,7 @@ class _FacebookScreenState extends State<FacebookScreen> {
                 },
               ),
               isLoading ? Center( child: SpinKitThreeBounce(
-                color: Color(0xff00c1c1),
+                color: Color(0xff006aff),
                 size: 30.0,
               ),)
                   : Stack(),

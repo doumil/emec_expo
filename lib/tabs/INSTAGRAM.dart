@@ -36,7 +36,7 @@ class _InstagramScreenState extends State<InstagramScreen> {
             },
           ),
           isLoading ? Center( child: SpinKitThreeBounce(
-            color: Color(0xff00c1c1),
+            color: Color(0xffe1306c),
             size: 30.0,
           ),)
               : Stack(),

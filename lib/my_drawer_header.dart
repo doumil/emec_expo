@@ -9,10 +9,10 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(0xffffffff),
+        //color:Color(0xffffffff),
         width: double.infinity,
-        height: 200,
-        padding: EdgeInsets.only(top: 20.0),
+        //height: 179,
+        //padding: EdgeInsets.only(top: 20.0),
         child:
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
@@ -23,8 +23,12 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                     ),
                   ),
                   height: MediaQuery.of(context).size.height * 0.25,
-                  child: Image.asset(
-                    "assets/logo15.png",
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    //padding: EdgeInsets.only(right: 10.0,left: 10.0),
+                    child: Image.asset(
+                      "assets/logo16.png",
+                    ),
                   )),
             ]));
   }

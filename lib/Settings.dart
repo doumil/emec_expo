@@ -14,14 +14,13 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  MobileScannerController torchctlr = MobileScannerController();
+  //MobileScannerController torchctlr = MobileScannerController();
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
   bool _isEnabled=false;
 
   void initState() {
-    //torchctlr.toggleTorch();
     super.initState();
   }
   _onChanged() {
@@ -30,11 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
   torch() async{
-    torchctlr.toggleTorch();
-    if(torchctlr.torchState==TorchState.on)
-      {
-        print("ok");
-      }
+   // torchctlr.toggleTorch();
   }
 
   Future<bool> _onWillPop() async {
@@ -158,8 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     (bool? value) {
                                   setState(() {
                                     isChecked3 = value!;
-
-                                    torch();
+                                    //torch();
                                   });
                                 }
                                     :null,
@@ -174,7 +168,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Text('Blink LED',
                                   style: TextStyle(fontSize: height * 0.022))),
                         ])),
-                        ValueListenableBuilder(
+
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+}
+/*
+ ValueListenableBuilder(
                           valueListenable: torchctlr.torchState,
                           builder: (context, state, child) {
                             var t=state;
@@ -186,13 +192,4 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             }
                           },
                         ),
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ));
-  }
-}
+ */

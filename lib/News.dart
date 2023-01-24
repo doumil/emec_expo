@@ -91,6 +91,7 @@ class _NewsScreenState extends State<NewsScreen> {
               :  FadeInDown(
             duration: Duration(milliseconds: 500),
                 child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   child: new ListView.builder(
                   itemCount: litems.length,
                   itemBuilder: (_, int position) {
