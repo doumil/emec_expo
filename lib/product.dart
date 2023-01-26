@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'model/product_model.dart';
 import 'package:http/http.dart' as http;
 class ProductScreen extends StatefulWidget {
@@ -15,11 +16,13 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   List<ProductClass> litems = [];
+  List<ProductClass> litemsAllS = [];
   bool isLoading = true;
   void initState() {
     litems.clear();
     isLoading = true;
     _loadData();
+    litemsAllS=litems;
     super.initState();
   }
   _loadData() async {
@@ -43,7 +46,27 @@ class _ProductScreenState extends State<ProductScreen> {
       });
     }
   }
+  void _Search(String entrK){
+    List<ProductClass> result = [];
+    if(entrK.isNotEmpty){
+      result=litems.where((user) => user.name.toString().trim().toUpperCase().contains(entrK.toUpperCase())).toList();
+      setState(() {
+        litems=result;
+      });
+      if(result.isEmpty)
+      {
+        Fluttertoast.showToast(
+          msg: "Search not found...!",
+          toastLength: Toast.LENGTH_SHORT,);
+      }
+    }
+    else{
+      setState(() {
+        litems=litemsAllS;
+      });
 
+    }
+  }
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
@@ -69,59 +92,90 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: _onWillPop,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: isLoading == true
-              ? Center(
-              child: SpinKitThreeBounce(
-                color: Color(0xff00c1c1),
-                size: 30.0,
-              ))
-              :  FadeInDown(
-            duration: Duration(milliseconds: 500),
-                child: Container(
-            color: Colors.white,
-            child: new ListView.builder(
-                  itemCount: litems.length,
-                  itemBuilder: (_, int position) {
-                    return new Card(
-                      color: Colors.white,
-                      shape: BorderDirectional(
-                        bottom:BorderSide(color: Colors.black12, width: 1),
+        child: GestureDetector(
+          onTap: ()=>FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              title: Text(''),
+              backgroundColor: Color(0xff261350),
+              automaticallyImplyLeading: false,
+              actions: [
+                Container(
+                  width:MediaQuery.of(context).size.width*0.9,
+                  child: TextField(
+                    cursorColor: Color(0xff00c1c1),
+                    style: TextStyle(color: Colors.white),
+                    onChanged:(value)=> _Search(value),
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      hintText: "Search",
+                      hintStyle: TextStyle(color: Colors.white),
+                      suffixIcon: Icon(Icons.search,color: Colors.white,),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xff00c1c1)),
                       ),
-                      child: new ListTile(
-                        leading: new ClipOval(
-                            child: Image.asset(
-                              'assets/ICON-EMEC.png',
+                      focusedBorder:UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xff00c1c1),width: 2.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            body: isLoading == true
+                ? Center(
+                child: SpinKitThreeBounce(
+                  color: Color(0xff00c1c1),
+                  size: 30.0,
+                ))
+                :  FadeInDown(
+              duration: Duration(milliseconds: 500),
+                  child: Container(
+              color: Colors.white,
+              child: new ListView.builder(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    itemCount: litems.length,
+                    itemBuilder: (_, int position) {
+                      return new Card(
+                        color: Colors.white,
+                        shape: BorderDirectional(
+                          bottom:BorderSide(color: Colors.black12, width: 1),
+                        ),
+                        child: new ListTile(
+                          leading: new ClipOval(
+                              child: Image.asset(
+                                'assets/ICON-EMEC.png',
+                              ),
+                          ),
+                          title: Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: Text(
+                              "${litems[position].name}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
-                        ),
-                        title: Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            "${litems[position].name}",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        subtitle:Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            "${litems[position].shortname}\n${litems[position].shortdiscription}",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold),
+                          subtitle:Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: Text(
+                              "${litems[position].shortname}\n${litems[position].shortdiscription}",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
+                          onTap: () {
+                          },
                         ),
-                        onTap: () {
-                        },
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+            ),
+                ),
           ),
-              ),
         ));
   }
 }

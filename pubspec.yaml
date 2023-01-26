@@ -44,6 +44,7 @@ dependencies:
   animate_do:
   flutter_animate:
   mobile_scanner:
+  fluttertoast:
 flutter_native_splash:
   image: assets/logo16.png
   color: "#261350"
