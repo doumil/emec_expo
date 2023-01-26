@@ -66,7 +66,6 @@ class _PartnersScreenState extends State<PartnersScreen> {
     getPostsData();
     controller.addListener(() {
       double value = controller.offset/119;
-
       setState(() {
         topContainer = value;
       });

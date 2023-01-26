@@ -54,7 +54,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         margin: EdgeInsets.only(top: height * 0.01),
                         //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR GOLD",
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00,color: Color(0xffffb300))),
                       )),
                   Center(
                     child: Container(
@@ -71,7 +71,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         //margin: EdgeInsets.only(top: height * 0.01),
                         //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR SILVER",
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00,color: Color(0xffc0c0c0))),
                       )),
                   Row(
                     children: [
@@ -114,7 +114,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         //margin: EdgeInsets.only(top: height * 0.01),
                         //padding: EdgeInsets.only(bottom: height * 0.01),
                         child: const Text("SPONSOR BRONZE",
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00)),
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00,color: Color(0xffcd7f32))),
                       )),
                   Row(
                     children: [
