@@ -119,150 +119,162 @@ else{
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(''),
-        backgroundColor: Color(0xff261350),
-        automaticallyImplyLeading: false,
-        actions: [
-           Container(
-             width:250,
-             child: TextField(
-               onChanged:(value)=> _Search(value),
-               obscureText: false,
-              decoration: InputDecoration(
-                hintText: "Search",
-                hintStyle: TextStyle(color: Colors.white),
-                suffixIcon: Icon(Icons.search,color: Colors.white,),
-              ),
-          ),
-           ),
-          //IconButton(
-            //icon: new Icon(Icons.search),
-            //disabledColor: Colors.white70,
-            //onPressed: () => () {
-            //},
-          //),
-          IconButton(
-            icon: new Icon(
-                (_pressed == false) ? Icons.verified_outlined : Icons.verified),
-            onPressed: () {
-              setState(() {
-                _pressed = !_pressed;
-                if(_pressed==true)
+    return GestureDetector(
+      onTap: ()=>FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Text(''),
+          backgroundColor: Color(0xff261350),
+          automaticallyImplyLeading: false,
+          actions: [
+             Container(
+               width:250,
+               child: TextField(
+                 cursorColor: Color(0xff00c1c1),
+                 style: TextStyle(color: Colors.white),
+                 onChanged:(value)=> _Search(value),
+                 obscureText: false,
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.white),
+                  suffixIcon: Icon(Icons.search,color: Colors.white,),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff00c1c1)),
+                  ),
+                  focusedBorder:UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff00c1c1),width: 2.0),
+                  ),
+                ),
+            ),
+             ),
+            //IconButton(
+              //icon: new Icon(Icons.search),
+              //disabledColor: Colors.white70,
+              //onPressed: () => () {
+              //},
+            //),
+            IconButton(
+              icon: new Icon(
+                  (_pressed == false) ? Icons.verified_outlined : Icons.verified),
+              onPressed: () {
+                setState(() {
+                  _pressed = !_pressed;
+                  if(_pressed==true)
+                    {
+                      litemsAll=litems;
+                      litemsFav=litems.where((user) => user.fav.toString().toLowerCase().contains("true")).toList();
+                      print(litemsFav);
+                      litems=litemsFav;
+                    }
+                  else{
+                    litems=litemsAll;
+                  }
+                });
+              },
+            ),
+            IconButton(
+              icon: new Icon(
+                  (_pressedStar == false) ? Icons.star_border : Icons.star,color:Color(0xff00c1c1)),
+              //disabledColor: Color(0xff00c1c1),
+              onPressed: () {
+                setState(() {
+                  _pressedStar = !_pressedStar;
+                  if(_pressedStar==true)
                   {
                     litemsAll=litems;
-                    litemsFav=litems.where((user) => user.fav.toString().toLowerCase().contains("true")).toList();
-                    print(litemsFav);
-                    litems=litemsFav;
+                    litemsStar=litems.where((user) => user.star.toString().toLowerCase().contains("true")).toList();
+                    litems=litemsStar;
                   }
-                else{
-                  litems=litemsAll;
-                }
-              });
-            },
-          ),
-          IconButton(
-            icon: new Icon(
-                (_pressedStar == false) ? Icons.star_border : Icons.star,color:Color(0xff00c1c1)),
-            //disabledColor: Color(0xff00c1c1),
-            onPressed: () {
-              setState(() {
-                _pressedStar = !_pressedStar;
-                if(_pressedStar==true)
-                {
-                  litemsAll=litems;
-                  litemsStar=litems.where((user) => user.star.toString().toLowerCase().contains("true")).toList();
-                  litems=litemsStar;
-                }
-                else{
-                  litems=litemsAll;
-                }
+                  else{
+                    litems=litemsAll;
+                  }
 
-              });
-            },
-          ),
-        ],
-      ),
-      body: isLoading == true
-          ? Center(
-              child: SpinKitThreeBounce(
-              color: Color(0xff00c1c1),
-              size: 30.0,
-            ))
-          :  FadeInDown(
-        duration: Duration(milliseconds: 500),
-            child: Container(
-                color: Colors.white,
-                child: new ListView.builder(
-                    itemCount: litems.length,
-                    itemBuilder: (_, int position) {
-                      return new Card(
-                        color: Colors.white,
-                        shape: BorderDirectional(
-                          bottom: BorderSide(color: Colors.black12, width: 1),
-                        ),
-                        child: new ListTile(
-                          leading: new ClipOval(
-                              child: Image.asset(
-                            width: 80,
-                            height: 80,
-                            '${litems[position].image}',
-                          )),
-                          title: Padding(
-                            padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text(
-                              "${litems[position].title}",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
+                });
+              },
+            ),
+          ],
+        ),
+        body: isLoading == true
+            ? Center(
+                child: SpinKitThreeBounce(
+                color: Color(0xff00c1c1),
+                size: 30.0,
+              ))
+            :  FadeInDown(
+          duration: Duration(milliseconds: 500),
+              child: Container(
+                  color: Colors.white,
+                  child: new ListView.builder(
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      itemCount: litems.length,
+                      itemBuilder: (_, int position) {
+                        return new Card(
+                          color: Colors.white,
+                          shape: BorderDirectional(
+                            bottom: BorderSide(color: Colors.black12, width: 1),
+                          ),
+                          child: new ListTile(
+                            leading: new ClipOval(
+                                child: Image.asset(
+                              width: 80,
+                              height: 80,
+                              '${litems[position].image}',
+                            )),
+                            title: Padding(
+                              padding: EdgeInsets.only(bottom: 10.0),
+                              child: Text(
+                                "${litems[position].title}",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                          subtitle: new Text(
-                            "Stand :${litems[position].stand}",
-                            style: TextStyle(color: Colors.black26, height: 2),
-                          ),
-                          trailing: Wrap(
-                            children: [
-                              new IconButton(
-                                  icon: new Icon((litems[position].fav == false)
-                                      ? Icons.verified_outlined
-                                      : Icons.verified),
+                            subtitle: new Text(
+                              "Stand :${litems[position].stand}",
+                              style: TextStyle(color: Colors.black26, height: 2),
+                            ),
+                            trailing: Wrap(
+                              children: [
+                                new IconButton(
+                                    icon: new Icon((litems[position].fav == false)
+                                        ? Icons.verified_outlined
+                                        : Icons.verified),
+                                    onPressed: () {
+                                      setState(() {
+                                         litems[position].fav=!litems[position].fav;
+                                       // if(litems[position].id==position){
+                                         // _pressed = !_pressed;
+                                          //print(litems[position].id.toString());
+                                          //print(position.toString());
+                                        //}
+                                      });
+                                    }),
+                                new IconButton(
+                                  icon: new Icon(
+                                      (litems[position].star == false) ? Icons.star_border : Icons.star,color:Color(0xff00c1c1)),
+                                  //disabledColor: Color(0xff00c1c1),
                                   onPressed: () {
                                     setState(() {
-                                       litems[position].fav=!litems[position].fav;
-                                     // if(litems[position].id==position){
-                                       // _pressed = !_pressed;
-                                        //print(litems[position].id.toString());
-                                        //print(position.toString());
-                                      //}
+                                      litems[position].star=!litems[position].star;
                                     });
-                                  }),
-                              new IconButton(
-                                icon: new Icon(
-                                    (litems[position].star == false) ? Icons.star_border : Icons.star,color:Color(0xff00c1c1)),
-                                //disabledColor: Color(0xff00c1c1),
-                                onPressed: () {
-                                  setState(() {
-                                    litems[position].star=!litems[position].star;
-                                  });
-                                },
-                              ),
-                            ],
+                                  },
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              //Navigator.push(
+                              //   context,
+                              // MaterialPageRoute(
+                              //builder: (context) => DetailScreen()));
+                            },
                           ),
-                          onTap: () {
-                            //Navigator.push(
-                            //   context,
-                            // MaterialPageRoute(
-                            //builder: (context) => DetailScreen()));
-                          },
-                        ),
-                      );
-                    }),
-              ),
-          ),
+                        );
+                      }),
+                ),
+            ),
+      ),
     );
   }
 }
