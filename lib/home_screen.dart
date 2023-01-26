@@ -314,8 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: <Widget>[
                                       Center(
                                         child: Container(
-                                          child:                ListTile(
-                                            leading: Icon(Icons.business),
+                                          child:
+                                          ListTile(
+                                            leading: Icon(Icons.health_and_safety_outlined),
                                             title: Text('Business Safe'),
                                   onTap: () async{
                                     prefs = await SharedPreferences.getInstance();
