@@ -133,8 +133,7 @@ class _ActivitesScreenState extends State<ActivitesScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return WillPopScope(
-        onWillPop: _onWillPop,
+    return Container(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(

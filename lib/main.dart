@@ -200,17 +200,17 @@ class _WelcomPageState extends State<WelcomPage> {
           menuItem(7, "Exhibitors", Icons.work_outline,
               currentPage == DrawerSections.exhibitors ? true : false),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 35.0),
             child: menuItem(8, "Product", Icons.all_inbox,
                 currentPage == DrawerSections.product ? true : false),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            padding: EdgeInsets.symmetric(horizontal: 35.0),
             child: menuItem(9, "Activities", Icons.local_activity_outlined,
                 currentPage == DrawerSections.act ? true : false),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            padding: EdgeInsets.symmetric(horizontal: 35.0),
             child: menuItem(10, "News", Icons.insert_drive_file_outlined,
                 currentPage == DrawerSections.news ? true : false),
           ),
@@ -227,7 +227,7 @@ class _WelcomPageState extends State<WelcomPage> {
           menuItem(16, "Information", Icons.info_outline,
               currentPage == DrawerSections.information ? true : false),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            padding: EdgeInsets.symmetric(horizontal: 35.0),
             child: menuItem(17, "Schedule", Icons.schedule,
                 currentPage == DrawerSections.schedule ? true : false),
           ),

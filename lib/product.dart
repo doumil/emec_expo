@@ -90,9 +90,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: GestureDetector(
+    return  GestureDetector(
           onTap: ()=>FocusScope.of(context).unfocus(),
           child: Scaffold(
             extendBodyBehindAppBar: true,
@@ -176,6 +174,6 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
                 ),
           ),
-        ));
+        );
   }
 }

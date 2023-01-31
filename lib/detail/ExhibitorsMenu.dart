@@ -6,17 +6,16 @@ import 'package:emec_expo/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../my_drawer_header.dart';
 
-import 'my_drawer_header.dart';
-
-class DetailScreen extends StatefulWidget {
-  const DetailScreen({Key? key}) : super(key: key);
+class ExhibitorDScreen extends StatefulWidget {
+  const ExhibitorDScreen({Key? key}) : super(key: key);
 
   @override
-  _DetailScreenState createState() => _DetailScreenState();
+  _ExhibitorDScreenState createState() => _ExhibitorDScreenState();
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _ExhibitorDScreenState extends State<ExhibitorDScreen> {
   void initState() {
     super.initState();
   }
