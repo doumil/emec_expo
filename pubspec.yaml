@@ -45,6 +45,12 @@ dependencies:
   flutter_animate:
   mobile_scanner:
   fluttertoast:
+  flutter_local_notifications:
+  timezone:
+  rxdart:
+  firebase_core:
+  firebase_messaging: ^14.2.1
+  animated_splash_screen: ^1.3.0
 flutter_native_splash:
   image: assets/logo16.png
   color: "#261350"

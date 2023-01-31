@@ -308,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20.0))),
                                 ),
-                                Container(
+                                /*Container(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
@@ -338,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20.0))),
-                                ),
+                                ),*/
                               ],
                             ),
                           ),

@@ -22,8 +22,15 @@ import 'Activities.dart';
 import 'My Agenda.dart';
 import 'Suporting Partners.dart';
 import 'my_drawer_header.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
-void main() => runApp(MyApp());
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
+void main() {
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -36,6 +43,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class WelcomPage extends StatefulWidget {
   @override
   _WelcomPageState createState() => _WelcomPageState();
@@ -131,12 +139,12 @@ class _WelcomPageState extends State<WelcomPage> {
     else if (currentPage == DrawerSections.getThere) {
       container = GetThereScreen();
     }
-    else if (currentPage == DrawerSections.food) {
-      container = FoodScreen();
-    }
-    else if (currentPage == DrawerSections.business) {
-      container = BusinessScreen();
-    }
+    //else if (currentPage == DrawerSections.food) {
+      //container = FoodScreen();
+    //}
+    //else if (currentPage == DrawerSections.business) {
+      //container = BusinessScreen();
+    //}
     else if (currentPage == DrawerSections.notifications) {
       container = NotificationsScreen();
     }
@@ -191,12 +199,21 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage == DrawerSections.partners ? true : false),
           menuItem(7, "Exhibitors", Icons.work_outline,
               currentPage == DrawerSections.exhibitors ? true : false),
-          menuItem(8, "Product", Icons.all_inbox,
-              currentPage == DrawerSections.product ? true : false),
-          menuItem(9, "Activities", Icons.local_activity_outlined,
-              currentPage == DrawerSections.act ? true : false),
-          menuItem(10, "News", Icons.insert_drive_file_outlined,
-              currentPage == DrawerSections.news ? true : false),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+            child: menuItem(8, "Product", Icons.all_inbox,
+                currentPage == DrawerSections.product ? true : false),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            child: menuItem(9, "Activities", Icons.local_activity_outlined,
+                currentPage == DrawerSections.act ? true : false),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            child: menuItem(10, "News", Icons.insert_drive_file_outlined,
+                currentPage == DrawerSections.news ? true : false),
+          ),
           menuItem(11, "Expo Floor Plan", Icons.location_on_outlined,
               currentPage == DrawerSections.eFP ? true : false),
           menuItem(12, "Suporting Partners", Icons.account_tree_outlined,
@@ -209,14 +226,17 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage == DrawerSections.contact ? true : false),
           menuItem(16, "Information", Icons.info_outline,
               currentPage == DrawerSections.information ? true : false),
-          menuItem(17, "Schedule", Icons.schedule,
-              currentPage == DrawerSections.schedule ? true : false),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.0),
+            child: menuItem(17, "Schedule", Icons.schedule,
+                currentPage == DrawerSections.schedule ? true : false),
+          ),
           menuItem(18, "How to get there", Icons.map,
               currentPage == DrawerSections.getThere ? true : false),
-          menuItem(19, "Food", Icons.fastfood_outlined,
-              currentPage == DrawerSections.food ? true : false),
-          menuItem(20, "Business Safe", Icons.health_and_safety_outlined,
-              currentPage == DrawerSections.business ? true : false),
+         // menuItem(19, "Food", Icons.fastfood_outlined,
+           //   currentPage == DrawerSections.food ? true : false),
+          //menuItem(20, "Business Safe", Icons.health_and_safety_outlined,
+            //  currentPage == DrawerSections.business ? true : false),
           menuItem(21, "Notifications", Icons.notifications_none,
               currentPage == DrawerSections.notifications ? true : false),
           menuItem(22, "Settings", Icons.settings,
@@ -255,6 +275,7 @@ class _WelcomPageState extends State<WelcomPage> {
             }
             else if (id == 8) {
               currentPage = DrawerSections.product;
+
             }
             else if (id == 9) {
               currentPage = DrawerSections.act;
@@ -300,7 +321,7 @@ class _WelcomPageState extends State<WelcomPage> {
             }
           });
         },
-        child: Padding(
+        child: Container(
           padding: EdgeInsets.all(15.0),
           child: Row(
             children: [
