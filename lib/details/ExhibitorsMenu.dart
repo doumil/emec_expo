@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../my_drawer_header.dart';
+import 'DetailExhibitors.dart';
 
 class ExhibitorDScreen extends StatefulWidget {
   const ExhibitorDScreen({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class _ExhibitorDScreenState extends State<ExhibitorDScreen> {
                         labelColor:Colors.white,
                         tabs:[
                           Tab(
-                            text:"Exhibitors",
+                            text:"Exhibitor",
                           ),
                           Tab(
                             text:"Product",
@@ -82,7 +83,7 @@ class _ExhibitorDScreenState extends State<ExhibitorDScreen> {
                     child:TabBarView(children: [
                       Container(
 
-                        child :ExhibitorsScreen(),
+                        child :DetailExhibitorsScreen(),
                       ),
                       Container(
                         child: ProductScreen(),

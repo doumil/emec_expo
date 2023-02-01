@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'details/DetailSpeakeres.dart';
 import 'model/speakers_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -115,7 +116,12 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                             overflow:TextOverflow.visible,
                           ),
                         ),
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailSpeakersScreen()));
+                        },
                       ),
                       elevation: 3.0,
                     );

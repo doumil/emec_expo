@@ -77,7 +77,7 @@ class _Congress11ScreenState extends State<Congress11Screen> {
                       bottom:BorderSide(color: Colors.black12, width: 1),
                     ),
                     child: new ListTile(
-                      leading:                 Container(
+                      leading: Container(
                         padding: EdgeInsets.fromLTRB(4, 4,4,4),
                         decoration: BoxDecoration(
                           color: Color(0xff261350),

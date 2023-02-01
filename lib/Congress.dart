@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'detail/CongressMenu.dart';
+import 'details/CongressMenu.dart';
 import 'model/congress_model.dart';
 import 'package:http/http.dart' as http;
 
