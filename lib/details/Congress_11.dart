@@ -63,8 +63,7 @@ class _Congress11ScreenState extends State<Congress11Screen> {
               color: Color(0xff00c1c1),
               size: 30.0,
             ))
-            :  FadeInDown(
-          duration: Duration(milliseconds: 500),
+            :  Container(
           child: Container(
             color: Colors.white,
             child: new ListView.builder(
