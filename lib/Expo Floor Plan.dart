@@ -42,7 +42,9 @@ class _EFPScreenState extends State<EFPScreen> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: Container(
-            child:Center(child: Image.asset("assets/expo.png")),
+            child:Align(
+                alignment: Alignment.center,
+                child: Image.asset("assets/planexpo.png")),
           ),
         ));
   }

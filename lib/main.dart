@@ -24,11 +24,9 @@ import 'Suporting Partners.dart';
 import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:page_transition/page_transition.dart';
-void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -186,69 +184,79 @@ class _WelcomPageState extends State<WelcomPage> {
         // shows the list of menu drawer
         children: [
           menuItem(1, "Home", Icons.home_outlined,
-              currentPage == DrawerSections.home ? true : false),
+              currentPage == DrawerSections.home ? true : false,false),
           menuItem(2, "My Agenda", Icons.calendar_today,
-              currentPage == DrawerSections.agenda ? true : false),
+              currentPage == DrawerSections.agenda ? true : false,false),
           menuItem(3, "Congress", Icons.web,
-              currentPage == DrawerSections.congress ? true : false),
+              currentPage == DrawerSections.congress ? true : false,false),
           menuItem(4, "Speakers", Icons.speaker_group_outlined,
-              currentPage == DrawerSections.speakers ? true : false),
+              currentPage == DrawerSections.speakers ? true : false,false),
           //menuItem(5, "Official Events", Icons.event,
               //currentPage == DrawerSections.officialEvents ? true : false),
           menuItem(6, "Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.partners ? true : false),
+              currentPage == DrawerSections.partners ? true : false,false),
           menuItem(7, "Exhibitors", Icons.work_outline,
-              currentPage == DrawerSections.exhibitors ? true : false),
+              currentPage == DrawerSections.exhibitors ? true : false,currentPage == DrawerSections.product || currentPage == DrawerSections.act || currentPage == DrawerSections.news? true : false),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 35.0),
+              padding: EdgeInsets.only(left: 35.0),
             child: menuItem(8, "Product", Icons.all_inbox,
-                currentPage == DrawerSections.product ? true : false),
+                currentPage == DrawerSections.product ? true : false,currentPage == DrawerSections.product  ? true : false),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
+            padding: EdgeInsets.only(left: 35.0),
             child: menuItem(9, "Activities", Icons.local_activity_outlined,
-                currentPage == DrawerSections.act ? true : false),
+                currentPage == DrawerSections.act ? true : false,false),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
+            padding: EdgeInsets.only(left: 35.0),
             child: menuItem(10, "News", Icons.insert_drive_file_outlined,
-                currentPage == DrawerSections.news ? true : false),
+                currentPage == DrawerSections.news ? true : false,false),
           ),
           menuItem(11, "Expo Floor Plan", Icons.location_on_outlined,
-              currentPage == DrawerSections.eFP ? true : false),
+              currentPage == DrawerSections.eFP ? true : false,false),
           menuItem(12, "Suporting Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.supportingP ? true : false),
+              currentPage == DrawerSections.supportingP ? true : false,false),
           menuItem(13, "Media Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.mediaP ? true : false),
+              currentPage == DrawerSections.mediaP ? true : false,false),
           menuItem(14, "Social Media", Icons.language,
-              currentPage == DrawerSections.socialM ? true : false),
+              currentPage == DrawerSections.socialM ? true : false,false),
           menuItem(15, "Contact", Icons.contact_phone_outlined,
-              currentPage == DrawerSections.contact ? true : false),
+              currentPage == DrawerSections.contact ? true : false,false),
           menuItem(16, "Information", Icons.info_outline,
-              currentPage == DrawerSections.information ? true : false),
+              currentPage == DrawerSections.information ? true : false,currentPage==DrawerSections.schedule ? true : false),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
+            padding: EdgeInsets.only(left: 35.0),
             child: menuItem(17, "Schedule", Icons.schedule,
-                currentPage == DrawerSections.schedule ? true : false),
+                currentPage == DrawerSections.schedule ? true : false,false),
           ),
           menuItem(18, "How to get there", Icons.map,
-              currentPage == DrawerSections.getThere ? true : false),
+              currentPage == DrawerSections.getThere ? true : false,false),
          // menuItem(19, "Food", Icons.fastfood_outlined,
            //   currentPage == DrawerSections.food ? true : false),
           //menuItem(20, "Business Safe", Icons.health_and_safety_outlined,
             //  currentPage == DrawerSections.business ? true : false),
           menuItem(21, "Notifications", Icons.notifications_none,
-              currentPage == DrawerSections.notifications ? true : false),
+              currentPage == DrawerSections.notifications ? true : false,false),
           menuItem(22, "Settings", Icons.settings,
-              currentPage == DrawerSections.settings ? true : false),
+              currentPage == DrawerSections.settings ? true : false,false),
         ],
       ),
     );
   }
 
-  Widget menuItem(int id, String title, IconData icon, bool selected) {
+  Widget menuItem(int id, String title, IconData icon, bool selected,bool childSelected) {
+
+    var color=Colors.grey[300];
+    if(childSelected==true)
+      {
+        selected=true;
+
+      }
     return Material(
-      color: selected ? Colors.grey[300] : Colors.transparent,
+      color: selected? color: Colors.transparent,
+       shape:Border(
+         bottom: selected ? BorderSide(width: 0.4, color: Colors.black12) :BorderSide(width: 0.0, color: Colors.transparent),
+       ),
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
@@ -348,6 +356,7 @@ class _WelcomPageState extends State<WelcomPage> {
       ),
     );
   }
+
 }
 
 enum DrawerSections {

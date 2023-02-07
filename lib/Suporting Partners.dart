@@ -48,7 +48,9 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
             child: FadeInDown(
               duration: Duration(milliseconds: 500),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  //title gold
                    Center(
                       child: Container(
                         margin: EdgeInsets.only(top: height * 0.01),
@@ -56,16 +58,33 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         child: const Text("SPONSOR GOLD",
                             style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.00,color: Color(0xffffb300))),
                       )),
-                  Center(
-                    child: Container(
-                      height: 200,
-                     // margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/sponsors/zoho.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/sponsors2023/SHIPSEN.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/sponsor2023/CODEPARTNER.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  //title silver
                    Center(
                       child: Container(
                         //margin: EdgeInsets.only(top: height * 0.01),
@@ -82,7 +101,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                           margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/vertigotax.png",
+                            "assets/sponsors/sponsor2023/DROPIFY.png",
                           ),
                         ),
                       ),
@@ -93,12 +112,13 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                           margin: EdgeInsets.only(top: height * 0.01),
                          // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/kertys.png",
+                            "assets/sponsors/sponsors2023/EDCO.png",
                           ),
                         ),
                       ),
                     ],
                   ),
+                  /*
                   Center(
                     child: Container(
                       height: 150,
@@ -109,6 +129,8 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       ),
                     ),
                   ),
+                  */
+                  //title bronze
                   Center(
                       child: Container(
                         //margin: EdgeInsets.only(top: height * 0.01),
@@ -125,7 +147,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/devcorp.png",
+                            "assets/sponsors/sponsors2023/ZEN-NETWORKS.png",
                           ),
                         ),
                       ),
@@ -136,21 +158,11 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/ipaidthat.png",
+                            "assets/sponsors/sponsors2023/SEM.png",
                           ),
                         ),
                       ),
                     ],
-                  ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      //margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/sponsors/bpm-24.png",
-                      ),
-                    ),
                   ),
                 ],
               ),

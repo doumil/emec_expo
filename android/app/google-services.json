@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "374464315208",
+    "project_id": "emecexpo",
+    "storage_bucket": "emecexpo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374464315208:android:50ed2a14a89b43e57b3d7d",
+        "android_client_info": {
+          "package_name": "com.example.emec_expo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374464315208-es1c1rpq3ji2cl49k5kg6avsh5k7grvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtLeVF195LBQDoORVo2YOw9_D9oF4Ve9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374464315208-es1c1rpq3ji2cl49k5kg6avsh5k7grvv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'model/notification_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
@@ -15,9 +16,15 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  var fbm=FirebaseMessaging.instance;
   List<NotifClass> litems = [];
   bool isLoading = true;
   void initState() {
+  fbm.getToken().then((token){
+    print("----------- token ------------");
+    print(token);
+    print("------------------------------------------------");
+  });
     litems.clear();
     isLoading = true;
     _loadData();
