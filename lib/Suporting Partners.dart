@@ -63,7 +63,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -74,11 +74,11 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           margin: EdgeInsets.only(top: height * 0.01),
                           // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/sponsor2023/CODEPARTNER.png",
+                            "assets/sponsors/sponsors2023/CODPARTNER.png",
                           ),
                         ),
                       ),
@@ -97,18 +97,18 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
-                            "assets/sponsors/sponsor2023/DROPIFY.png",
+                            "assets/sponsors/sponsors2023/DROPIFY.png",
                           ),
                         ),
                       ),
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           margin: EdgeInsets.only(top: height * 0.01),
                          // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -143,7 +143,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -154,7 +154,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 150,
+                          height: 200,
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(

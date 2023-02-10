@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
+import 'package:emec_expo/database_helper/database_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'model/notification_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
@@ -16,15 +20,11 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  var fbm=FirebaseMessaging.instance;
+  late SharedPreferences prefs;
+  var db = new DataBaseHelperNotif();
   List<NotifClass> litems = [];
   bool isLoading = true;
   void initState() {
-  fbm.getToken().then((token){
-    print("----------- token ------------");
-    print(token);
-    print("------------------------------------------------");
-  });
     litems.clear();
     isLoading = true;
     _loadData();
@@ -32,12 +32,23 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   _loadData() async {
+    var data = await db.getListNoti();
+    litems = data;
+    litems=litems.reversed.toList();
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
     // var url = "http://192.168.8.100/emecexpo/loadspeakers.php";
     // var res = await http.post(Uri.parse(url));
     // List<NotifClass> notif = (json.decode(res.body) as List)
     //   .map((data) => NotifClass.fromJson(data))
     // .toList();
     //litems=notif;
+    //liste of notifications
+    /*
     var nt1=NotifClass("EMEC EXPO 2023","tue,14 jun","09:00",
         "Thank you for joining us in sixth edition"
         "of Digital Entreprise How! See you from June 10 to 11 2023");
@@ -54,13 +65,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         "Thank you for joining us in sixth edition"
         "of Digital Entreprise How! See you from June 10 to 11 2023");
     litems.add(nt4);
-    if (this.mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
+    */
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,

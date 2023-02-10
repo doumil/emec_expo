@@ -1,4 +1,6 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:emec_expo/model/notification_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +9,10 @@ import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Busniess Safe.dart';
+import 'Notifications.dart';
+import 'database_helper/database_notification.dart';
 import 'main.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,11 +22,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var db = new DataBaseHelperNotif();
+  var  name="1",date="1",dtime="1",discription="1";
+  var fbm=FirebaseMessaging.instance;
   late SharedPreferences prefs;
   void initState() {
     _loadData();
+    //_goTo_notification_terminate();
+    fbm.getToken().then((token){
+      print("----------- token ------------");
+      print(token);
+      print("------------------------------------------------");
+    });
     super.initState();
   }
+/*
+_goTo_notification_terminate() async{
+    prefs = await SharedPreferences.getInstance();
+   var msg=await FirebaseMessaging.instance.getInitialMessage();
+   if(msg!=null)
+     {
+       name=msg.notification!.title.toString();
+       date="${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+       dtime="${DateTime.now().hour}:${DateTime.now().minute}";
+       discription=msg.notification!.body.toString();
+
+       prefs.setString("Data", "4");
+       prefs.setString("name",name);
+       prefs.setString("date",date);
+       prefs.setString("dtime",dtime);
+       prefs.setString("discription",discription);
+       Navigator.push(
+           context,
+           MaterialPageRoute(
+               builder: (context) => WelcomPage()));
+     }
+
+}
+*/
   _loadData()async{
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", "0");

@@ -15,21 +15,40 @@ import 'package:emec_expo/Social%20Media.dart';
 import 'package:emec_expo/Speakers.dart';
 import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:emec_expo/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Activities.dart';
 import 'My Agenda.dart';
 import 'Suporting Partners.dart';
+import 'model/notification_model.dart';
 import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
+import 'database_helper/database_notification.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+var db = new DataBaseHelperNotif();
+var  name="1",date="1",dtime="1",discription="1";
+var fbm=FirebaseMessaging.instance;
+
+Future _onMessage(RemoteMessage event) async{
+  print("on message");
+  name=event.notification!.title.toString();
+  date="${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+  dtime="${DateTime.now().hour}:${DateTime.now().minute}";
+  discription=event.notification!.body.toString();
+  await db.saveNoti(NotifClass(name, date, dtime, discription));
+}
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(
+    _onMessage
+  );
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -50,7 +69,10 @@ class WelcomPage extends StatefulWidget {
 class _WelcomPageState extends State<WelcomPage> {
   var currentPage = DrawerSections.home;
   var _data="";
+  late SharedPreferences prefs;
   void initState() {
+   // _onMessage();
+    _goTo_notification_back();
     _loadData();
     super.initState();
   }
@@ -73,12 +95,27 @@ class _WelcomPageState extends State<WelcomPage> {
           currentPage=DrawerSections.business;
 
         }
+      else if(_data=="4")
+        {
+          currentPage=DrawerSections.notifications;
+
+        }
       else
         {
           currentPage=DrawerSections.home;
         }
     });
 
+  }
+  _goTo_notification_back() async{
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString("Data","4");
+    FirebaseMessaging.onMessageOpenedApp.listen((event) async{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WelcomPage()));
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -245,7 +282,6 @@ class _WelcomPageState extends State<WelcomPage> {
   }
 
   Widget menuItem(int id, String title, IconData icon, bool selected,bool childSelected) {
-
     var color=Colors.grey[300];
     if(childSelected==true)
       {
