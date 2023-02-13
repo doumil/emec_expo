@@ -26,7 +26,7 @@ import 'model/notification_model.dart';
 import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
-import 'database_helper/database_notification.dart';
+import 'database_helper/database_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 var db = new DataBaseHelperNotif();
@@ -34,7 +34,6 @@ var  name="1",date="1",dtime="1",discription="1";
 var fbm=FirebaseMessaging.instance;
 
 Future _onMessage(RemoteMessage event) async{
-  print("on message");
   name=event.notification!.title.toString();
   date="${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
   dtime="${DateTime.now().hour}:${DateTime.now().minute}";

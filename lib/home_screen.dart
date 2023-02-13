@@ -10,7 +10,7 @@ import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Busniess Safe.dart';
 import 'Notifications.dart';
-import 'database_helper/database_notification.dart';
+import 'database_helper/database_helper.dart';
 import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
 

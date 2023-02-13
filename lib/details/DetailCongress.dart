@@ -14,6 +14,9 @@ class DetailCongressScreen extends StatefulWidget {
 }
 
 class _DetailCongressScreenState extends State<DetailCongressScreen> {
+  String addM = "test";
+  bool isChecked = false;
+  bool check = true;
   List<int> nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   List<Speakers> litems = [];
   bool isLoading = true;
@@ -23,6 +26,8 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
     _loadData();
     super.initState();
   }
+
+  _addAgenda() {}
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -105,66 +110,102 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
-              flex: 8,
-              child: SingleChildScrollView(
-                child: Container(
-                  margin: EdgeInsets.only(top:80,bottom:0),
-                  width: double.infinity,
-                  height: height*0.65,
-                    color: Colors.black26,
-                    child: new Card(
-                      color: Colors.white,
-                      shape: BorderDirectional(
-                        bottom:BorderSide(color: Colors.black12, width: 1),
-                      ),
-                      child: new ListTile(
-                        leading: Container(
-                          padding: EdgeInsets.fromLTRB(4, 4,4,4),
-                          decoration: BoxDecoration(
-                            color: Color(0xff261350),
-                            borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(5.0),
-                              right: Radius.circular(5.0),
+                flex: 8,
+                child: SingleChildScrollView(
+                  child: Container(
+                      margin: EdgeInsets.only(top: 80, bottom: 0),
+                      width: double.infinity,
+                      height: height * 0.65,
+                      color: Colors.black26,
+                      child: new Card(
+                        color: Colors.white,
+                        shape: BorderDirectional(
+                          bottom: BorderSide(color: Colors.black12, width: 1),
+                        ),
+                        child: new ListTile(
+                          leading: Container(
+                            padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+                            decoration: BoxDecoration(
+                              color: Color(0xff261350),
+                              borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(5.0),
+                                right: Radius.circular(5.0),
+                              ),
+                            ),
+                            width: 60.0,
+                            child: Text(
+                              "10:00\n11:00",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                          width:60.0,
-                          child: Text("10:00\n11:00",style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),),
-                        ),
-                        title: Padding(
-                          padding: EdgeInsets.fromLTRB(14, 14,14,14),
-                          child: Text(
-                            "TITLE",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
+                          title: Padding(
+                            padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
+                            child: Text(
+                              "TITLE",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        subtitle:Padding(
-                          padding: EdgeInsets.fromLTRB(14,14,14,14),
-                          child: Text(
-                            "Who doesn’t want the paragraphs you write to impress the reader."
-                                " The most authoritative method that can be used to realize this situation is to use a descriptive paragraph."
-                                " A descriptive paragraph describes a person, an object, an event, or a place in detail."
-                                " This type of paragraph, which should contain many details, does not bother the reader. "
-                                "This feature is the best feature of the descriptive paragraph type. One of the advantages of this feature is that the details given affect the reader.",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                          subtitle: Padding(
+                            padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                        icon: new Icon(
+                                          (check)
+                                              ? Icons.add_box_outlined
+                                              : Icons.add_box,
+                                          color: Color(0xff00c1c1),
+                                        ),
+                                        iconSize: 30.0,
+                                        onPressed: () {
+                                          setState(() {
+                                            check = !check;
+                                            // _addAgenda();
+                                            showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [MyDialog()],
+                                              ),
+                                            );
+                                          });
+                                        }),
+                                    Text("add to my agenda"),
+                                  ],
+                                ),
+                                Text(
+                                  "Who doesn’t want the paragraphs you write to impress the reader."
+                                  " The most authoritative method that can be used to realize this situation is to use a descriptive paragraph."
+                                  " A descriptive paragraph describes a person, an object, an event, or a place in detail."
+                                  " This type of paragraph, which should contain many details, does not bother the reader. "
+                                  "This feature is the best feature of the descriptive paragraph type.",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
+                          onTap: () {},
                         ),
-                        onTap: () {
-                        },
-                      ),
-                    )
-                ),
-              )
-              ),
+                      )),
+                )),
             Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0,0),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 decoration: BoxDecoration(
                   color: Color(0xff261350),
@@ -172,66 +213,208 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                 width: double.maxFinite,
                 child: Center(
                     child: Text(
-                      "Speakers",
-                      style:
-                      TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
+                  "Speakers",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                )),
               ),
             ),
             Expanded(
               flex: 3,
               child: Container(
                 width: double.infinity,
-                height: height*0.65,
-                  color: Colors.black26,
-                  child: new ListView.builder(
-                      padding: EdgeInsets.only(top: 0,bottom: 4),
-                      itemCount: litems.length,
-                      itemBuilder: (_, int position) {
-                        return new Card(
-                          margin: EdgeInsets.only(top: height * 0.01),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(5.0),
-                                right: Radius.circular(5.0),
-                              )
-                          ),
-                          child: new ListTile(
-                            leading:  ClipOval(
-                                child: Image.asset(
-                                  width:60,
-                                  height: 60,
-                                  '${litems[position].image}',
-                                )),
-                            title:Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 2.0,left: 2,top: 2),
-                                child: Text("${litems[position].fname} ${litems[position].lname}",
-                                  style: TextStyle( fontSize: 15,fontWeight:FontWeight.bold,color:  Color(0xff261350)),
-                                  overflow:TextOverflow.visible,
-                                ),
+                height: height * 0.65,
+                color: Colors.black26,
+                child: new ListView.builder(
+                    padding: EdgeInsets.only(top: 0, bottom: 4),
+                    itemCount: litems.length,
+                    itemBuilder: (_, int position) {
+                      return new Card(
+                        margin: EdgeInsets.only(top: height * 0.01),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(5.0),
+                          right: Radius.circular(5.0),
+                        )),
+                        child: new ListTile(
+                          leading: ClipOval(
+                              child: Image.asset(
+                            width: 60,
+                            height: 60,
+                            '${litems[position].image}',
+                          )),
+                          title: Container(
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(bottom: 2.0, left: 2, top: 2),
+                              child: Text(
+                                "${litems[position].fname} ${litems[position].lname}",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff261350)),
+                                overflow: TextOverflow.visible,
                               ),
                             ),
-                            subtitle: Container(
-                              child: new Text("${litems[position].characteristic}",
-                                style: TextStyle(height: 2),
-                                overflow:TextOverflow.visible,
-                              ),
-                            ),
-                            onTap: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailSpeakersScreen()));
-                            },
                           ),
-                          elevation: 3.0,
-                        );
-                      }),
+                          subtitle: Container(
+                            child: new Text(
+                              "${litems[position].characteristic}",
+                              style: TextStyle(height: 2),
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailSpeakersScreen()));
+                          },
+                        ),
+                        elevation: 3.0,
+                      );
+                    }),
               ),
             ),
-
           ],
         ));
   }
 }
 
+class MyDialog extends StatefulWidget {
+  @override
+  _MyDialogState createState() => new _MyDialogState();
+}
+
+class _MyDialogState extends State<MyDialog> {
+  bool isChecked = false;
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return FadeInUp(
+      duration: Duration(milliseconds: 500),
+      child: AlertDialog(
+          title: Container(
+              child: Text("Add to youre agenda ")),
+          content: Center(
+            child: Container(
+              height: height*0.082,
+              width: double.maxFinite,
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+                    decoration: BoxDecoration(
+                      color: Color(0xff261350),
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(5.0),
+                        right: Radius.circular(5.0),
+                      ),
+                    ),
+                    //width:30.0,
+                    child: Center(
+                        child: Text(
+                          "10 mai 2023",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 4.0,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(2, 4, 2, 4),
+                    decoration: BoxDecoration(
+                      color: Color(0xff261350),
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(5.0),
+                        right: Radius.circular(5.0),
+                      ),
+                    ),
+                    child: Center(
+                        child: Text(
+                          "10 : 00",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                ],
+              )
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              children: [
+                Container(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                              child: Checkbox(
+                                value: isChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isChecked = value!;
+                                  });
+                                },
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {});
+                              },
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                                child: Text('Add to Google Calender',
+                                    style: TextStyle(fontSize: height * 0.020)),
+                              )),
+                        ])),
+              ],
+            ),
+            Row(
+              children: [
+                new TextButton(
+                  onPressed: () => Navigator.pop(context, 'Annuler'),
+                  child: new Text('Cancel',
+                      style: TextStyle(
+                          color: Color(0xff00c1c1),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+                new ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 2,
+                          color: Color(0xff261350),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    primary: Colors.white,
+                  ),
+                  //color: Colors.white,
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  child: Text(
+                    ('Add to my agenda'),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xff261350),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ]),
+    );
+  }
+}
