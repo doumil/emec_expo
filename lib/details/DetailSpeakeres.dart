@@ -200,7 +200,7 @@ class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetailCongressScreen()));
+                                    builder: (context) => DetailCongressScreen(check: false,)));
                           },
                         ),
                         elevation: 3.0,

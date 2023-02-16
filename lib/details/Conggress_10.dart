@@ -107,10 +107,10 @@ class _Congress10ScreenState extends State<Congress10Screen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailCongressScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return DetailCongressScreen(check:false);
+
+                        }));
                       },
                     ),
                   );

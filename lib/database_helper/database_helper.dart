@@ -16,7 +16,7 @@ class DataBaseHelperNotif{
   final String columnDiscription = 'discriptions';
   final String agendaTable="agendatable";
   final String columnTitle='title';
-  final String columnDiscriptionAgenda='discriptionAgenda';
+  final String columnDiscriptionAgenda='discription';
   final String columnDatetimeStart='datetimeStart';
   final String columnDatetimeEnd='datetimeEnd';
   Future<Database> get db async{
@@ -25,7 +25,7 @@ class DataBaseHelperNotif{
   }
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'dbNotiF.db');
+    String path = join(documentDirectory.path , 'dbEmecexpo.db');
     var myOwnDB = await openDatabase(path,version: 2,
         onCreate:(Database db , int newVersion) async{
           Batch batch= db.batch();
@@ -39,6 +39,7 @@ class DataBaseHelperNotif{
           db.execute(sql1);
           var sql2 = "CREATE TABLE $agendaTable ("
               "$columnId INTEGER  auto_increment,"
+              "$columnTitle TEXT,"
               " $columnDiscriptionAgenda TEXT, "
               "$columnDatetimeStart DATETIME,"
               "$columnDatetimeEnd DATETIME"
@@ -75,7 +76,7 @@ class DataBaseHelperNotif{
     final dbList = await db;
     final List<Map<String, dynamic>> maps = await dbList.query("$agendaTable");
     return List.generate(maps.length, (i) {
-      return CongressDClass(maps[i]['title'],maps[i]['discriptionAgenda'],maps[i]['datetimeStart'],maps[i]['datetimeEnd']);
+      return CongressDClass(maps[i]['title'],maps[i]['discription'],maps[i]['datetimeStart'],maps[i]['datetimeEnd']);
     });
   }
   // select all notification

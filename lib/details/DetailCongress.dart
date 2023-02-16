@@ -1,23 +1,30 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:emec_expo/details/CongressMenu.dart';
 import 'package:emec_expo/details/DetailSpeakeres.dart';
+import 'package:emec_expo/model/congress_model.dart';
+import 'package:emec_expo/model/congress_model_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:googleapis_auth/auth_io.dart';
+import 'package:googleapis/calendar/v3.dart' as cal;
+import '../database_helper/database_helper.dart';
 import '../model/speakers_model.dart';
 
+//bool check = false;
+
 class DetailCongressScreen extends StatefulWidget {
-  const DetailCongressScreen({Key? key}) : super(key: key);
+   bool check;
+  DetailCongressScreen({required this.check});
 
   @override
   _DetailCongressScreenState createState() => _DetailCongressScreenState();
 }
 
 class _DetailCongressScreenState extends State<DetailCongressScreen> {
-  String addM = "test";
   bool isChecked = false;
-  bool check = true;
-  List<int> nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   List<Speakers> litems = [];
   bool isLoading = true;
   void initState() {
@@ -26,8 +33,6 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
     _loadData();
     super.initState();
   }
-
-  _addAgenda() {}
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -160,26 +165,52 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                                   children: [
                                     IconButton(
                                         icon: new Icon(
-                                          (check)
+                                          (widget.check)
                                               ? Icons.add_box_outlined
                                               : Icons.add_box,
                                           color: Color(0xff00c1c1),
                                         ),
                                         iconSize: 30.0,
                                         onPressed: () {
-                                          setState(() {
-                                            check = !check;
-                                            // _addAgenda();
-                                            showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [MyDialog()],
-                                              ),
-                                            );
-                                          });
+                                          if (widget.check == true) {
+                                            setState(() {
+                                              widget.check = !widget.check;
+                                              // _addAgenda();
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    //(check)
+                                                    //? MyDialogDAgenda()
+                                                    MyDialog()
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                          } else if (widget.check == false) {
+                                            setState(() {
+                                              widget.check = !widget.check;
+                                              // _addAgenda();
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    //(check)
+                                                    MyDialogDAgenda(check:false),
+                                                    //MyDialog()
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                          }
                                         }),
                                     Text("add to my agenda"),
                                   ],
@@ -298,92 +329,95 @@ class _MyDialogState extends State<MyDialog> {
     return FadeInUp(
       duration: Duration(milliseconds: 500),
       child: AlertDialog(
-          title: Container(
-              child: Text("Add to youre agenda ")),
-          content: Center(
-            child: Container(
-              height: height*0.082,
-              width: double.maxFinite,
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
-                    decoration: BoxDecoration(
-                      color: Color(0xff261350),
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(5.0),
-                        right: Radius.circular(5.0),
-                      ),
-                    ),
-                    //width:30.0,
-                    child: Center(
-                        child: Text(
-                          "10 mai 2023",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  const SizedBox(
-                    height: 4.0,
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(2, 4, 2, 4),
-                    decoration: BoxDecoration(
-                      color: Color(0xff261350),
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(5.0),
-                        right: Radius.circular(5.0),
-                      ),
-                    ),
-                    child: Center(
-                        child: Text(
-                          "10 : 00",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                ],
-              )
-            ),
-          ),
+          title: Container(child: Text("Add to youre agenda ")),
+          content: Container(),
           actions: <Widget>[
+            Container(
+                height: height * 0.084,
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+                      decoration: BoxDecoration(
+                        color: Color(0xff261350),
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(5.0),
+                          right: Radius.circular(5.0),
+                        ),
+                      ),
+                      //width:30.0,
+                      child: Center(
+                          child: Text(
+                        "10 mai 2023",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    const SizedBox(
+                      height: 4.0,
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(2, 4, 2, 4),
+                      decoration: BoxDecoration(
+                        color: Color(0xff261350),
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(5.0),
+                          right: Radius.circular(5.0),
+                        ),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "10 : 00",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                  ],
+                )),
             Row(
               children: [
                 Container(
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                              child: Checkbox(
-                                value: isChecked,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isChecked = value!;
-                                  });
-                                },
-                              )),
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {});
-                              },
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                                child: Text('Add to Google Calender',
-                                    style: TextStyle(fontSize: height * 0.020)),
-                              )),
-                        ])),
+                      Container(
+                          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                          child: Checkbox(
+                            value: isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isChecked = value!;
+                              });
+                            },
+                          )),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                            child: Text('Add to Google Calender',
+                                style: TextStyle(fontSize: height * 0.020)),
+                          )),
+                    ])),
               ],
             ),
             Row(
               children: [
                 new TextButton(
-                  onPressed: () => Navigator.pop(context, 'Annuler'),
+                  onPressed: () {
+                   // Navigator.pop(context, 'Annuler');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailCongressScreen(check: false,)));
+                  },
                   child: new Text('Cancel',
                       style: TextStyle(
                           color: Color(0xff00c1c1),
@@ -402,12 +436,112 @@ class _MyDialogState extends State<MyDialog> {
                   ),
                   //color: Colors.white,
                   onPressed: () {
-                    setState(() {});
+                    if (isChecked == true) {
+                      _addTogoogle();
+                    }
+                    _addAgenda();
+                    //Navigator.pop(context, 'Annuler');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailCongressScreen(check:false)));
+                   // check = true;
+                   // print(check);
                   },
                   child: Text(
                     ('Add to my agenda'),
                     style: TextStyle(
                         fontSize: 18,
+                        color: Color(0xff261350),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ]),
+    );
+  }
+
+  void _addTogoogle() async {}
+}
+
+void _addAgenda() async {
+  var db = new DataBaseHelperNotif();
+  //List<CongressDClass> LAgenda=[];
+  var c1 = CongressDClass(
+      "TITLE",
+      "Introducing an all-new Lottie Editor- a web-based editor "
+          "that allows you to edit, tweak and personalize your Lottie animations.",
+      "10:00",
+      "11:00");
+  //LAgenda.add(c1);
+  await db.saveAgenda(c1);
+  Fluttertoast.showToast(
+    msg: "agenda has saved successfully",
+    toastLength: Toast.LENGTH_SHORT,
+  );
+}
+
+class MyDialogDAgenda extends StatefulWidget {
+  bool check;
+  MyDialogDAgenda({required this.check});
+  @override
+  _MyDialogDAgendaState createState() => new _MyDialogDAgendaState();
+}
+
+class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
+  
+  bool isChecked = false;
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return FadeInUp(
+      duration: Duration(milliseconds: 500),
+      child: AlertDialog(
+          title:
+              Container(child: Text("Are you sure to remove youre agenda ?")),
+          content: Container(),
+          actions: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                new TextButton(
+                  onPressed: () {
+                    //Navigator.pop(context, 'Annuler');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailCongressScreen(check: false,)));
+                    //check = false;
+                    //print(check);
+                  },
+                  child: new Text('Cancel',
+                      style: TextStyle(
+                          color: Color(0xff00c1c1),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+                new ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 2,
+                          color: Color(0xff261350),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    primary: Colors.white,
+                  ),
+                  //color: Colors.white,
+                  onPressed: () {
+                    //check = true;
+                    //print(check);
+                    Navigator.pop(context, 'Annuler');
+                  },
+                  child: Text(
+                    ('yes'),
+                    style: TextStyle(
+                        fontSize: 20,
                         color: Color(0xff261350),
                         fontWeight: FontWeight.bold),
                   ),

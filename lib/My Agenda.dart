@@ -3,6 +3,7 @@ import 'package:emec_expo/model/congress_model_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'database_helper/database_helper.dart';
 import 'details/DetailCongress.dart';
 import 'model/exhibitors_model.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,7 @@ class MyAgendaScreen extends StatefulWidget {
 
 class _MyAgendaScreenState extends State<MyAgendaScreen> {
   List<CongressDClass> litems = [];
+  var db = new DataBaseHelperNotif();
   bool isLoading = true;
 
   void initState() {
@@ -31,6 +33,15 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
   }
 
   _loadData() async {
+      var data =await db.getListAgenda();
+      print(data);
+      litems = data;
+      //litems=litems.reversed.toList();
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     /*
     var url = "http://192.168.8.100/emecexpo/loadexhibitors.php";
     var res = await http.post(Uri.parse(url));
@@ -38,13 +49,6 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
         .map((data) => ExhibitorsClass.fromJson(data))
         .toList();
     */
-
-    if (this.mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-
   }
 
   Future<bool> _onWillPop() async {
@@ -143,7 +147,7 @@ class _MyAgendaScreenState extends State<MyAgendaScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailCongressScreen()));
+                              builder: (context) => DetailCongressScreen(check: false,)));
                     },
                   ),
                 );

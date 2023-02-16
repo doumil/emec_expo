@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
 import '../model/congress_model_detail.dart';
 import 'DetailCongress.dart';
 class Congress11Screen extends StatefulWidget {
@@ -112,7 +111,7 @@ class _Congress11ScreenState extends State<Congress11Screen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailCongressScreen()));
+                                builder: (context) => DetailCongressScreen(check: false,)));
                       },
                     ),
                   );
