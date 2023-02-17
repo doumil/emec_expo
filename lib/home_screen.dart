@@ -23,19 +23,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var db = new DataBaseHelperNotif();
-  var  name="1",date="1",dtime="1",discription="1";
-  var fbm=FirebaseMessaging.instance;
+  var name = "1", date = "1", dtime = "1", discription = "1";
+  var fbm = FirebaseMessaging.instance;
   late SharedPreferences prefs;
   void initState() {
     _loadData();
     //_goTo_notification_terminate();
-    fbm.getToken().then((token){
+    fbm.getToken().then((token) {
       print("----------- token ------------");
       print(token);
       print("------------------------------------------------");
     });
     super.initState();
   }
+
 /*
 _goTo_notification_terminate() async{
     prefs = await SharedPreferences.getInstance();
@@ -60,10 +61,11 @@ _goTo_notification_terminate() async{
 
 }
 */
-  _loadData()async{
+  _loadData() async {
     prefs = await SharedPreferences.getInstance();
     prefs.setString("Data", "0");
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -141,7 +143,7 @@ _goTo_notification_terminate() async{
                                 Container(
                                   height: height * 0.06,
                                   width: 0.7,
-                                  color:  const Color(0xff00c1c1),
+                                  color: const Color(0xff00c1c1),
                                 ),
                                 Expanded(
                                     flex: 11,
@@ -207,7 +209,8 @@ _goTo_notification_terminate() async{
                               children: <Widget>[
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: Container(
@@ -216,15 +219,16 @@ _goTo_notification_terminate() async{
                                               width * 0.04,
                                               width * 0.04,
                                               width * 0.01),
-                                            child: Image.asset(
-                                              "assets/banner.png",
-                                            ),
+                                          child: Image.asset(
+                                            "assets/banner.png",
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   margin: EdgeInsets.only(top: height * 0.01),
-                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  padding:
+                                      EdgeInsets.only(bottom: height * 0.01),
                                   width: width * 0.9,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -233,11 +237,12 @@ _goTo_notification_terminate() async{
                                 ),
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: Container(
-                                          height:435,
+                                          height: 435,
                                           width: 500,
                                           padding: EdgeInsets.fromLTRB(
                                               width * 0.04,
@@ -245,14 +250,19 @@ _goTo_notification_terminate() async{
                                               width * 0.04,
                                               width * 0.01),
                                           child: CarouselSlider(
-                                             enableAutoSlider: true,
-                                             autoSliderDelay:  const Duration(seconds:4),
-                                             slideTransform: CubeTransform(),
+                                            enableAutoSlider: true,
+                                            autoSliderDelay:
+                                                const Duration(seconds: 4),
+                                            slideTransform: CubeTransform(),
                                             unlimitedMode: true,
-                                            slideIndicator: CircularSlideIndicator(
-                                              padding: EdgeInsets.only(bottom: 3),
-                                              currentIndicatorColor: const Color(0xff00c1c1),
-                                              indicatorBackgroundColor: Colors.white12,
+                                            slideIndicator:
+                                                CircularSlideIndicator(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 3),
+                                              currentIndicatorColor:
+                                                  const Color(0xff00c1c1),
+                                              indicatorBackgroundColor:
+                                                  Colors.white12,
                                             ),
                                             children: [
                                               Container(
@@ -277,7 +287,8 @@ _goTo_notification_terminate() async{
                                     ],
                                   ),
                                   margin: EdgeInsets.only(top: height * 0.01),
-                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  padding:
+                                      EdgeInsets.only(bottom: height * 0.01),
                                   width: width * 0.9,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -286,20 +297,32 @@ _goTo_notification_terminate() async{
                                 ),
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: Container(
-                                          child:  ListTile(
-                                            leading: Icon(Icons.work_outline),
-                                            title: Text('Exhibitors'),
-                                            onTap: () async{
-                                              prefs = await SharedPreferences.getInstance();
+                                          child: ListTile(
+                                            leading: Icon(
+                                              Icons.work_outline,
+                                              size: 27,
+                                              color: Color(0xff00c1c1),
+                                            ),
+                                            title: Text('Exhibitors',
+                                                style: (TextStyle(
+                                                    color: Color(0xff261350),
+                                                    fontSize: 17.2,
+                                                    fontWeight:
+                                                        FontWeight.w500))),
+                                            onTap: () async {
+                                              prefs = await SharedPreferences
+                                                  .getInstance();
                                               prefs.setString("Data", "1");
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => WelcomPage()));
+                                                      builder: (context) =>
+                                                          WelcomPage()));
                                             },
                                           ),
                                         ),
@@ -307,8 +330,10 @@ _goTo_notification_terminate() async{
                                     ],
                                   ),
                                   margin: EdgeInsets.only(
-                                      top: height * 0.01, bottom: height * 0.01),
-                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                      top: height * 0.01,
+                                      bottom: height * 0.01),
+                                  padding:
+                                      EdgeInsets.only(bottom: height * 0.01),
                                   width: width * 0.9,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -317,29 +342,41 @@ _goTo_notification_terminate() async{
                                 ),
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Center(
                                         child: Container(
-                                          child:                ListTile(
-                                            leading: Icon(Icons.web),
-                                            title: Text('Congress'),
-                                            onTap: () async{
-                                              prefs = await SharedPreferences.getInstance();
+                                          child: ListTile(
+                                            leading: Icon(Icons.web,
+                                              size: 27,
+                                              color:Color(0xff00c1c1),
+                                            ),
+                                            title: Text('Congress',
+                                                style: (TextStyle(
+                                                    color: Color(0xff261350),
+                                                    fontSize: 17.2,
+                                                    fontWeight:
+                                                        FontWeight.w500))),
+                                            onTap: () async {
+                                              prefs = await SharedPreferences
+                                                  .getInstance();
                                               prefs.setString("Data", "2");
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => WelcomPage()));
+                                                      builder: (context) =>
+                                                          WelcomPage()));
                                             },
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  margin: EdgeInsets.only(
-                                     bottom: height * 0.01),
-                                  padding: EdgeInsets.only(bottom: height * 0.01),
+                                  margin:
+                                      EdgeInsets.only(bottom: height * 0.01),
+                                  padding:
+                                      EdgeInsets.only(bottom: height * 0.01),
                                   width: width * 0.9,
                                   decoration: BoxDecoration(
                                       color: Colors.white,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'details/CongressMenu.dart';
+import 'details/DayEventMenu.dart';
 import 'model/congress_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -112,7 +113,7 @@ class _CongressScreenState extends State<CongressScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CongressDScreen()));
+                                  builder: (context) => CongressMenu()));
                         },
                       ),
                     );

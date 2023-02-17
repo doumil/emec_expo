@@ -5,18 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'Conggress_10.dart';
 import 'Congress_11.dart';
+import 'DayEventMenu.dart';
 
-class CongressDScreen extends StatefulWidget {
-  const CongressDScreen({Key? key}) : super(key: key);
+class CongressMenu extends StatefulWidget {
+  const CongressMenu({Key? key}) : super(key: key);
 
   @override
-  _CongressDScreenState createState() => _CongressDScreenState();
+  _CongressMenuState createState() => _CongressMenuState();
 }
 
-class _CongressDScreenState extends State<CongressDScreen> {
+class _CongressMenuState extends State<CongressMenu> {
   void initState() {
     super.initState();
   }
@@ -45,48 +45,44 @@ class _CongressDScreenState extends State<CongressDScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("EMEC EXPO"),
-          backgroundColor: Color(0xff261350),
-          elevation: 0,
-        ),
         body: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: Container(
-            child: Column(
-              children: [
-                Container(
-                  color: Color(0xff261350),
-                  child: TabBar(
-                      unselectedLabelColor: const Color(0xff00c1c1),
-                      labelColor:Colors.white,
-                      tabs:[
-                        Tab(
-                          child: Text("10 Mai"),
-                        ),
-                        Tab(
-                          text:"11 Mai",
-                        ),
-                      ]
-                  ),
+            length: 2,
+            child: Scaffold(
+              extendBodyBehindAppBar: true,
+              body: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      color: Color(0xff261350),
+                      child: TabBar(
+                          unselectedLabelColor: const Color(0xff00c1c1),
+                          labelColor:Colors.white,
+                          tabs:[
+                            Tab(
+                              child: Text("conference"),
+                            ),
+                            Tab(
+                              text:"workshops",
+                            ),
+                          ]
+                      ),
 
-                ),
-                Expanded(
-                  child:TabBarView(children: [
-                    Container(
-                      child :Congress10Screen(),
                     ),
-                    Container(
-                      child: Congress11Screen(),
+                    Expanded(
+                      child:TabBarView(
+                        children: [
+                          Container(
+                            child :DayEventMenu(),
+                          ),
+                          Container(
+                            child: DayEventMenu(),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                  ),
                 ),
-              ],
-            ),
-          ),
-        )));
+              ),
+            )));
   }
 }

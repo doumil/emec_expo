@@ -13,6 +13,7 @@ import 'package:emec_expo/Official%20events.dart';
 import 'package:emec_expo/Settings.dart';
 import 'package:emec_expo/Social%20Media.dart';
 import 'package:emec_expo/Speakers.dart';
+import 'package:emec_expo/details/DayEventMenu.dart';
 import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,6 +23,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Activities.dart';
 import 'My Agenda.dart';
 import 'Suporting Partners.dart';
+import 'details/CongressMenu.dart';
+import 'details/DetailExhibitors.dart';
 import 'model/notification_model.dart';
 import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -70,7 +73,7 @@ class _WelcomPageState extends State<WelcomPage> {
   var _data="";
   late SharedPreferences prefs;
   void initState() {
-   // _onMessage();
+    //_onMessage();
     _goTo_notification_back();
     _loadData();
     super.initState();
@@ -78,7 +81,7 @@ class _WelcomPageState extends State<WelcomPage> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("Data") ?? '');
-    print(_data);
+    print("-------------$_data------------------");
     setState(() {
       if(_data=="1")
       {
@@ -86,7 +89,7 @@ class _WelcomPageState extends State<WelcomPage> {
       }
       else if(_data=="2")
         {
-          currentPage=DrawerSections.congress;
+          currentPage=DrawerSections.congressmenu;
 
         }
       else if(_data=="3")
@@ -99,6 +102,16 @@ class _WelcomPageState extends State<WelcomPage> {
           currentPage=DrawerSections.notifications;
 
         }
+      else if(_data=="5")
+        {
+          currentPage=DrawerSections.congressmenu;
+
+        }
+      else if(_data=="6")
+        {
+          currentPage=DrawerSections.detailexhib;
+
+        }
       else
         {
           currentPage=DrawerSections.home;
@@ -107,9 +120,10 @@ class _WelcomPageState extends State<WelcomPage> {
 
   }
   _goTo_notification_back() async{
-    prefs = await SharedPreferences.getInstance();
-    prefs.setString("Data","4");
     FirebaseMessaging.onMessageOpenedApp.listen((event) async{
+      print("notifications");
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("Data","4");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -140,6 +154,7 @@ class _WelcomPageState extends State<WelcomPage> {
     else if (currentPage == DrawerSections.exhibitors) {
       container = ExhibitorsScreen();
     }
+    /*
     else if (currentPage == DrawerSections.product) {
       container = ProductScreen();
     }
@@ -149,6 +164,7 @@ class _WelcomPageState extends State<WelcomPage> {
     else if (currentPage == DrawerSections.news) {
       container = NewsScreen();
     }
+     */
     else if (currentPage == DrawerSections.eFP) {
       container = EFPScreen();
     }
@@ -184,6 +200,12 @@ class _WelcomPageState extends State<WelcomPage> {
     }
     else if (currentPage == DrawerSections.settings) {
       container = SettingsScreen();
+    }
+    else if (currentPage == DrawerSections.congressmenu) {
+      container = CongressMenu();
+    }
+    else if (currentPage == DrawerSections.detailexhib) {
+      container = DetailExhibitorsScreen();
     }
     return Scaffold(
       appBar: AppBar(
@@ -224,7 +246,7 @@ class _WelcomPageState extends State<WelcomPage> {
           menuItem(2, "My Agenda", Icons.calendar_today,
               currentPage == DrawerSections.agenda ? true : false,false),
           menuItem(3, "Congress", Icons.web,
-              currentPage == DrawerSections.congress ? true : false,false),
+              currentPage == DrawerSections.congressmenu ? true : false,false),
           menuItem(4, "Speakers", Icons.speaker_group_outlined,
               currentPage == DrawerSections.speakers ? true : false,false),
           //menuItem(5, "Official Events", Icons.event,
@@ -233,7 +255,8 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage == DrawerSections.partners ? true : false,false),
           menuItem(7, "Exhibitors", Icons.work_outline,
               currentPage == DrawerSections.exhibitors ? true : false,currentPage == DrawerSections.product || currentPage == DrawerSections.act || currentPage == DrawerSections.news? true : false),
-          Padding(
+          /*
+        Padding(
               padding: EdgeInsets.only(left: 35.0),
             child: menuItem(8, "Product", Icons.all_inbox,
                 currentPage == DrawerSections.product ? true : false,currentPage == DrawerSections.product  ? true : false),
@@ -248,6 +271,7 @@ class _WelcomPageState extends State<WelcomPage> {
             child: menuItem(10, "News", Icons.insert_drive_file_outlined,
                 currentPage == DrawerSections.news ? true : false,false),
           ),
+        */
           menuItem(11, "Expo Floor Plan", Icons.location_on_outlined,
               currentPage == DrawerSections.eFP ? true : false,false),
           menuItem(12, "Suporting Partners", Icons.account_tree_outlined,
@@ -302,7 +326,7 @@ class _WelcomPageState extends State<WelcomPage> {
               currentPage = DrawerSections.agenda;
             }
             else if (id == 3) {
-              currentPage = DrawerSections.congress;
+              currentPage = DrawerSections.congressmenu;
             }
             else if (id == 4) {
               currentPage = DrawerSections.speakers;
@@ -365,14 +389,15 @@ class _WelcomPageState extends State<WelcomPage> {
           });
         },
         child: Container(
-          padding: EdgeInsets.all(15.0),
+          padding: EdgeInsets.only(left: 8.0,right: 20.0,top: 12.0,bottom: 12.0),
           child: Row(
             children: [
               Expanded(
+                flex: 1,
                 child: Icon(
                   icon,
-                  size: 20,
-                  color: Colors.black,
+                  size: 27,
+                  color:Color(0xff00c1c1),
                 ),
               ),
               Expanded(
@@ -380,8 +405,9 @@ class _WelcomPageState extends State<WelcomPage> {
                 child: Text(
                   title,
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
+                    color: Color(0xff261350),
+                    fontSize: 17.2,
+                    fontWeight: FontWeight.w500
                   ),
                 ),
               ),
@@ -416,5 +442,7 @@ enum DrawerSections {
   food,
   business,
   notifications,
+  congressmenu,
   settings,
+  detailexhib
 }

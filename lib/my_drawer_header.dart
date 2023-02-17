@@ -18,18 +18,21 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
               Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/slide.png"),
+                      image: AssetImage("assets/drawer.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.26,
+                  /*
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     //padding: EdgeInsets.only(right: 10.0,left: 10.0),
                     child: Image.asset(
                       "assets/logo16.png",
                     ),
-                  )),
+                  )
+                  */
+              ),
             ]));
   }
 }

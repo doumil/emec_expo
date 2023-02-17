@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
+import 'package:emec_expo/details/DetailExhibitors.dart';
 import 'package:emec_expo/details/ExhibitorsMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'model/exhibitors_model.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +20,7 @@ class ExhibitorsScreen extends StatefulWidget {
 }
 
 class _ExhibitorsScreenState extends State<ExhibitorsScreen> {
+  late SharedPreferences prefs;
   bool _pressed = false;
   bool _pressedStar=false;
   List<ExhibitorsClass> litems = [];
@@ -281,11 +284,13 @@ else{
                                 ),
                               ],
                             ),
-                            onTap: () {
+                            onTap: () async{
+                              prefs = await SharedPreferences.getInstance();
+                              prefs.setString("Data", "6");
                               Navigator.push(
-                                 context,
-                               MaterialPageRoute(
-                              builder: (context) => ExhibitorDScreen()));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomPage()));
                             },
                           ),
                         );

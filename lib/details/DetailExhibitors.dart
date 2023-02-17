@@ -3,7 +3,6 @@ import 'package:emec_expo/details/DetailSpeakeres.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../model/speakers_model.dart';
 
 class DetailExhibitorsScreen extends StatefulWidget {
