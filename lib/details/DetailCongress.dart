@@ -1,3 +1,5 @@
+import 'package:add_2_calendar/add_2_calendar.dart';
+import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:emec_expo/details/CongressMenu.dart';
 import 'package:emec_expo/details/DetailSpeakeres.dart';
@@ -7,16 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:googleapis_auth/auth_io.dart';
-import 'package:googleapis/calendar/v3.dart' as cal;
 import '../database_helper/database_helper.dart';
 import '../model/speakers_model.dart';
 
 //bool check = false;
 
 class DetailCongressScreen extends StatefulWidget {
-   bool check;
+  bool check;
   DetailCongressScreen({required this.check});
 
   @override
@@ -106,10 +105,19 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: Text("EMEC EXPO"),
-          backgroundColor: Color(0xff261350),
-          elevation: 0,
-        ),
+            title: Text("EMEC EXPO"),
+            backgroundColor: Color(0xff261350),
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CongressDScreen()));
+              },
+            )),
         extendBodyBehindAppBar: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +212,8 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     //(check)
-                                                    MyDialogDAgenda(check:false),
+                                                    MyDialogDAgenda(
+                                                        check: false),
                                                     //MyDialog()
                                                   ],
                                                 ),
@@ -412,11 +421,13 @@ class _MyDialogState extends State<MyDialog> {
               children: [
                 new TextButton(
                   onPressed: () {
-                   // Navigator.pop(context, 'Annuler');
+                    // Navigator.pop(context, 'Annuler');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check: false,)));
+                            builder: (context) => DetailCongressScreen(
+                                  check: false,
+                                )));
                   },
                   child: new Text('Cancel',
                       style: TextStyle(
@@ -437,16 +448,19 @@ class _MyDialogState extends State<MyDialog> {
                   //color: Colors.white,
                   onPressed: () {
                     if (isChecked == true) {
+                      _addAgenda();
                       _addTogoogle();
+                    } else {
+                      _addAgenda();
                     }
-                    _addAgenda();
                     //Navigator.pop(context, 'Annuler');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check:false)));
-                   // check = true;
-                   // print(check);
+                            builder: (context) =>
+                                DetailCongressScreen(check: false)));
+                    // check = true;
+                    // print(check);
                   },
                   child: Text(
                     ('Add to my agenda'),
@@ -462,7 +476,19 @@ class _MyDialogState extends State<MyDialog> {
     );
   }
 
-  void _addTogoogle() async {}
+  Future<void> _addTogoogle() async {
+    final Event event = Event(
+      title: 'Event title',
+      description: 'Event description',
+      location: 'Event location',
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      androidParams: AndroidParams(
+        emailInvites: [], // on Android, you can add invite emails to your event.
+      ),
+    );
+    Add2Calendar.addEvent2Cal(event);
+  }
 }
 
 void _addAgenda() async {
@@ -490,7 +516,6 @@ class MyDialogDAgenda extends StatefulWidget {
 }
 
 class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
-  
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -512,7 +537,9 @@ class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check: false,)));
+                            builder: (context) => DetailCongressScreen(
+                                  check: false,
+                                )));
                     //check = false;
                     //print(check);
                   },
