@@ -97,8 +97,8 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
-                          margin: EdgeInsets.only(top: height * 0.01),
+                          height: 100,
+                          //margin: EdgeInsets.only(top: height * 0.00),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
                             "assets/sponsors/sponsors2023/DROPIFY.png",
@@ -108,8 +108,8 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
-                          margin: EdgeInsets.only(top: height * 0.01),
+                          height: 100,
+                          //margin: EdgeInsets.only(top: height * 0.00),
                          // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
                             "assets/sponsors/sponsors2023/EDCO.png",
@@ -117,6 +117,17 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  Center(
+                    child: Container(
+                      height: 150,
+                      width: double.maxFinite,
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/sponsors/chrono-diali.png",
+                      ),
+                    ),
                   ),
                   /*
                   Center(
@@ -143,7 +154,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
+                          height: 100,
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -154,7 +165,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
+                          height: 100,
                           //margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -163,6 +174,17 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  Center(
+                    child: Container(
+                      height: 100,
+                      width: double.maxFinite,
+                      //margin: EdgeInsets.only(top: height * 0.01),
+                      //padding: EdgeInsets.only(bottom: height * 0.01),
+                      child: Image.asset(
+                        "assets/partners/aramex.png",
+                      ),
+                    ),
                   ),
                 ],
               ),

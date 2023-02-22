@@ -17,7 +17,11 @@ const MEDIA_DATA= [
   },
   {
     "image1":"assets/partners/medi1radio.png",
-    "image2":"1"
+    "image2":"assets/partners/BELGO.png"
+  },
+  {
+    "image1":"assets/partners/lastory.png",
+    "image2":"assets/partners/course.png"
   },
 
 ];

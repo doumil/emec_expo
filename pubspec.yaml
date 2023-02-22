@@ -54,6 +54,7 @@ dependencies:
   path_provider:
   firebase_messaging: ^14.2.4
   add_2_calendar:
+  googleapis:
   animated_splash_screen:
 flutter_native_splash:
   image: assets/logo16.png

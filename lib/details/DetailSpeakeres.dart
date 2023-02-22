@@ -105,10 +105,10 @@ class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
                           title: Padding(
                             padding: EdgeInsets.fromLTRB(14, 14,14,14),
                             child: Text(
-                              "NAME  LASTNAME",
+                              "Name  Lastname",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 30,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),

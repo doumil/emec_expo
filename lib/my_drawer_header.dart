@@ -16,14 +16,19 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
         child:
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
+
+                //margin: EdgeInsets.all(10.00),
                   decoration: BoxDecoration(
+                    color:Color(0xff261350),
+                    /*
                     image: DecorationImage(
                       image: AssetImage("assets/drawer.png"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
+                    */
                   ),
-                  height: MediaQuery.of(context).size.height * 0.26,
-                  /*
+                  height: MediaQuery.of(context).size.height * 0.24,
+                  width: double.maxFinite,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     //padding: EdgeInsets.only(right: 10.0,left: 10.0),
@@ -31,7 +36,7 @@ class _MyHeaderDrawerState extends State<MyHeaderDrawer> {
                       "assets/logo16.png",
                     ),
                   )
-                  */
+
               ),
             ]));
   }

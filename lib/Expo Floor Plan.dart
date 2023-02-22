@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,15 +38,17 @@ class _EFPScreenState extends State<EFPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: Container(
-            child:Align(
-                alignment: Alignment.center,
-                child: Image.asset("assets/planexpo.png")),
-          ),
-        ));
+    return FadeInDown(
+      child: WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            body: Container(
+              child:Align(
+                  alignment: Alignment.center,
+                  child: Image.asset("assets/planexpo.png")),
+            ),
+          )),
+    );
   }
 }

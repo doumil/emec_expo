@@ -22,7 +22,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
     List<Widget> listItems = [];
     responseList.forEach((post) {
       listItems.add(Container(
-          height: 170,
+          height: 150,
           //margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
          // decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: Colors.white, boxShadow: [
             //BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10.0),]),
@@ -64,12 +64,13 @@ class _PartnersScreenState extends State<PartnersScreen> {
   void initState() {
     super.initState();
     getPostsData();
-    controller.addListener(() {
-      double value = controller.offset/119;
+    /*controller.addListener(() {
+      double value = controller.offset / 119;
       setState(() {
         topContainer = value;
       });
     });
+    */
   }
 
   Future<bool> _onWillPop() async {

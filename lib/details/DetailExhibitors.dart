@@ -123,7 +123,7 @@ class _DetailExhibitorsScreenState extends State<DetailExhibitorsScreen> {
                               "AMMC",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 30,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),

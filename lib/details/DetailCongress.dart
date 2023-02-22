@@ -152,7 +152,7 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                               "TITLE",
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 25,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
