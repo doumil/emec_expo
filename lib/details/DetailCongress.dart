@@ -7,9 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import 'package:googleapis_auth/auth_io.dart';
-import 'package:googleapis/calendar/v3.dart' as cal;
+import 'package:add_2_calendar/add_2_calendar.dart';
+import 'dart:io';
 import '../database_helper/database_helper.dart';
 import '../model/speakers_model.dart';
 
@@ -461,9 +460,20 @@ class _MyDialogState extends State<MyDialog> {
           ]),
     );
   }
-
-  void _addTogoogle() async {}
-}
+    Future<void> _addTogoogle() async {
+      final Event event = Event(
+        title: 'Event title',
+        description: 'Event description',
+        location: 'Event location',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        androidParams: AndroidParams(
+          emailInvites: [], // on Android, you can add invite emails to your event.
+        ),
+      );
+      Add2Calendar.addEvent2Cal(event);
+    }
+  }
 
 void _addAgenda() async {
   var db = new DataBaseHelperNotif();
