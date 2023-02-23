@@ -15,7 +15,7 @@ import '../model/speakers_model.dart';
 //bool check = false;
 
 class DetailCongressScreen extends StatefulWidget {
-   bool check;
+  bool check;
   DetailCongressScreen({required this.check});
 
   @override
@@ -114,7 +114,7 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
-                flex: 8,
+                flex: 10,
                 child: SingleChildScrollView(
                   child: Container(
                       margin: EdgeInsets.only(top: 80, bottom: 0),
@@ -203,7 +203,8 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     //(check)
-                                                    MyDialogDAgenda(check:false),
+                                                    MyDialogDAgenda(
+                                                        check: false),
                                                     //MyDialog()
                                                   ],
                                                 ),
@@ -235,8 +236,8 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
             Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+               // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 decoration: BoxDecoration(
                   color: Color(0xff261350),
                 ),
@@ -252,49 +253,32 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
               ),
             ),
             Expanded(
-              flex: 3,
-              child: Container(
-                width: double.infinity,
-                height: height * 0.65,
-                color: Colors.black26,
-                child: new ListView.builder(
-                    padding: EdgeInsets.only(top: 0, bottom: 4),
-                    itemCount: litems.length,
-                    itemBuilder: (_, int position) {
-                      return new Card(
-                        margin: EdgeInsets.only(top: height * 0.01),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(
-                          left: Radius.circular(5.0),
-                          right: Radius.circular(5.0),
-                        )),
-                        child: new ListTile(
-                          leading: ClipOval(
-                              child: Image.asset(
-                            width: 60,
-                            height: 60,
-                            '${litems[position].image}',
-                          )),
-                          title: Container(
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(bottom: 2.0, left: 2, top: 2),
-                              child: Text(
-                                "${litems[position].fname} ${litems[position].lname}",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff261350)),
-                                overflow: TextOverflow.visible,
+                flex: 3,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: litems.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.only(top: 10.0,bottom: 0.0),
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        //color: Colors.red,
+                        child: ListTile(
+                          title: Column(
+                            children: [
+                              Center(
+                                child: ClipOval(
+                                    child: Image.asset(
+                                      '${litems[index].image}',
+                                    )),
                               ),
-                            ),
-                          ),
-                          subtitle: Container(
-                            child: new Text(
-                              "${litems[position].characteristic}",
-                              style: TextStyle(height: 2),
-                              overflow: TextOverflow.visible,
-                            ),
+                              Text('${litems[index].fname} ${litems[index].fname}',   style: (TextStyle(
+                                  color: Color(0xff261350),
+                                  fontSize: 16.0,
+                                  fontWeight:
+                                  FontWeight.bold)))
+                            ],
                           ),
                           onTap: () {
                             Navigator.push(
@@ -304,11 +288,10 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                                         DetailSpeakersScreen()));
                           },
                         ),
-                        elevation: 3.0,
-                      );
-                    }),
-              ),
-            ),
+                      ),
+                    );
+                  },
+                )),
           ],
         ));
   }
@@ -411,11 +394,13 @@ class _MyDialogState extends State<MyDialog> {
               children: [
                 new TextButton(
                   onPressed: () {
-                   // Navigator.pop(context, 'Annuler');
+                    // Navigator.pop(context, 'Annuler');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check: false,)));
+                            builder: (context) => DetailCongressScreen(
+                                  check: false,
+                                )));
                   },
                   child: new Text('Cancel',
                       style: TextStyle(
@@ -443,9 +428,10 @@ class _MyDialogState extends State<MyDialog> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check:false)));
-                   // check = true;
-                   // print(check);
+                            builder: (context) =>
+                                DetailCongressScreen(check: false)));
+                    // check = true;
+                    // print(check);
                   },
                   child: Text(
                     ('Add to my agenda'),
@@ -460,20 +446,21 @@ class _MyDialogState extends State<MyDialog> {
           ]),
     );
   }
-    Future<void> _addTogoogle() async {
-      final Event event = Event(
-        title: 'Event title',
-        description: 'Event description',
-        location: 'Event location',
-        startDate: DateTime.now(),
-        endDate: DateTime.now(),
-        androidParams: AndroidParams(
-          emailInvites: [], // on Android, you can add invite emails to your event.
-        ),
-      );
-      Add2Calendar.addEvent2Cal(event);
-    }
+
+  Future<void> _addTogoogle() async {
+    final Event event = Event(
+      title: 'Event title',
+      description: 'Event description',
+      location: 'Event location',
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      androidParams: AndroidParams(
+        emailInvites: [], // on Android, you can add invite emails to your event.
+      ),
+    );
+    Add2Calendar.addEvent2Cal(event);
   }
+}
 
 void _addAgenda() async {
   var db = new DataBaseHelperNotif();
@@ -500,7 +487,6 @@ class MyDialogDAgenda extends StatefulWidget {
 }
 
 class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
-  
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -522,7 +508,9 @@ class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DetailCongressScreen(check: false,)));
+                            builder: (context) => DetailCongressScreen(
+                                  check: false,
+                                )));
                     //check = false;
                     //print(check);
                   },

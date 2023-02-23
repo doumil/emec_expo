@@ -121,7 +121,6 @@ class _WelcomPageState extends State<WelcomPage> {
   }
   _goTo_notification_back() async{
     FirebaseMessaging.onMessageOpenedApp.listen((event) async{
-      print("notifications");
       prefs = await SharedPreferences.getInstance();
       prefs.setString("Data","4");
       Navigator.push(

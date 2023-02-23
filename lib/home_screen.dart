@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var db = new DataBaseHelperNotif();
-  var name = "1", date = "1", dtime = "1", discription = "1";
+  String name = "1", date = "1", dtime = "1", discription = "1";
   var fbm = FirebaseMessaging.instance;
   late SharedPreferences prefs;
   void initState() {

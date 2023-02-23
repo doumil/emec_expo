@@ -83,7 +83,7 @@ class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
-                flex: 8,
+                flex: 12,
                 child: SingleChildScrollView(
                   child: Container(
                       margin: EdgeInsets.only(top:80,bottom:0),
@@ -136,8 +136,8 @@ class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
             Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0,0),
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                //padding: EdgeInsets.fromLTRB(0, 0, 0,0),
+                //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 decoration: BoxDecoration(
                   color: Color(0xff261350),
                 ),
@@ -150,7 +150,7 @@ class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                 width: double.infinity,
                 height: height*0.65,
