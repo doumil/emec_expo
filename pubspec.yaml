@@ -46,7 +46,7 @@ dependencies:
   flutter_animate:
   mobile_scanner:
   fluttertoast:
-  flutter_local_notifications:
+  flutter_local_notifications: ^13.0.0
   timezone:
   rxdart:
   sqflite:

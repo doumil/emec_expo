@@ -1,96 +1,71 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/subjects.dart';
-import 'package:timezone/timezone.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import '../details/DetailCongress.dart';
+import '../main.dart';
 
-class LocalNotificationService {
-  LocalNotificationService();
+class NotificationService  {
+  // final  _toWelcomePage = Navigator.of(context).push(MaterialPageRoute(builder: (_)=>WelcomPage()));
+  //late SharedPreferences prefs;
+  final FlutterLocalNotificationsPlugin notificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  Future<void> initNotification() async {
+    AndroidInitializationSettings initializationSettingsAndroid =
+        const AndroidInitializationSettings('ic_launcher');
 
-  final _localNotificationService = FlutterLocalNotificationsPlugin();
+    var initializationSettingsIOS = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payload) async {});
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    await notificationsPlugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+          //navigateTo();
+          //prefs = await SharedPreferences.getInstance();
+          //prefs.setString("Data", "7");
+          runApp( new MaterialApp(debugShowCheckedModeBanner: false,home: new DetailCongressScreen(check: false,)));
+        });
 
-  final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
-
-  Future<void> intialize() async {
-    tz.initializeTimeZones();
-    const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('@drawable/ic_stat_android');
-
-
-
-    final InitializationSettings settings = InitializationSettings(
-      android: androidInitializationSettings,
-    );
-
-    await _localNotificationService.initialize(
-      settings,
-      //onSelectNotification: onSelectNotification,
-    );
   }
 
-  Future<NotificationDetails> _notificationDetails() async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('channel_id', 'channel_name',
-            channelDescription: 'description',
-            importance: Importance.max,
-            priority: Priority.max,
-            playSound: true);
-
-
-
+  notificationDetails() {
     return const NotificationDetails(
-      android: androidNotificationDetails,
-    );
+        android: AndroidNotificationDetails('channelId', 'channelName',
+            importance: Importance.max),
+        iOS: DarwinNotificationDetails());
+  }
+ /* navigateTo(BuildContext context) async{
+
+  }*/
+
+  Future showNotification(
+      {int id = 0, String? title, String? body, String? payLoad}) async {
+    return notificationsPlugin.show(
+        id, title, body, await notificationDetails());
   }
 
-  Future<void> showNotification({
-    required int id,
-    required String title,
-    required String body,
-  }) async {
-    final details = await _notificationDetails();
-    await _localNotificationService.show(id, title, body, details);
-  }
-
-  Future<void> showScheduledNotification(
-      {required int id,
-      required String title,
-      required String body,
-      required int seconds}) async {
-    final details = await _notificationDetails();
-    await _localNotificationService.zonedSchedule(
+  Future showNotifByDate(
+      {int id = 0,
+      String? title,
+      String? body,
+      String? payLoad,
+      required DateTime date}) async {
+    tz.initializeTimeZones();
+    return notificationsPlugin.zonedSchedule(
       id,
       title,
       body,
-      tz.TZDateTime.from(
-        DateTime.now().add(Duration(seconds: seconds)),
-        tz.local,
-      ),
-      details,
+      tz.TZDateTime.from(date, tz.local),
+      await notificationDetails(),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
-  }
-
-  Future<void> showNotificationWithPayload(
-      {required int id,
-      required String title,
-      required String body,
-      required String payload}) async {
-    final details = await _notificationDetails();
-    await _localNotificationService.show(id, title, body, details,
-        payload: payload);
-  }
-
-  void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) {
-    print('id $id');
-  }
-
-  void onSelectNotification(String? payload) {
-    print('payload $payload');
-    if (payload != null && payload.isNotEmpty) {
-      onNotificationClick.add(payload);
-    }
   }
 }

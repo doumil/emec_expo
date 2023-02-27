@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import '../database_helper/database_helper.dart';
+import '../main.dart';
 import '../model/speakers_model.dart';
+import '../services/local_notification_service.dart';
 
 //bool check = false;
 
@@ -23,6 +26,7 @@ class DetailCongressScreen extends StatefulWidget {
 }
 
 class _DetailCongressScreenState extends State<DetailCongressScreen> {
+  late SharedPreferences prefs;
   bool isChecked = false;
   List<Speakers> litems = [];
   bool isLoading = true;
@@ -105,10 +109,22 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: Text("EMEC EXPO"),
-          backgroundColor: Color(0xff261350),
-          elevation: 0,
-        ),
+            title: Text("EMEC EXPO"),
+            backgroundColor: Color(0xff261350),
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back,
+                  color: Colors.white), // Change the arrow icon here
+              onPressed: () async{
+                prefs = await SharedPreferences.getInstance();
+                prefs.setString("Data", "5");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            WelcomPage()));
+              },
+            )),
         extendBodyBehindAppBar: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -236,7 +252,7 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
             Expanded(
               flex: 1,
               child: Container(
-               // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 //margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 decoration: BoxDecoration(
                   color: Color(0xff261350),
@@ -259,7 +275,7 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                   itemCount: litems.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: EdgeInsets.only(top: 10.0,bottom: 0.0),
+                      padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
                       child: Container(
                         width: 140,
                         height: 140,
@@ -270,14 +286,15 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
                               Center(
                                 child: ClipOval(
                                     child: Image.asset(
-                                      '${litems[index].image}',
-                                    )),
+                                  '${litems[index].image}',
+                                )),
                               ),
-                              Text('${litems[index].fname} ${litems[index].fname}',   style: (TextStyle(
-                                  color: Color(0xff261350),
-                                  fontSize: 16.0,
-                                  fontWeight:
-                                  FontWeight.bold)))
+                              Text(
+                                  '${litems[index].fname} ${litems[index].fname}',
+                                  style: (TextStyle(
+                                      color: Color(0xff261350),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold)))
                             ],
                           ),
                           onTap: () {
@@ -448,6 +465,12 @@ class _MyDialogState extends State<MyDialog> {
   }
 
   Future<void> _addTogoogle() async {
+    NotificationService().showNotifByDate(
+        title: 'EMEC EXPO',
+        body: "Performing hot reload..."
+            "Syncing files to device CPH1819..."
+            "Reloaded 2 of 1626 libraries in 1 958ms (compile: 151 ms, reload: 711 ms, reassemble: 577 ms.",
+        date: DateTime.now().add(Duration(seconds: 10)));
     final Event event = Event(
       title: 'Event title',
       description: 'Event description',
@@ -464,6 +487,12 @@ class _MyDialogState extends State<MyDialog> {
 
 void _addAgenda() async {
   var db = new DataBaseHelperNotif();
+  NotificationService().showNotifByDate(
+      title: 'EMEC EXPO',
+      body: "Performing hot reload..."
+          "Syncing files to device CPH1819..."
+          "Reloaded 2 of 1626 libraries in 1 958ms (compile: 151 ms, reload: 711 ms, reassemble: 577 ms.",
+      date: DateTime.now().add(Duration(seconds: 10)));
   //List<CongressDClass> LAgenda=[];
   var c1 = CongressDClass(
       "TITLE",

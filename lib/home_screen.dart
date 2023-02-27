@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:emec_expo/model/notification_model.dart';
+import 'package:emec_expo/services/local_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //DateTime date1=DateTime.parse("2023-02-24 11:10");
   var db = new DataBaseHelperNotif();
   String name = "1", date = "1", dtime = "1", discription = "1";
   var fbm = FirebaseMessaging.instance;
@@ -383,6 +385,21 @@ _goTo_notification_terminate() async{
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20.0))),
                                 ),
+/*                                Container(
+                                  child:TextButton(child: Text("click me"),onPressed: (){
+                                    NotificationService().showNotifByDate(
+                                        title: 'EMEC EXPO', body: "Performing hot reload..."
+                                        "Syncing files to device CPH1819..."
+                                        "Reloaded 2 of 1626 libraries in 1 958ms (compile: 151 ms, reload: 711 ms, reassemble: 577 ms.",date:date1
+                                    );*/
+/*                                    NotificationService()
+                                        .showNotification(title: 'EMEC EXPO', body: "Performing hot reload..."
+                                        "Syncing files to device CPH1819..."
+                                        "Reloaded 2 of 1626 libraries in 1 958ms (compile: 151 ms, reload: 711 ms, reassemble: 577 ms.");
+                                        */
+                    /*              }
+                                  ),
+                                ),*/
                                 /*Container(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,

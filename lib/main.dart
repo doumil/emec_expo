@@ -14,11 +14,14 @@ import 'package:emec_expo/Settings.dart';
 import 'package:emec_expo/Social%20Media.dart';
 import 'package:emec_expo/Speakers.dart';
 import 'package:emec_expo/details/DayEventMenu.dart';
+import 'package:emec_expo/details/DetailCongress.dart';
 import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart';
+import 'package:emec_expo/services/local_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:emec_expo/home_screen.dart';
+import 'package:googleapis/admin/reports_v1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Activities.dart';
 import 'My Agenda.dart';
@@ -45,6 +48,7 @@ Future _onMessage(RemoteMessage event) async{
 }
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(
     _onMessage
@@ -110,6 +114,11 @@ class _WelcomPageState extends State<WelcomPage> {
       else if(_data=="6")
         {
           currentPage=DrawerSections.detailexhib;
+
+        }
+      else if(_data=="7")
+        {
+          currentPage=DrawerSections.detailcongress;
 
         }
       else
@@ -202,6 +211,9 @@ class _WelcomPageState extends State<WelcomPage> {
     }
     else if (currentPage == DrawerSections.congressmenu) {
       container = CongressMenu();
+    }   
+    else if (currentPage == DrawerSections.detailcongress) {
+      container = DetailCongressScreen(check: false,);
     }
     else if (currentPage == DrawerSections.detailexhib) {
       container = DetailExhibitorsScreen();
@@ -443,5 +455,6 @@ enum DrawerSections {
   notifications,
   congressmenu,
   settings,
-  detailexhib
+  detailexhib,
+  detailcongress
 }
