@@ -215,7 +215,9 @@ class _ContactScreenState extends State<ContactScreen> {
                                                       width * 0.01),
                                                   child: Text(
                                                     'Opening time',
-                                                    style: TextStyle(fontSize: 20,color: Colors.white),
+                                                    style: TextStyle(fontSize: 22,color: Colors.white,fontWeight:
+                                                      FontWeight
+                                                      .bold,),
                                                     textAlign: TextAlign.left,
                                                   ),
                                                 ),
@@ -254,7 +256,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                               0.022,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
                                                                           Colors.white),
                                                                       overflow: TextOverflow
@@ -289,7 +291,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                               0.022,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
                                                                           Colors.white),
                                                                       overflow: TextOverflow
@@ -358,7 +360,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                         right: 5),
                                                                     child: Icon(
                                                                       Icons.phone,
-                                                                      size: height * 0.03,
+                                                                      size: height * 0.034,
                                                                       color: Colors.white,
                                                                     )),
                                                                 GestureDetector(
@@ -372,9 +374,10 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                               0.029,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
-                                                                          Colors.white),
+                                                                          Colors.white,
+                                                                      ),
                                                                       overflow: TextOverflow
                                                                           .ellipsis,
                                                                     ),
@@ -392,8 +395,9 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                     margin: EdgeInsets.only(
                                                                         right: 5),
                                                                     child: Icon(
-                                                                      Icons.email_outlined,
-                                                                      size: height * 0.03,
+                                                                      Icons.phone,
+                                                                      //Icons.email_outlined,
+                                                                      size: height * 0.034,
                                                                       color: Colors.white,
                                                                     )),
                                                                 GestureDetector(
@@ -401,13 +405,13 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                   child: Container(
                                                                     width: width * 0.6,
                                                                     child: Text(
-                                                                      "b.nadia@emecexpo.ma",
+                                                                      "(+33)650-357-057",
                                                                       style: TextStyle(
                                                                           fontSize: height *
                                                                               0.029,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
                                                                           Colors.white),
                                                                       overflow: TextOverflow
@@ -440,8 +444,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                     margin: EdgeInsets.only(
                                                                         right: 5),
                                                                     child: Icon(
-                                                                      Icons.phone,
-                                                                      size: height * 0.03,
+                                                                      Icons.email_outlined,
+                                                                      size: height * 0.034,
                                                                       color: Colors.white,
                                                                     )),
                                                                 GestureDetector(
@@ -449,13 +453,14 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                   child: Container(
                                                                     width: width * 0.6,
                                                                     child: Text(
-                                                                      "(+33)650-357-057",
+                                                                      //"(+33)650-357-057",
+                                                                        "b.nadia@emecexpo.ma",
                                                                       style: TextStyle(
                                                                           fontSize: height *
-                                                                              0.029,
+                                                                              0.027,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
                                                                           Colors.white),
                                                                       overflow: TextOverflow
@@ -476,7 +481,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                         right: 5),
                                                                     child: Icon(
                                                                       Icons.email_outlined,
-                                                                      size: height * 0.03,
+                                                                      size: height * 0.034,
                                                                       color: Colors.white,
                                                                     )),
                                                                 GestureDetector(
@@ -490,7 +495,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                               0.029,
                                                                           fontWeight:
                                                                           FontWeight
-                                                                              .w300,
+                                                                              .w500,
                                                                           color:
                                                                           Colors.white),
                                                                       overflow: TextOverflow
