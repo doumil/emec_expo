@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:emec_expo/Busniess%20Safe.dart';
 import 'package:emec_expo/Congress.dart';
 import 'package:emec_expo/Contact.dart';
@@ -29,11 +33,13 @@ import 'Suporting Partners.dart';
 import 'details/CongressMenu.dart';
 import 'details/DetailExhibitors.dart';
 import 'model/notification_model.dart';
+import 'model/user_scanner.dart';
 import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
 import 'database_helper/database_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:http/http.dart' as http;
 
 var db = new DataBaseHelperNotif();
 var  name="1",date="1",dtime="1",discription="1";
@@ -46,14 +52,90 @@ Future _onMessage(RemoteMessage event) async{
   discription=event.notification!.body.toString();
   await db.saveNoti(NotifClass(name, date, dtime, discription));
 }
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
+  HttpOverrides.global = new MyHttpOverrides();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool("isChecked1",false);
+  prefs.setBool("isChecked2",false);
+  prefs.setBool("isChecked3",false);
+  Timer.periodic(Duration(seconds: 5), (timer) {
+    myMethod();
+  });
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(
     _onMessage
   );
   runApp(MyApp());
+}
+sendNotify(String title, String body, String id) async {
+  final String serverToken = 'AAAAVy_P_0g:APA91bGckzY8RIWOLFp7TK36FOB4yaJCaQdU-en_Q-BUN2rfiK9bgvZMuEs8HslL7_EGIwW20y9cJISstJmiXvDCq4LridWcWhlDG-YZajFkeFU19v-R_iu8EQHT0F7BdSe6vW0XSLMz';
+  await http.post(Uri.parse("https://fcm.googleapis.com/fcm/send"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'notification': <String, dynamic>{
+          'body': '$title',
+          'title': '$body',
+        },
+        'priority': 'high',
+        'data': <String, dynamic>{
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'id': id,
+          'status': 'done'
+        },
+        'to': '/topics/Rec'
+        //await messaging.getToken(),
+      }));
+
+}
+onMessage(){
+  FirebaseMessaging.onMessage.listen((event) {
+    //FlutterRingtonePlayer.playNotification();
+    String? title,body;
+    print("test 2");
+    title=event.notification?.title.toString();
+    body=event.notification?.body.toString();
+    NotificationService().NotifDataChanged(
+        title:title,
+        body:body);
+    print(event.notification?.title.toString());
+    print(event.notification?.body.toString());
+    //Get.snackbar(title!,body!);
+  });
+}
+List<Userscan> litems = [];
+int count=0;
+void myMethod() async{
+  var id =33;
+  var url = "https://okydigital.com/buzz_login/loadsync.php";
+  //var res = await http.get(Uri.parse(url));
+  var data = {
+    "id_buzz":id.toString(),
+  };
+  var res = await http.post(Uri.parse(url), body: data);
+  //String jsn ='[{"id":"17","firstname":"yassine","lastname":"doumil","company":"okysolutions","email":"yassinedoumil96@gmail.com","phone":"06877778787","adresse":"hay hassani casablanca","evolution":"bonne","action":"14","notes":"note1","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null},
+  // {"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null}]';
+  List<Userscan> users = (json.decode(res.body) as List)
+      .map((data) => Userscan.fromJson(data))
+      .toList();
+  if(int.parse(users.length.toString())!=int.parse(count.toString())){
+    print("data has changed");
+    sendNotify("missed notification","check changes","0");
+    print("notification has show it");
+  }
+  print(users.length);
+  count=users.length;
 }
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -85,6 +167,7 @@ class _WelcomPageState extends State<WelcomPage> {
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("Data") ?? '');
+    //prefs.setBool("isChecked1",true);
     print("-------------$_data------------------");
     setState(() {
       if(_data=="1")

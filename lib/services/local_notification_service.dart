@@ -33,7 +33,9 @@ class NotificationService  {
         });
 
   }
-
+notifdeined() async{
+  await notificationsPlugin.cancelAll();
+}
   notificationDetails() {
     return const NotificationDetails(
         android: AndroidNotificationDetails('channelId', 'channelName',
@@ -45,6 +47,10 @@ class NotificationService  {
   }*/
 
   Future showNotification(
+      {int id = 0, String? title, String? body, String? payLoad}) async {
+    return notificationsPlugin.show(
+        id, title, body, await notificationDetails());
+  }  Future NotifDataChanged(
       {int id = 0, String? title, String? body, String? payLoad}) async {
     return notificationsPlugin.show(
         id, title, body, await notificationDetails());

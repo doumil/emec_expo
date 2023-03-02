@@ -6,8 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:emec_expo/services/onwillpop_services.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -20,17 +25,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final String serverToken = 'AAAAVy_P_0g:APA91bGckzY8RIWOLFp7TK36FOB4yaJCaQdU-en_Q-BUN2rfiK9bgvZMuEs8HslL7_EGIwW20y9cJISstJmiXvDCq4LridWcWhlDG-YZajFkeFU19v-R_iu8EQHT0F7BdSe6vW0XSLMz';
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   //MobileScannerController torchctlr = MobileScannerController();
-  bool isChecked1 = true;
-  bool isChecked2 = true;
+  late SharedPreferences prefs;
+  bool isChecked1 = false;
+  bool isChecked2 = false;
   bool isChecked3 = false;
   bool _isEnabled = true;
 // Replace with server token from firebase console settings.
   void initState() {
     _subscribe();
     onMessage();
+    _loadData();
     super.initState();
   }
-
+_loadData() async{
+  prefs = await SharedPreferences.getInstance();
+  bool? ch=prefs.getBool("isChecked1");
+  bool? ch1=prefs.getBool("isChecked2");
+  bool? ch2=prefs.getBool("isChecked3");
+  setState(() {
+    isChecked1=ch!;
+    isChecked2=ch1!;
+    isChecked3=ch2!;
+    print(isChecked2);
+  });
+}
   sendNotify(String title, String body, String id) async {
     await http.post(Uri.parse("https://fcm.googleapis.com/fcm/send"),
         headers: <String, String>{
@@ -54,16 +72,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   }
   onMessage(){
-    print("test1");
     FirebaseMessaging.onMessage.listen((event) {
-      print("test 2");
+      //FlutterRingtonePlayer.playNotification();
+      String? title,body;
+      title=event.notification?.title.toString();
+      body=event.notification?.body.toString();
+      NotificationService().NotifDataChanged(
+          title:title,
+          body:body);
       print(event.notification?.title.toString());
       print(event.notification?.body.toString());
+      //Get.snackbar(title!,body!);
     });
-    print("test3");
   }
 
-  _onChanged() async{
+  _onChangedtrue() async{
+    print(isChecked1);
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isChecked1",isChecked1);
+    prefs.setBool("isChecked2",isChecked2);
+    prefs.setBool("isChecked3",isChecked3);
     await FirebaseMessaging.instance.unsubscribeFromTopic("Rec");
     print("unisbscribe");
     setState(() {
@@ -100,8 +128,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    OnWillPop on = OnWillPop();
     return WillPopScope(
-        onWillPop: _onWillPop,
+        onWillPop:on.onWillPop1,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: FadeInDown(
@@ -128,10 +157,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   setState(() {
                                     isChecked1 = value!;
                                     if (isChecked1 == false) {
-                                      _onChanged();
+                                      _onChangedtrue();
                                     } else {
-                                      FirebaseMessaging.instance.subscribeToTopic("Rec");
-                                      _isEnabled = true;
+                                    _onChangedfalse();
                                     }
                                   });
                                 },
@@ -169,6 +197,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         setState(() {
                                           isChecked2 = value!;
                                           HapticFeedback.vibrate();
+                                          if (isChecked2 == false) {
+                                            _onChangedtrue();
+                                          } else {
+                                            _onChangedfalse();
+                                          }
                                         });
                                       }
                                     : null,
@@ -197,6 +230,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ? (bool? value) {
                                         setState(() {
                                           isChecked3 = value!;
+                                          if (isChecked3 == false) {
+                                            _onChangedtrue();
+                                          } else {
+                                            _onChangedfalse();
+                                          }
                                           //torch();
                                         });
                                       }
@@ -208,13 +246,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               },
                               child: Text('Blink LED',
                                   style: TextStyle(fontSize: height * 0.022))),
-                              Container(
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    sendNotify("this is title","this is body ","2");
-                                  }, child: Text('click me'),
-                                ),
-                              ),
                         ])),
                       ]),
                     ),
@@ -228,6 +259,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _subscribe() async{
    await FirebaseMessaging.instance.subscribeToTopic("Rec");
+  }
+
+  void _onChangedfalse() async{
+    prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isChecked1",isChecked1);
+    prefs.setBool("isChecked2",isChecked2);
+    prefs.setBool("isChecked3",isChecked3);
+    FirebaseMessaging.instance.subscribeToTopic("Rec");
+    _isEnabled = true;
   }
 }
 /*
