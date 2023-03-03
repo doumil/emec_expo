@@ -222,11 +222,11 @@ _loadData() async{
                                     ? (bool? value) {
                                         setState(() {
                                           isChecked2 = value!;
-                                          HapticFeedback.vibrate();
                                           if (isChecked2 == false) {
                                             _onChangedtrue();
                                           } else {
                                             _onChangedfalse();
+                                            HapticFeedback.vibrate();
                                           }
                                         });
                                       }
