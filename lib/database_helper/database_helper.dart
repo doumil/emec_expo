@@ -25,15 +25,15 @@ class DataBaseHelperNotif{
   }
   intDB() async{
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path , 'dbEmecexpo.db');
-    var myOwnDB = await openDatabase(path,version: 2,
+    String path = join(documentDirectory.path , 'dbEmec3.db');
+    var myOwnDB = await openDatabase(path,version: 3,
         onCreate:(Database db , int newVersion) async{
           Batch batch= db.batch();
           var sql1 = "CREATE TABLE $notifTable ("
               "$columnId INTEGER  auto_increment,"
               " $columnName TEXT, "
-              "$columnDate DATETIME,"
-              "$columnDtime DATETIME,"
+              "$columnDate TEXT,"
+              "$columnDtime TEXT,"
               " $columnDiscription TEXT"
               ")";
           db.execute(sql1);

@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import '../database_helper/database_helper.dart';
 import '../main.dart';
+import '../model/notification_model.dart';
 import '../model/speakers_model.dart';
 import '../services/local_notification_service.dart';
 
@@ -486,22 +487,22 @@ class _MyDialogState extends State<MyDialog> {
 }
 
 void _addAgenda() async {
+  String title='EMEC EXPO',body="Introducing an all-new Lottie Editor- a web-based editor "
+      "that allows you to edit, tweak and personalize your Lottie animations.";
   var db = new DataBaseHelperNotif();
   NotificationService().showNotifByDate(
-      title: 'EMEC EXPO',
-      body: "Performing hot reload..."
-          "Syncing files to device CPH1819..."
-          "Reloaded 2 of 1626 libraries in 1 958ms (compile: 151 ms, reload: 711 ms, reassemble: 577 ms.",
+      title: title,
+      body: body,
       date: DateTime.now().add(Duration(seconds: 10)));
   //List<CongressDClass> LAgenda=[];
   var c1 = CongressDClass(
-      "TITLE",
-      "Introducing an all-new Lottie Editor- a web-based editor "
-          "that allows you to edit, tweak and personalize your Lottie animations.",
+      title,
+   body,
       "10:00",
       "11:00");
   //LAgenda.add(c1);
   await db.saveAgenda(c1);
+  await db.saveNoti(NotifClass(title,"03/03/2023","10:00", body));
   Fluttertoast.showToast(
     msg: "agenda has saved successfully",
     toastLength: Toast.LENGTH_SHORT,

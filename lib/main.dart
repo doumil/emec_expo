@@ -50,7 +50,12 @@ Future _onMessage(RemoteMessage event) async{
   date="${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
   dtime="${DateTime.now().hour}:${DateTime.now().minute}";
   discription=event.notification!.body.toString();
-  await db.saveNoti(NotifClass(name, date, dtime, discription));
+  if(name=="missed notification"){
+    print("notification not save");
+  }
+  else{
+    await db.saveNoti(NotifClass(name, date, dtime, discription));
+  }
 }
 class MyHttpOverrides extends HttpOverrides{
   @override
@@ -64,9 +69,9 @@ void main() async{
   NotificationService().initNotification();
   HttpOverrides.global = new MyHttpOverrides();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool("isChecked1",false);
-  prefs.setBool("isChecked2",false);
-  prefs.setBool("isChecked3",false);
+  prefs.getBool("isChecked1");
+  prefs.getBool("isChecked2");
+  prefs.getBool("isChecked3");
   Timer.periodic(Duration(seconds: 5), (timer) {
     myMethod();
   });
@@ -85,8 +90,8 @@ sendNotify(String title, String body, String id) async {
       },
       body: jsonEncode(<String, dynamic>{
         'notification': <String, dynamic>{
-          'body': '$title',
-          'title': '$body',
+          'title': '$title',
+          'body': '$body',
         },
         'priority': 'high',
         'data': <String, dynamic>{
@@ -131,11 +136,13 @@ void myMethod() async{
       .toList();
   if(int.parse(users.length.toString())!=int.parse(count.toString())){
     print("data has changed");
-    sendNotify("missed notification","check changes","0");
+    sendNotify("missed notification","see updates from EMEC EXPO\n that you may have missed","0");
     print("notification has show it");
   }
-  print(users.length);
+  print("user${users.length}");
   count=users.length;
+  print("count${count}");
+
 }
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -381,7 +388,7 @@ class _WelcomPageState extends State<WelcomPage> {
           Padding(
             padding: EdgeInsets.only(left: 35.0),
             child: menuItem(17, "Schedule", Icons.schedule,
-                currentPage == DrawerSections.schedule ? true : false,false),
+                currentPage == DrawerSections.schedule ? true : false,currentPage==DrawerSections.information ? true : false),
           ),
           menuItem(18, "How to get there", Icons.map,
               currentPage == DrawerSections.getThere ? true : false,false),

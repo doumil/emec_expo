@@ -11,8 +11,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:emec_expo/services/onwillpop_services.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:flutter_mute/flutter_mute.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 // Replace with server token from firebase console settings.
   void initState() {
     _subscribe();
-    onMessage();
+    //onMessage();
     _loadData();
     super.initState();
   }
@@ -43,13 +44,18 @@ _loadData() async{
   bool? ch1=prefs.getBool("isChecked2");
   bool? ch2=prefs.getBool("isChecked3");
   setState(() {
-    isChecked1=ch!;
-    isChecked2=ch1!;
-    isChecked3=ch2!;
-    print(isChecked2);
+    if(ch==null||ch1==null||ch2==null){
+      print("null");
+    }
+    else{
+      isChecked1=ch!;
+      isChecked2=ch1!;
+      isChecked3=ch2!;
+    }
+    //print(isChecked2);
   });
 }
-  sendNotify(String title, String body, String id) async {
+/*  sendNotify(String title, String body, String id) async {
     await http.post(Uri.parse("https://fcm.googleapis.com/fcm/send"),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -70,8 +76,8 @@ _loadData() async{
           //await messaging.getToken(),
         }));
 
-  }
-  onMessage(){
+  }*/
+/*  onMessage(){
     FirebaseMessaging.onMessage.listen((event) {
       //FlutterRingtonePlayer.playNotification();
       String? title,body;
@@ -84,21 +90,38 @@ _loadData() async{
       print(event.notification?.body.toString());
       //Get.snackbar(title!,body!);
     });
-  }
+  }*/
 
   _onChangedtrue() async{
-    print(isChecked1);
+    if(isChecked2==false){
+      bool isAccessGranted = await FlutterMute.isNotificationPolicyAccessGranted;
+      if (!isAccessGranted) {
+        // Opens the notification settings to grant the access.
+        await FlutterMute.openNotificationPolicySettings();
+      }
+      //RingerMode? mode;
+      try {
+        //mode = await FlutterMute.getRingerMode();
+        await FlutterMute.setRingerMode(RingerMode.Normal);
+        //print("_____________${mode}");
+      } catch (err) {
+        print(err);
+      }
+    }
+    //print(isChecked1);
     prefs = await SharedPreferences.getInstance();
     prefs.setBool("isChecked1",isChecked1);
     prefs.setBool("isChecked2",isChecked2);
     prefs.setBool("isChecked3",isChecked3);
     await FirebaseMessaging.instance.unsubscribeFromTopic("Rec");
-    print("unisbscribe");
-    setState(() {
-      _isEnabled = !_isEnabled;
-    });
-  }
+    //print("unisbscribe");
+    if(isChecked1==false){
+      setState(() {
+        _isEnabled = !_isEnabled;
+      });
+    }
 
+  }
   torch() async {
     // torchctlr.toggleTorch();
   }
@@ -177,6 +200,9 @@ _loadData() async{
                         ),
                         Container(
                           child: ListTile(
+                            onTap: () async{
+                              AppSettings.openSoundSettings();
+                            },
                             title: new Text("Tone"),
                             subtitle: new Text("notification_001"),
                           ),
@@ -219,7 +245,7 @@ _loadData() async{
                           color: Color.fromRGBO(150, 150, 150, 0.4),
                           height: 5.0,
                         ),
-                        Container(
+                       /* Container(
                             child: Row(children: <Widget>[
                           Container(
                               padding:
@@ -246,7 +272,7 @@ _loadData() async{
                               },
                               child: Text('Blink LED',
                                   style: TextStyle(fontSize: height * 0.022))),
-                        ])),
+                        ])),*/
                       ]),
                     ),
                   ),
@@ -262,6 +288,22 @@ _loadData() async{
   }
 
   void _onChangedfalse() async{
+    if(isChecked2==true) {
+      bool isAccessGranted = await FlutterMute.isNotificationPolicyAccessGranted;
+
+      if (!isAccessGranted) {
+        // Opens the notification settings to grant the access.
+        await FlutterMute.openNotificationPolicySettings();
+      }
+      //RingerMode? mode;
+      try {
+        //mode = await FlutterMute.getRingerMode();
+        await FlutterMute.setRingerMode(RingerMode.Vibrate);
+        //print("_____________${mode}");
+      } catch (err) {
+        print(err);
+      }
+    }
     prefs = await SharedPreferences.getInstance();
     prefs.setBool("isChecked1",isChecked1);
     prefs.setBool("isChecked2",isChecked2);
