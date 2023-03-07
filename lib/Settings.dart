@@ -40,6 +40,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 _loadData() async{
   prefs = await SharedPreferences.getInstance();
+  //RingerMode mode = await FlutterMute.getRingerMode();
+  //RingerMode m=RingerMode.Normal;
+  if(RingerMode.Normal==await FlutterMute.getRingerMode()){
+    print("normal");
+    prefs.setBool("isChecked2",false);
+    isChecked2 = false;
+  }
+  else{
+    print("vibrate");
+    prefs.setBool("isChecked2",true);
+    isChecked2 = true;
+  }
+  prefs = await SharedPreferences.getInstance();
   bool? ch=prefs.getBool("isChecked1");
   bool? ch1=prefs.getBool("isChecked2");
   bool? ch2=prefs.getBool("isChecked3");
@@ -290,14 +303,13 @@ _loadData() async{
   void _onChangedfalse() async{
     if(isChecked2==true) {
       bool isAccessGranted = await FlutterMute.isNotificationPolicyAccessGranted;
-
       if (!isAccessGranted) {
         // Opens the notification settings to grant the access.
         await FlutterMute.openNotificationPolicySettings();
       }
       //RingerMode? mode;
       try {
-        //mode = await FlutterMute.getRingerMode();
+        //var mode = await FlutterMute.getRingerMode();
         await FlutterMute.setRingerMode(RingerMode.Vibrate);
         //print("_____________${mode}");
       } catch (err) {
