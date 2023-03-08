@@ -285,12 +285,12 @@ else{
                               ],
                             ),
                             onTap: () async{
-                              prefs = await SharedPreferences.getInstance();
-                              prefs.setString("Data", "6");
+                              //prefs = await SharedPreferences.getInstance();
+                              //prefs.setString("Data", "6");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WelcomPage()));
+                                      builder: (context) => DetailExhibitorsScreen()));
                             },
                           ),
                         );

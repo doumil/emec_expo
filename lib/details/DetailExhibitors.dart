@@ -95,59 +95,65 @@ class _DetailExhibitorsScreenState extends State<DetailExhibitorsScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
         extendBodyBehindAppBar: true,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-                flex: 8,
-                  child: Container(
-                      margin: EdgeInsets.only(top:0,bottom:0),
-                      width: double.infinity,
-                      height:double.infinity,
-                      color: Colors.black26,
-                      child: new Card(
-                        color: Colors.white,
-                        shape: BorderDirectional(
-                          bottom:BorderSide(color: Colors.black12, width: 1),
-                        ),
-                        child: new ListTile(
-                          leading: new ClipOval(
-                              child: Image.asset(
-                                width: 80,
-                                height: 80,
-                                'assets/partners/ammc.png',
-                              )),
-                          title: Padding(
-                            padding: EdgeInsets.fromLTRB(14, 14,14,14),
-                            child: Text(
-                              "AMMC",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
+        appBar: AppBar(
+          title: Text("EMEC EXPO"),
+          backgroundColor: Color(0xff261350),
+          elevation: 0,
+        ),
+        body: Container(
+          color: Colors.black26,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                        margin: EdgeInsets.only(top:90,bottom:0),
+                        width: double.infinity,
+                        height: 620,
+                        //height:double.infinity,
+                        color: Colors.black26,
+                        child: new Card(
+                          color: Colors.white,
+                          shape: BorderDirectional(
+                            bottom:BorderSide(color: Colors.black12, width: 1),
                           ),
-                          subtitle:Padding(
-                            padding: EdgeInsets.fromLTRB(14,14,14,14),
-                            child: Text(
-                              "Who doesn’t want the paragraphs you write to impress the reader."
-                                  " The most authoritative method that can be used to realize this situation is to use a descriptive paragraph."
-                                  " A descriptive paragraph describes a person, an object, an event, or a place in detail."
-                                  " This type of paragraph, which should contain many details, does not bother the reader. "
-                                  "This feature is the best feature of the descriptive paragraph type. One of the advantages of this feature is that the details given affect the reader.",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                          child: new ListTile(
+                            leading: new ClipOval(
+                                child: Image.asset(
+                                  width: 80,
+                                  height: 80,
+                                  'assets/partners/ammc.png',
+                                )),
+                            title: Padding(
+                              padding: EdgeInsets.fromLTRB(14, 14,14,14),
+                              child: Text(
+                                "AMMC",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
+                            subtitle:Padding(
+                              padding: EdgeInsets.fromLTRB(14,14,14,14),
+                              child: Text(
+                                "Who doesn’t want the paragraphs you write to impress the reader."
+                                    " The most authoritative method that can be used to realize this situation is to use a descriptive paragraph."
+                                    " A descriptive paragraph describes a person, an object, an event, or a place in detail."
+                                    " This type of paragraph, which should contain many details, does not bother the reader. "
+                                    "This feature is the best feature of the descriptive paragraph type. One of the advantages of this feature is that the details given affect the reader.",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            onTap: () {
+                            },
                           ),
-                          onTap: () {
-                          },
-                        ),
-                      )
-                  ),
-            ),
-          ],
+                        )
+                    ),
+            ],
+          ),
         ));
   }
 }
