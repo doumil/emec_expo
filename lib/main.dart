@@ -38,7 +38,6 @@ import 'my_drawer_header.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
 import 'database_helper/database_helper.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
 var db = new DataBaseHelperNotif();
@@ -93,8 +92,8 @@ sendNotify(String title, String body, String id) async {
           'title': '$title',
           'body': '$body',
         },
-        'priority': 'high',
-        'data': <String, dynamic>{
+          'priority': 'high',
+          'data': <String, dynamic>{
           'click_action': 'FLUTTER_NOTIFICATION_CLICK',
           'id': id,
           'status': 'done'

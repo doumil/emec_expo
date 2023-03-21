@@ -63,7 +63,7 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
+                          height: 170,
                           margin: EdgeInsets.only(top: height * 0.01),
                           //padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
@@ -74,11 +74,22 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       Expanded(
                         flex: 1,
                         child: Container(
-                          height: 200,
+                          height: 170,
                           margin: EdgeInsets.only(top: height * 0.01),
                           // padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Image.asset(
                             "assets/sponsors/sponsors2023/CODPARTNER.png",
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 170,
+                          margin: EdgeInsets.only(top: height * 0.01),
+                          // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/sponsors2023/cathedis.png",
                           ),
                         ),
                       ),
@@ -118,16 +129,31 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                       ),
                     ],
                   ),
-                  Center(
-                    child: Container(
-                      height: 150,
-                      width: double.maxFinite,
-                      //margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/sponsors/chrono-diali.png",
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          //margin: EdgeInsets.only(top: height * 0.00),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/chrono-diali.png",
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 150,
+                          //margin: EdgeInsets.only(top: height * 0.00),
+                         // padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/sponsors2023/nexaya.png",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   /*
                   Center(
@@ -173,18 +199,19 @@ class _SupportingPScreenState extends State<SupportingPScreen> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Center(
-                    child: Container(
-                      height: 100,
-                      width: double.maxFinite,
-                      //margin: EdgeInsets.only(top: height * 0.01),
-                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                      child: Image.asset(
-                        "assets/partners/aramex.png",
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 100,
+                          //margin: EdgeInsets.only(top: height * 0.01),
+                          //padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Image.asset(
+                            "assets/sponsors/sponsors2023/aramex.png",
+                          ),
+                        ),
                       ),
-                    ),
+
+                    ],
                   ),
                 ],
               ),

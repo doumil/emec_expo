@@ -248,7 +248,7 @@ _goTo_notification_terminate() async{
                                       children: <Widget>[
                                         Center(
                                           child: Container(
-                                            height: 435,
+                                            height: 350,
                                             width: 500,
                                             padding: EdgeInsets.fromLTRB(
                                                 width * 0.04,
@@ -258,32 +258,84 @@ _goTo_notification_terminate() async{
                                             child: CarouselSlider(
                                               enableAutoSlider: true,
                                               autoSliderDelay:
-                                                  const Duration(seconds: 4),
+                                                  const Duration(seconds: 2),
                                               slideTransform: CubeTransform(),
                                               unlimitedMode: true,
                                               slideIndicator:
                                                   CircularSlideIndicator(
+                                                    itemSpacing: 16,
+                                                    indicatorRadius:4,
                                                 padding:
-                                                    EdgeInsets.only(bottom: 3),
+                                                    EdgeInsets.only(bottom: 1),
                                                 currentIndicatorColor:
                                                     const Color(0xff00c1c1),
                                                 indicatorBackgroundColor:
-                                                    Colors.white12,
+                                                Color(0xff261350),
                                               ),
                                               children: [
                                                 Container(
                                                   child: Image.asset(
-                                                    "assets/slide1.jpg",
+                                                    "assets/slides/ahkslide.png",
                                                   ),
                                                 ),
                                                 Container(
                                                   child: Image.asset(
-                                                    "assets/slide2.jpg",
+                                                    "assets/slides/buzzslide.png",
                                                   ),
                                                 ),
                                                 Container(
                                                   child: Image.asset(
-                                                    "assets/slide3.jpg",
+                                                    "assets/slides/cicpslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/courseslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/hackslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/infoslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/itslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/kompslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/lodjslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/richslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/storyslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/technoslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/teleslide.png",
                                                   ),
                                                 ),
                                               ],

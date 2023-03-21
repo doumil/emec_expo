@@ -215,6 +215,7 @@ _loadData() async{
                           child: ListTile(
                             onTap: () async{
                               AppSettings.openSoundSettings();
+                              //use();
                             },
                             title: new Text("Tone"),
                             subtitle: new Text("notification_001"),
@@ -324,6 +325,8 @@ _loadData() async{
     _isEnabled = true;
   }
 }
+
+
 /*
  ValueListenableBuilder(
                           valueListenable: torchctlr.torchState,
