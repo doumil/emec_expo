@@ -258,7 +258,7 @@ _goTo_notification_terminate() async{
                                             child: CarouselSlider(
                                               enableAutoSlider: true,
                                               autoSliderDelay:
-                                                  const Duration(seconds: 2),
+                                                  const Duration(seconds: 3),
                                               slideTransform: CubeTransform(),
                                               unlimitedMode: true,
                                               slideIndicator:
@@ -280,7 +280,17 @@ _goTo_notification_terminate() async{
                                                 ),
                                                 Container(
                                                   child: Image.asset(
+                                                    "assets/slides/B-Mondial.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
                                                     "assets/slides/buzzslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/CODMONSTER.png",
                                                   ),
                                                 ),
                                                 Container(
@@ -290,7 +300,17 @@ _goTo_notification_terminate() async{
                                                 ),
                                                 Container(
                                                   child: Image.asset(
+                                                    "assets/slides/DIGITAKAL.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
                                                     "assets/slides/courseslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/ecomya.png",
                                                   ),
                                                 ),
                                                 Container(
@@ -300,7 +320,17 @@ _goTo_notification_terminate() async{
                                                 ),
                                                 Container(
                                                   child: Image.asset(
+                                                    "assets/slides/EUROPEAN.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
                                                     "assets/slides/infoslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/MANAGEO.png",
                                                   ),
                                                 ),
                                                 Container(
@@ -310,12 +340,27 @@ _goTo_notification_terminate() async{
                                                 ),
                                                 Container(
                                                   child: Image.asset(
+                                                    "assets/slides/NOWEDGE.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
                                                     "assets/slides/kompslide.png",
                                                   ),
                                                 ),
                                                 Container(
                                                   child: Image.asset(
+                                                    "assets/slides/NUMERIC.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
                                                     "assets/slides/lodjslide.png",
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Image.asset(
+                                                    "assets/slides/STOREINO.png",
                                                   ),
                                                 ),
                                                 Container(
