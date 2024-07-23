@@ -128,7 +128,7 @@ _goTo_notification_terminate() async{
                                                         child: Container(
                                                           width: width * 0.4,
                                                           child: Text(
-                                                            "10-11 Mai 2023",
+                                                            "11-13 Sept 2024",
                                                             style: TextStyle(
                                                                 fontSize: height *
                                                                     0.018,
@@ -180,7 +180,7 @@ _goTo_notification_terminate() async{
                                                         child: Container(
                                                           width: width * 0.4,
                                                           child: Text(
-                                                            "Hôtel Hyatt Regency Casablanca",
+                                                            "International Fair - OFEC Morocco",
                                                             style: TextStyle(
                                                                 fontSize: height *
                                                                     0.018,
@@ -256,136 +256,21 @@ _goTo_notification_terminate() async{
                                                 width * 0.04,
                                                 width * 0.01),
                                             child: CarouselSlider(
-                                              enableAutoSlider: true,
-                                              autoSliderDelay:
-                                                  const Duration(seconds: 3),
-                                              slideTransform: CubeTransform(),
-                                              unlimitedMode: true,
-                                              slideIndicator:
-                                                  CircularSlideIndicator(
-                                                    itemSpacing: 16,
-                                                    indicatorRadius:4,
-                                                padding:
-                                                    EdgeInsets.only(bottom: 1),
-                                                currentIndicatorColor:
-                                                    const Color(0xff00c1c1),
-                                                indicatorBackgroundColor:
-                                                Color(0xff261350),
-                                              ),
-                                              children: [
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/ahkslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/B-Mondial.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/buzzslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/CODMONSTER.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/cicpslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/DIGITAKAL.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/courseslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/ecomya.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/hackslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/EUROPEAN.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/infoslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/MANAGEO.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/itslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/NOWEDGE.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/kompslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/NUMERIC.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/lodjslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/STOREINO.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/richslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/storyslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/technoslide.png",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Image.asset(
-                                                    "assets/slides/teleslide.png",
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                      enableAutoSlider: true,
+                                      autoSliderDelay: const Duration(seconds: 3),
+                                      slideTransform: CubeTransform(),
+                                      unlimitedMode: true,
+                                      viewportFraction: 1.0,
+                                      children: List.generate(42, (index) {
+                                        return Container(
+                                          child: Image.asset(
+                                            "assets/slides/${index + 1}.png",
                                           ),
+                                        );
+                                      }),
+                                    )
+
+                                  ),
                                         ),
                                       ],
                                     ),

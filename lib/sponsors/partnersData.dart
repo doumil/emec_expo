@@ -1,26 +1,26 @@
 const PARTNERS_DATA= [
   {
-    "image1":"assets/partners/technopark.png",
+    "image1":"assets/partners/ahkxc.png",
     "image2":"assets/partners/lastartupstation.png"
   },
   {
-    "image1":"assets/partners/hackpitch.png",
+    "image1":"assets/partners/.png",
     "image2":"assets/partners/mdi.png"
   },
   {
     "image1":"assets/partners/ahk.png",
-    "image2":"assets/partners/BELGO.png"
+    "image2":"assets/partners/.png"
   },
   {
-    "image1":"assets/partners/cicp2.png",
-    "image2":"assets/partners/aujourdhui.png"
+    "image1":"assets/partners/.png",
+    "image2":"assets/partners/.png"
   },
   {
-    "image1":"assets/partners/diplomatique.png",
-    "image2":"assets/partners/telecontact.png"
+    "image1":"assets/partners/.png",
+    "image2":"assets/partners/.png"
   },
   {
-    "image1":"assets/partners/kompass.png",
+    "image1":"assets/partners/.png",
     "image2":"assets/partners/lebrif.png"
   },
   {
@@ -34,6 +34,10 @@ const PARTNERS_DATA= [
   {
     "image1":"assets/partners/buzzevents.png",
     "image2":"assets/partners/mfcontent.png"
+  },
+  {
+    "image1":"assets/partners/itskils.png",
+    "image2":"1"
   },
   {
     "image1":"assets/partners/itskils.png",

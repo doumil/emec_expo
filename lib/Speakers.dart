@@ -31,13 +31,50 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     //List<Speakers> speaker = (json.decode(res.body) as List)
       //  .map((data) => Speakers.fromJson(data))
        // .toList();
-    var sp1=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/av.jpg");
+    var sp1=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/1.jpg");
     litems.add(sp1);
     var sp2=Speakers("hamza", "aboulfeth", "fondateur",
-        "président-directeur général de genious communications","assets/speakers/hamza.jpg");
+        "président-directeur général de genious communications","assets/speakers/speakers2024/2.jpg");
     litems.add(sp2);
-    var sp3=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/ouafa.jpg");
+    var sp3=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/3.jpg");
     litems.add(sp3);
+    var sp4=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/4.jpg");
+    litems.add(sp4);
+    var sp5=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/speakers2024/5.jpg");
+    litems.add(sp5);
+    var sp6=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/6.jpg");
+    litems.add(sp6);
+    var sp7=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/7.jpg");
+    litems.add(sp7);
+    var sp8=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/speakers2024/8.jpg");
+    litems.add(sp8);
+    var sp9=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/9.jpg");
+    litems.add(sp9);
+    var sp10=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/10.jpg");
+    litems.add(sp10);
+    var sp11=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/speakers2024/11.jpg");
+    litems.add(sp11);
+    var sp12=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/12.jpg");
+    litems.add(sp12);
+    var sp13=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/13.jpg");
+    litems.add(sp13);
+    var sp14=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/speakers2024/14.jpg");
+    litems.add(sp14);
+    var sp15=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/15.jpg");
+    litems.add(sp15);
+    var sp16=Speakers("ali", "lahrichi", "fondateur et ceo kertys", "fondateur et ceo kertys,","assets/speakers/speakers2024/16.jpg");
+    litems.add(sp16);
+    var sp17=Speakers("hamza", "aboulfeth", "fondateur",
+        "président-directeur général de genious communications","assets/speakers/speakers2024/17.jpg");
+    litems.add(sp17);
+    var sp18=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/18.jpg");
+    litems.add(sp18);
+    var sp19=Speakers("ouafa ", "oualfi", "Responsable accompagnement", "partenariats-technopark maroc","assets/speakers/speakers2024/19.jpg");
+    litems.add(sp19);
     if (this.mounted) {
       setState(() {
         isLoading = false;
