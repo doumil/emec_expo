@@ -434,7 +434,8 @@ class _MyDialogState extends State<MyDialog> {
                           color: Color(0xff261350),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                    primary: Colors.white,
+                    //primary: Colors.white,
+                    backgroundColor: Colors.white,
                   ),
                   //color: Colors.white,
                   onPressed: () {
@@ -558,7 +559,8 @@ class _MyDialogDAgendaState extends State<MyDialogDAgenda> {
                           color: Color(0xff261350),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                    primary: Colors.white,
+                    //primary: Colors.white,
+                    backgroundColor: Colors.white, // Replaces 'primary'
                   ),
                   //color: Colors.white,
                   onPressed: () {

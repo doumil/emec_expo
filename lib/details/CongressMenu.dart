@@ -5,9 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'Conggress_10.dart';
+import 'Conggress_12.dart';
 import 'Congress_11.dart';
-import 'DayEventMenu.dart';
+import 'DayEventBreakout.dart';
+import 'DayEventMain.dart';
 
 class CongressMenu extends StatefulWidget {
   const CongressMenu({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class _CongressMenuState extends State<CongressMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               extendBodyBehindAppBar: true,
               body: Container(
@@ -59,11 +60,14 @@ class _CongressMenuState extends State<CongressMenu> {
                           labelColor:Colors.white,
                           tabs:[
                             Tab(
-                              child: Text("conference"),
+                              child: Text("MAIN STAGE (PAID)"),
                             ),
                             Tab(
-                              text:"workshops",
+                              child:Text("BREAKOUT STAGE (FREE)"),
                             ),
+                            // Tab(
+                            //   child:Text("Networking Area"),
+                            // ),
                           ]
                       ),
 
@@ -72,11 +76,14 @@ class _CongressMenuState extends State<CongressMenu> {
                       child:TabBarView(
                         children: [
                           Container(
-                            child :DayEventMenu(),
+                            child :DayEventMain(),
                           ),
                           Container(
-                            child: DayEventMenu(),
+                            child: DayEventBreakout(),
                           ),
+                          // Container(
+                          //   child: DayEventMenu(),
+                          // ),
                         ],
                       ),
                     ),

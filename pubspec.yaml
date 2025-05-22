@@ -35,6 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   font_awesome_flutter:
+  carousel_slider:
+  flutter_staggered_grid_view:
   webview_flutter:
   flutter_carousel_slider:
   flutter_easyloading:
@@ -98,9 +100,18 @@ flutter:
     - assets/sponsors/
     -  assets/slides/
     - assets/sponsors/sponsors2023/
+    - assets/sponsors/sponsors2024/
+    - assets/sponsors/sponsors2024/Bronze/
+    - assets/sponsors/sponsors2024/Gold/
+    - assets/sponsors/sponsors2024/platinum/
+    - assets/sponsors/sponsors2024/StrategicPartner/
     - assets/speakers/
+    - assets/Comercials/
+    - assets/speakers/speakers2024/
+    - assets/Comercials/Comercials2024/
     - assets/safety/
     - assets/service_account.json
+    -
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

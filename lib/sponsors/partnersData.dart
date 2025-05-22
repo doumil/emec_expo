@@ -1,47 +1,43 @@
 const PARTNERS_DATA= [
   {
-    "image1":"assets/partners/ahkxc.png",
-    "image2":"assets/partners/lastartupstation.png"
+    "image1":"assets/partners/1.png",
+    "image2":"assets/partners/2.png"
   },
   {
-    "image1":"assets/partners/.png",
-    "image2":"assets/partners/mdi.png"
+    "image1":"assets/partners/3.png",
+    "image2":"assets/partners/4.png"
   },
   {
-    "image1":"assets/partners/ahk.png",
-    "image2":"assets/partners/.png"
+    "image1":"assets/partners/5.png",
+    "image2":"assets/partners/6.png"
   },
   {
-    "image1":"assets/partners/.png",
-    "image2":"assets/partners/.png"
+    "image1":"assets/partners/7.png",
+    "image2":"assets/partners/8.png"
   },
   {
-    "image1":"assets/partners/.png",
-    "image2":"assets/partners/.png"
+    "image1":"assets/partners/9.png",
+    "image2":"assets/partners/10.png"
   },
   {
-    "image1":"assets/partners/.png",
-    "image2":"assets/partners/lebrif.png"
+    "image1":"assets/partners/11.png",
+    "image2":"assets/partners/12.png"
   },
   {
-    "image1":"assets/partners/infomediaire.png",
-    "image2":"assets/partners/lastory.png"
+    "image1":"assets/partners/13.png",
+    "image2":"assets/partners/14.png"
   },
   {
-    "image1":"assets/partners/lodjmedia.png",
-    "image2":"assets/partners/course.png"
+    "image1":"assets/partners/15.png",
+    "image2":"assets/partners/16.png"
   },
   {
-    "image1":"assets/partners/buzzevents.png",
-    "image2":"assets/partners/mfcontent.png"
+    "image1":"assets/partners/17.png",
+    "image2":"assets/partners/18.png"
   },
   {
-    "image1":"assets/partners/itskils.png",
-    "image2":"1"
-  },
-  {
-    "image1":"assets/partners/itskils.png",
-    "image2":"1"
+    "image1":"assets/partners/19.png",
+    "image2":"assets/partners/20.png",
   },
 ];
 

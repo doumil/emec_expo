@@ -121,7 +121,7 @@ class _DetailExhibitorsScreenState extends State<DetailExhibitorsScreen> {
                                 child: Image.asset(
                                   width: 80,
                                   height: 80,
-                                  'assets/partners/ammc.png',
+                                  'assets/partners/1.png',
                                 )),
                             title: Padding(
                               padding: EdgeInsets.fromLTRB(14, 14,14,14),

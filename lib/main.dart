@@ -16,8 +16,8 @@ import 'package:emec_expo/Official%20events.dart';
 import 'package:emec_expo/Settings.dart';
 import 'package:emec_expo/Social%20Media.dart';
 import 'package:emec_expo/Speakers.dart';
-import 'package:emec_expo/details/DayEventMenu.dart';
 import 'package:emec_expo/details/DetailCongress.dart';
+import 'details/DetailNetworkin.dart';
 import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart';
 import 'package:emec_expo/services/local_notification_service.dart';
@@ -27,7 +27,7 @@ import 'package:emec_expo/home_screen.dart';
 import 'package:googleapis/admin/reports_v1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Activities.dart';
-import 'My Agenda.dart';
+import 'package:emec_expo/My Agenda.dart';
 import 'Suporting Partners.dart';
 import 'details/CongressMenu.dart';
 import 'details/DetailExhibitors.dart';
@@ -38,6 +38,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Schedule.dart';
 import 'database_helper/database_helper.dart';
 import 'package:http/http.dart' as http;
+import 'networking.dart';
 
 var db = new DataBaseHelperNotif();
 var  name="1",date="1",dtime="1",discription="1";
@@ -161,93 +162,84 @@ class WelcomPage extends StatefulWidget {
 
 class _WelcomPageState extends State<WelcomPage> {
   var currentPage = DrawerSections.home;
-  var _data="";
+  var _data = "";
   late SharedPreferences prefs;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
   void initState() {
-    //_onMessage();
     _goTo_notification_back();
     _loadData();
     super.initState();
   }
+
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _data = (prefs.getString("Data") ?? '');
-    //prefs.setBool("isChecked1",true);
     print("-------------$_data------------------");
     setState(() {
-      if(_data=="1")
-      {
-        currentPage=DrawerSections.exhibitors;
+      if (_data == "1") {
+        currentPage = DrawerSections.exhibitors;
+      } else if (_data == "2") {
+        currentPage = DrawerSections.congressmenu;
+      } else if (_data == "3") {
+        currentPage = DrawerSections.business;
+      } else if (_data == "4") {
+        currentPage = DrawerSections.notifications;
+      } else if (_data == "5") {
+        currentPage = DrawerSections.congressmenu;
+      } else if (_data == "6") {
+        currentPage = DrawerSections.detailexhib;
+      } else if (_data == "7") {
+        currentPage = DrawerSections.detailcongress;
+      } else if (_data == "8") {
+        currentPage = DrawerSections.DetailNetworkin;
+      } else if (_data == "9") {
+        currentPage = DrawerSections.networking;
+      } else {
+        currentPage = DrawerSections.home;
       }
-      else if(_data=="2")
-        {
-          currentPage=DrawerSections.congressmenu;
-
-        }
-      else if(_data=="3")
-        {
-          currentPage=DrawerSections.business;
-
-        }
-      else if(_data=="4")
-        {
-          currentPage=DrawerSections.notifications;
-
-        }
-      else if(_data=="5")
-        {
-          currentPage=DrawerSections.congressmenu;
-
-        }
-      else if(_data=="6")
-        {
-          currentPage=DrawerSections.detailexhib;
-
-        }
-      else if(_data=="7")
-        {
-          currentPage=DrawerSections.detailcongress;
-
-        }
-      else
-        {
-          currentPage=DrawerSections.home;
-        }
     });
-
   }
-  _goTo_notification_back() async{
-    FirebaseMessaging.onMessageOpenedApp.listen((event) async{
+
+  _goTo_notification_back() async {
+    FirebaseMessaging.onMessageOpenedApp.listen((event) async {
       prefs = await SharedPreferences.getInstance();
-      prefs.setString("Data","4");
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WelcomPage()));
+      prefs.setString("Data", "4");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => WelcomPage()));
     });
   }
+
+  int _getBottomNavIndexForBottomNav() {
+    if (currentPage == DrawerSections.home) {
+      return 0;
+    } else if (currentPage == DrawerSections.notifications) {
+      return 1;
+    } else if (currentPage == DrawerSections.settings) {
+      return 2; // Assuming settings is now linked to the menu icon
+    }
+    return 0; // Default to home if no match
+  }
+
   @override
   Widget build(BuildContext context) {
     var container;
     if (currentPage == DrawerSections.home) {
       container = HomeScreen();
-    }
-    else if (currentPage == DrawerSections.agenda) {
-      container = MyAgendaScreen();
-    }
-    else if (currentPage == DrawerSections.congress) {
+    } else if (currentPage == DrawerSections.networking) {
+      container = NetworkinScreen();
+    } else if (currentPage == DrawerSections.myAgenda) {
+      container = NetworkinScreen();
+    } else if (currentPage == DrawerSections.congress) {
       container = CongressScreen();
-    }
-    else if (currentPage == DrawerSections.speakers) {
+    } else if (currentPage == DrawerSections.speakers) {
       container = SpeakersScreen();
-    }
-    else if (currentPage == DrawerSections.officialEvents) {
+    } else if (currentPage == DrawerSections.officialEvents) {
       container = OfficialEventsScreen();
-    }
-    else if (currentPage == DrawerSections.partners) {
+    } else if (currentPage == DrawerSections.partners) {
       container = PartnersScreen();
-    }
-    else if (currentPage == DrawerSections.exhibitors) {
+    } else if (currentPage == DrawerSections.exhibitors) {
       container = ExhibitorsScreen();
     }
     /*
@@ -263,58 +255,53 @@ class _WelcomPageState extends State<WelcomPage> {
      */
     else if (currentPage == DrawerSections.eFP) {
       container = EFPScreen();
-    }
-    else if (currentPage == DrawerSections.supportingP) {
+    } else if (currentPage == DrawerSections.supportingP) {
       container = SupportingPScreen();
-    }
-    else if (currentPage == DrawerSections.mediaP) {
+    } else if (currentPage == DrawerSections.mediaP) {
       container = MediaPScreen();
-    }
-    else if (currentPage == DrawerSections.socialM) {
+    } else if (currentPage == DrawerSections.socialM) {
       container = SocialMScreen();
-    }
-    else if (currentPage == DrawerSections.contact) {
+    } else if (currentPage == DrawerSections.contact) {
       container = ContactScreen();
-    }
-    else if (currentPage == DrawerSections.information) {
+    } else if (currentPage == DrawerSections.information) {
       container = InformationScreen();
-    }
-    else if (currentPage == DrawerSections.schedule) {
+    } else if (currentPage == DrawerSections.schedule) {
       container = SchelduleScreen();
-    }
-    else if (currentPage == DrawerSections.getThere) {
+    } else if (currentPage == DrawerSections.getThere) {
       container = GetThereScreen();
     }
     //else if (currentPage == DrawerSections.food) {
-      //container = FoodScreen();
+    //container = FoodScreen();
     //}
     //else if (currentPage == DrawerSections.business) {
-      //container = BusinessScreen();
+    //container = BusinessScreen();
     //}
     else if (currentPage == DrawerSections.notifications) {
       container = NotificationsScreen();
-    }
-    else if (currentPage == DrawerSections.settings) {
+    } else if (currentPage == DrawerSections.settings) {
       container = SettingsScreen();
-    }
-    else if (currentPage == DrawerSections.congressmenu) {
+    } else if (currentPage == DrawerSections.congressmenu) {
       container = CongressMenu();
-    }   
-    else if (currentPage == DrawerSections.detailcongress) {
-      container = DetailCongressScreen(check: false,);
-    }
-    else if (currentPage == DrawerSections.detailexhib) {
+    } else if (currentPage == DrawerSections.detailcongress) {
+      container = DetailCongressScreen(
+        check: false,
+      );
+    } else if (currentPage == DrawerSections.DetailNetworkin) {
+      container = DetailNetworkinScreen();
+    } else if (currentPage == DrawerSections.detailexhib) {
       container = DetailExhibitorsScreen();
     }
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("EMEC EXPO"),
-        backgroundColor: Color(0xff261350),
-        actions: <Widget>[],
+        //title: Text("EMEC EXPO"),
+        backgroundColor: Colors.black,
+        actions: const <Widget>[],
         elevation: 0,
+        //leading: const SizedBox.shrink(),
       ),
-      body: container,
-      drawer: Drawer(
+      body: container, // 'container' is a variable holding the current screen's widget
+      endDrawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -329,6 +316,38 @@ class _WelcomPageState extends State<WelcomPage> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: 'Notifications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
+        ],
+        currentIndex: _getBottomNavIndexForBottomNav(),
+        selectedItemColor: Color(0xff00c1c1),
+        unselectedItemColor: Colors.white,
+        backgroundColor: Color(0xff261350),
+        onTap: (index) {
+          setState(() {
+            if (index == 0) {
+              currentPage = DrawerSections.home;
+            } else if (index == 1) {
+              currentPage = DrawerSections.notifications;
+            } else if (index == 2) {
+              _scaffoldKey.currentState?.openEndDrawer();// Assuming menu navigates to settings
+              // _scaffoldKey.currentState?.openDrawer(); // Only open drawer if that's the sole purpose of menu
+            }
+          });
+        },
+      ),
     );
   }
 
@@ -341,19 +360,27 @@ class _WelcomPageState extends State<WelcomPage> {
         // shows the list of menu drawer
         children: [
           menuItem(1, "Home", Icons.home_outlined,
-              currentPage == DrawerSections.home ? true : false,false),
-          menuItem(2, "My Agenda", Icons.calendar_today,
-              currentPage == DrawerSections.agenda ? true : false,false),
+              currentPage == DrawerSections.home ? true : false, false),
+          menuItem(2, "Networking", Icons.calendar_today,
+              currentPage == DrawerSections.networking ? true : false, false),
           menuItem(3, "Congress", Icons.web,
-              currentPage == DrawerSections.congressmenu ? true : false,false),
+              currentPage == DrawerSections.congressmenu ? true : false, false),
           menuItem(4, "Speakers", Icons.speaker_group_outlined,
-              currentPage == DrawerSections.speakers ? true : false,false),
+              currentPage == DrawerSections.speakers ? true : false, false),
           //menuItem(5, "Official Events", Icons.event,
-              //currentPage == DrawerSections.officialEvents ? true : false),
+          //currentPage == DrawerSections.officialEvents ? true : false),
           menuItem(6, "Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.partners ? true : false,false),
-          menuItem(7, "Exhibitors", Icons.work_outline,
-              currentPage == DrawerSections.exhibitors ? true : false,currentPage == DrawerSections.product || currentPage == DrawerSections.act || currentPage == DrawerSections.news? true : false),
+              currentPage == DrawerSections.partners ? true : false, false),
+          menuItem(
+              7,
+              "Exhibitors",
+              Icons.work_outline,
+              currentPage == DrawerSections.exhibitors ? true : false,
+              currentPage == DrawerSections.product ||
+                  currentPage == DrawerSections.act ||
+                  currentPage == DrawerSections.news
+                  ? true
+                  : false),
           /*
         Padding(
               padding: EdgeInsets.only(left: 35.0),
@@ -372,123 +399,108 @@ class _WelcomPageState extends State<WelcomPage> {
           ),
         */
           menuItem(11, "Expo Floor Plan", Icons.location_on_outlined,
-              currentPage == DrawerSections.eFP ? true : false,false),
+              currentPage == DrawerSections.eFP ? true : false, false),
           menuItem(12, "Suporting Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.supportingP ? true : false,false),
-          menuItem(13, "Media Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.mediaP ? true : false,false),
+              currentPage == DrawerSections.supportingP ? true : false, false),
+          // menuItem(13, "Media Partners", Icons.account_tree_outlined,
+          //     currentPage == DrawerSections.mediaP ? true : false,false),
           menuItem(14, "Social Media", Icons.language,
-              currentPage == DrawerSections.socialM ? true : false,false),
+              currentPage == DrawerSections.socialM ? true : false, false),
           menuItem(15, "Contact", Icons.contact_phone_outlined,
-              currentPage == DrawerSections.contact ? true : false,false),
+              currentPage == DrawerSections.contact ? true : false, false),
           menuItem(16, "Information", Icons.info_outline,
-              currentPage == DrawerSections.information ? true : false,currentPage==DrawerSections.schedule ? true : false),
+              currentPage == DrawerSections.information ? true : false,
+              currentPage == DrawerSections.schedule ? true : false),
           Padding(
             padding: EdgeInsets.only(left: 35.0),
             child: menuItem(17, "Schedule", Icons.schedule,
-                currentPage == DrawerSections.schedule ? true : false,currentPage==DrawerSections.information ? true : false),
+                currentPage == DrawerSections.schedule ? true : false,
+                currentPage == DrawerSections.information ? true : false),
           ),
           menuItem(18, "How to get there", Icons.map,
-              currentPage == DrawerSections.getThere ? true : false,false),
-         // menuItem(19, "Food", Icons.fastfood_outlined,
-           //   currentPage == DrawerSections.food ? true : false),
+              currentPage == DrawerSections.getThere ? true : false, false),
+          menuItem(19, "myAgenda", Icons.calendar_today,
+              currentPage == DrawerSections.myAgenda ? true : false, false),
+          // menuItem(19, "Food", Icons.fastfood_outlined,
+          //   currentPage == DrawerSections.food ? true : false),
           //menuItem(20, "Business Safe", Icons.health_and_safety_outlined,
-            //  currentPage == DrawerSections.business ? true : false),
+          //  currentPage == DrawerSections.business ? true : false),
           menuItem(21, "Notifications", Icons.notifications_none,
-              currentPage == DrawerSections.notifications ? true : false,false),
+              currentPage == DrawerSections.notifications ? true : false, false),
           menuItem(22, "Settings", Icons.settings,
-              currentPage == DrawerSections.settings ? true : false,false),
+              currentPage == DrawerSections.settings ? true : false, false),
         ],
       ),
     );
   }
 
-  Widget menuItem(int id, String title, IconData icon, bool selected,bool childSelected) {
-    var color=Colors.grey[300];
-    if(childSelected==true)
-      {
-        selected=true;
-
-      }
+  Widget menuItem(int id, String title, IconData icon, bool selected, bool childSelected) {
+    var color = Colors.grey[300];
+    if (childSelected == true) {
+      selected = true;
+    }
     return Material(
-      color: selected? color: Colors.transparent,
-       shape:Border(
-         bottom: selected ? BorderSide(width: 0.4, color: Colors.black12) :BorderSide(width: 0.0, color: Colors.transparent),
-       ),
+      color: selected ? color : Colors.transparent,
+      shape: Border(
+        bottom: selected
+            ? BorderSide(width: 0.4, color: Colors.black12)
+            : BorderSide(width: 0.0, color: Colors.transparent),
+      ),
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
           setState(() {
             if (id == 1) {
               currentPage = DrawerSections.home;
-            }else if (id == 2) {
-              currentPage = DrawerSections.agenda;
-            }
-            else if (id == 3) {
+            } else if (id == 2) {
+              currentPage = DrawerSections.networking;
+            } else if (id == 3) {
               currentPage = DrawerSections.congressmenu;
-            }
-            else if (id == 4) {
+            } else if (id == 4) {
               currentPage = DrawerSections.speakers;
-            }
-            else if (id == 5) {
+            } else if (id == 5) {
               currentPage = DrawerSections.officialEvents;
-            }
-            else if (id == 6) {
+            } else if (id == 6) {
               currentPage = DrawerSections.partners;
-            }
-            else if (id == 7) {
+            } else if (id == 7) {
               currentPage = DrawerSections.exhibitors;
-            }
-            else if (id == 8) {
+            } else if (id == 8) {
               currentPage = DrawerSections.product;
-
-            }
-            else if (id == 9) {
+            } else if (id == 9) {
               currentPage = DrawerSections.act;
-            }
-            else if (id == 10) {
+            } else if (id == 10) {
               currentPage = DrawerSections.news;
-            }
-            else if (id == 11) {
+            } else if (id == 11) {
               currentPage = DrawerSections.eFP;
-            }
-            else if (id == 12) {
+            } else if (id == 12) {
               currentPage = DrawerSections.supportingP;
-            }
-            else if (id == 13) {
+            } else if (id == 13) {
               currentPage = DrawerSections.mediaP;
-            }
-            else if (id == 14) {
+            } else if (id == 14) {
               currentPage = DrawerSections.socialM;
-            }
-            else if (id == 15) {
+            } else if (id == 15) {
               currentPage = DrawerSections.contact;
-            }
-            else if (id == 16) {
+            } else if (id == 16) {
               currentPage = DrawerSections.information;
-            }
-            else if (id == 17) {
+            } else if (id == 17) {
               currentPage = DrawerSections.schedule;
-            }
-            else if (id == 18) {
+            } else if (id == 18) {
               currentPage = DrawerSections.getThere;
-            }
-            else if (id == 19) {
+            } else if (id == 19) {
               currentPage = DrawerSections.food;
-            }
-            else if (id == 20) {
+            } else if (id == 20) {
               currentPage = DrawerSections.business;
-            }
-            else if (id == 21) {
+            } else if (id == 21) {
               currentPage = DrawerSections.notifications;
-            }
-            else if (id == 22) {
+            } else if (id == 22) {
               currentPage = DrawerSections.settings;
+            } else if (id == 23) {
+              currentPage = DrawerSections.myAgenda;
             }
           });
         },
         child: Container(
-          padding: EdgeInsets.only(left: 8.0,right: 20.0,top: 12.0,bottom: 12.0),
+          padding: EdgeInsets.only(left: 8.0, right: 20.0, top: 12.0, bottom: 12.0),
           child: Row(
             children: [
               Expanded(
@@ -496,7 +508,7 @@ class _WelcomPageState extends State<WelcomPage> {
                 child: Icon(
                   icon,
                   size: 27,
-                  color:Color(0xff00c1c1),
+                  color: Color(0xff00c1c1),
                 ),
               ),
               Expanded(
@@ -504,10 +516,9 @@ class _WelcomPageState extends State<WelcomPage> {
                 child: Text(
                   title,
                   style: TextStyle(
-                    color: Color(0xff261350),
-                    fontSize: 17.2,
-                    fontWeight: FontWeight.w500
-                  ),
+                      color: Color(0xff261350),
+                      fontSize: 17.2,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -516,12 +527,12 @@ class _WelcomPageState extends State<WelcomPage> {
       ),
     );
   }
-
 }
 
 enum DrawerSections {
   home,
-  agenda,
+  myAgenda,
+  networking,
   congress,
   speakers,
   officialEvents,
@@ -544,5 +555,6 @@ enum DrawerSections {
   congressmenu,
   settings,
   detailexhib,
-  detailcongress
+  detailcongress,
+  DetailNetworkin
 }

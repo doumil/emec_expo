@@ -100,7 +100,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                 child: Container(
                                                                   width: width * 0.4,
                                                                   child: Text(
-                                                                    " 10-11 Mai 2023",
+                                                                    "11-13 Sept 2024",
                                                                     style: TextStyle(fontSize: height * 0.018, fontWeight: FontWeight.w300,
                                                                         color: Colors.white),
                                                                     overflow: TextOverflow.ellipsis,
@@ -145,7 +145,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                 child: Container(
                                                                   width: width * 0.4,
                                                                   child: Text(
-                                                                    "Hôtel Hyatt Regency Casablanca",
+                                                                    "International Fair - OFEC Morocco",
                                                                     style: TextStyle(
                                                                         fontSize: height *
                                                                             0.018,
@@ -250,7 +250,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                   child: Container(
                                                                     width: width * 0.6,
                                                                     child: Text(
-                                                                      "Mercredi 10 Mai - 9h à 19h",
+                                                                      "11 September- 9h à 19h",
                                                                       style: TextStyle(
                                                                           fontSize: height *
                                                                               0.022,
@@ -285,7 +285,42 @@ class _ContactScreenState extends State<ContactScreen> {
                                                                   child: Container(
                                                                     width: width * 0.5,
                                                                     child: Text(
-                                                                      "Jeudi 11 Mai - 9h à 19h",
+                                                                      "12 September- 9h à 19h",
+                                                                      style: TextStyle(
+                                                                          fontSize: height *
+                                                                              0.022,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                          color:
+                                                                          Colors.white),
+                                                                      overflow: TextOverflow
+                                                                          .ellipsis,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )),
+                                                        Container(
+                                                            height: height * 0.03,
+                                                            margin: EdgeInsets.only(
+                                                                bottom: height * 0.01),
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Container(
+                                                                    margin: EdgeInsets.only(
+                                                                        right: 5),
+                                                                    child: Icon(
+                                                                      Icons.access_time,
+                                                                      size: height * 0.03,
+                                                                      color: Colors.white,
+                                                                    )),
+                                                                GestureDetector(
+                                                                  onTap: () {},
+                                                                  child: Container(
+                                                                    width: width * 0.5,
+                                                                    child: Text(
+                                                                      "13 September- 9h à 19h",
                                                                       style: TextStyle(
                                                                           fontSize: height *
                                                                               0.022,

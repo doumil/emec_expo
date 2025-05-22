@@ -44,7 +44,7 @@ class _GetThereScreenState extends State<GetThereScreen> {
           extendBodyBehindAppBar: true,
           body: WebView(
             javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: 'https://www.google.com/maps/place/Hyatt+Regency+Casablanca/@33.5961817,-7.6210396,17z/data=!3m1!4b1!4m8!3m7!1s0xda7d284d7ccd05f:0xd0a597e123812ee5!5m2!4m1!1i2!8m2!3d33.5961773!4d-7.6188509',
+            initialUrl: 'https://www.google.com/maps/place/Foire+Internationale+De+Casablanca/@33.6044593,-7.6291446,17z/data=!3m1!4b1!4m6!3m5!1s0xda7d389daa94585:0x2f99e524f1deb6d3!8m2!3d33.6044593!4d-7.6291446!16s%2Fg%2F11fj7j9mkh?entry=ttu',
           ),
         ));
   }

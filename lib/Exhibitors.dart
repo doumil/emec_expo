@@ -44,40 +44,40 @@ class _ExhibitorsScreenState extends State<ExhibitorsScreen> {
     //  .map((data) => ExhibitorsClass.fromJson(data))
     //.toList();
     var ex1 = ExhibitorsClass(0,'TECHNOPARK', 'ED240', '', '', '', '',
-        'assets/partners/technopark.png',false,false);
+        'assets/partners/1.png',false,false);
     litems.add(ex1);
     var ex2 = ExhibitorsClass(1,
-        'AMMC', 'EF300', '', '', '', '', 'assets/partners/ammc.png',false,false);
+        'AMMC', 'EF300', '', '', '', '', 'assets/partners/2.png',false,false);
     litems.add(ex2);
     var ex3 = ExhibitorsClass(2,'MEDI 1 RADIO', 'RZ901', '', '', '', '',
-        'assets/partners/mediradio.png',false,false);
+        'assets/partners/3.png',false,false);
     litems.add(ex3);
     var ex4 = ExhibitorsClass(3,'TECHNOPARK', 'ED240', '', '', '', '',
-        'assets/partners/technopark.png',false,false);
+        'assets/partners/4.png',false,false);
     litems.add(ex4);
     var ex5 = ExhibitorsClass(4,
-        'AMMC', 'EF300', '', '', '', '', 'assets/partners/ammc.png',false,false);
+        'AMMC', 'EF300', '', '', '', '', 'assets/partners/5.png',false,false);
     litems.add(ex5);
     var ex6 = ExhibitorsClass(5,'MEDI 1 RADIO', 'RZ901', '', '', '', '',
-        'assets/partners/mediradio.png',false,false);
+        'assets/partners/6.png',false,false);
     litems.add(ex6);
     var ex7 = ExhibitorsClass(6,'TECHNOPARK', 'ED240', '', '', '', '',
-        'assets/partners/technopark.png',false,false);
+        'assets/partners/7.png',false,false);
     litems.add(ex7);
     var ex8 = ExhibitorsClass(7,
-        'AMMC', 'EF300', '', '', '', '', 'assets/partners/ammc.png',false,false);
+        'AMMC', 'EF300', '', '', '', '', 'assets/partners/7.png',false,false);
     litems.add(ex8);
     var ex9 = ExhibitorsClass(8,'MEDI 1 RADIO', 'RZ901', '', '', '', '',
-        'assets/partners/mediradio.png',false,false);
+        'assets/partners/8.png',false,false);
     litems.add(ex9);
     var ex10 = ExhibitorsClass(9,'TECHNOPARK', 'ED240', '', '', '', '',
-        'assets/partners/technopark.png',false,false);
+        'assets/partners/9.png',false,false);
     litems.add(ex10);
     var ex11 = ExhibitorsClass(10,
-        'AMMC', 'EF300', '', '', '', '', 'assets/partners/ammc.png',false,false);
+        'AMMC', 'EF300', '', '', '', '', 'assets/partners/10.png',false,false);
     litems.add(ex11);
     var ex12 = ExhibitorsClass(11,'MEDI 1 RADIO', 'RZ901', '', '', '', '',
-        'assets/partners/mediradio.png',false,false);
+        'assets/partners/11.png',false,false);
     litems.add(ex12);
     if (this.mounted) {
       setState(() {
@@ -285,8 +285,8 @@ else{
                               ],
                             ),
                             onTap: () async{
-                              //prefs = await SharedPreferences.getInstance();
-                              //prefs.setString("Data", "6");
+                              prefs = await SharedPreferences.getInstance();
+                              prefs.setString("Data", "6");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
