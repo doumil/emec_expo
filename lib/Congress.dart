@@ -72,6 +72,13 @@ class _CongressScreenState extends State<CongressScreen> {
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
+          appBar: AppBar(
+            title: Center(child: Text("Congress")),
+            backgroundColor: Colors.black,
+            actions: const <Widget>[],
+            elevation: 0,
+            //leading: const SizedBox.shrink(),
+          ),
           extendBodyBehindAppBar: true,
           body: isLoading == true
               ? Center(
