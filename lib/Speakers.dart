@@ -170,7 +170,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
         child: Scaffold(
           backgroundColor: Colors.white, // Overall white background
           appBar: AppBar(
-            backgroundColor:Colors.black, // Dark blue background, as per image
+            backgroundColor:Color(0xFF261350), // Dark blue background, as per image
             elevation: 0, // No shadow
             title: Text(
               'Speakers', // Title

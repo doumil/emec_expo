@@ -1,13 +1,14 @@
 import 'package:emec_expo/Activities.dart';
-import 'package:emec_expo/Exhibitors.dart';
+import 'package:emec_expo/Exhibitors.dart'; // Make sure this imports your ExhibitorsScreen class
 import 'package:emec_expo/News.dart';
 import 'package:emec_expo/product.dart';
-import 'package:emec_expo/main.dart';
+import 'package:emec_expo/main.dart'; // Keeping for now, but often not necessary for simple navigation
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../my_drawer_header.dart';
-import 'DetailExhibitors.dart';
+import '../my_drawer_header.dart'; // Assuming this path is correct
+// import 'DetailExhibitors.dart'; // <--- You likely don't need this import directly in ExhibitorsMenu.dart
+// if DetailExhibitorsScreen is only navigated to from ExhibitorsScreen.
 
 class ExhibitorDScreen extends StatefulWidget {
   const ExhibitorDScreen({Key? key}) : super(key: key);
@@ -81,9 +82,9 @@ class _ExhibitorDScreenState extends State<ExhibitorDScreen> {
                   ),
                   Expanded(
                     child:TabBarView(children: [
+                      // CORRECTED: Display the ExhibitorsScreen (your list of exhibitors) here
                       Container(
-
-                        child :DetailExhibitorsScreen(),
+                        child :ExhibitorsScreen(), // <-- This is the change!
                       ),
                       Container(
                         child: ProductScreen(),

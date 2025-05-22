@@ -289,7 +289,7 @@ class _WelcomPageState extends State<WelcomPage> {
     } else if (currentPage == DrawerSections.DetailNetworkin) {
       container = DetailNetworkinScreen();
     } else if (currentPage == DrawerSections.detailexhib) {
-      container = DetailExhibitorsScreen();
+      container = ExhibitorsScreen();
     }
     return Scaffold(
       key: _scaffoldKey,
