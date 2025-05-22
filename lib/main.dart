@@ -293,13 +293,13 @@ class _WelcomPageState extends State<WelcomPage> {
     }
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
+/*      appBar: AppBar(
         //title: Text("EMEC EXPO"),
         backgroundColor: Colors.black,
         actions: const <Widget>[],
         elevation: 0,
         //leading: const SizedBox.shrink(),
-      ),
+      ),*/
       body: container, // 'container' is a variable holding the current screen's widget
       endDrawer: Drawer(
         child: SingleChildScrollView(
