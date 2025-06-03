@@ -1,4 +1,4 @@
-import 'package:emec_expo/tabs/FACEBOOK.dart';
+import 'package:emec_expo/tabs/FACEBOOK.dart'; // Re-added the import
 import 'package:emec_expo/tabs/INSTAGRAM.dart';
 import 'package:emec_expo/tabs/LINKEDIN.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +14,7 @@ class SocialMScreen extends StatefulWidget {
 }
 
 class _SocialMScreenState extends State<SocialMScreen> {
+  @override
   void initState() {
     super.initState();
   }
@@ -21,17 +22,17 @@ class _SocialMScreenState extends State<SocialMScreen> {
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+      builder: (context) => AlertDialog(
+        title: const Text('Êtes-vous sûr'),
+        content: const Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new TextButton(
+          TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: const Text('Non'),
           ),
-          new TextButton(
+          TextButton(
             onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: const Text('Oui '),
           ),
         ],
       ),
@@ -42,46 +43,53 @@ class _SocialMScreenState extends State<SocialMScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 3, // Changed length back to 3
         child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: Container(
-            child: Column(
-              children: [
-               Container(
-                 color: Color(0xff261350),
-                 child: TabBar(
-                     unselectedLabelColor: const Color(0xff00c1c1),
-                     labelColor:Colors.white,
-                     tabs:[
-                       Tab(
-                         child: Text("FACEBOOK"),
-                       ),
-                       Tab(
-                         text:"INSTAGRAM",
-                       ),
-                       Tab(
-                         text:"LINKEDIN",
-                       )
-                     ]
-                 ),
-
-               ),
-                Expanded(
-                    child:TabBarView(children: [
-                      Container(
-                        child :FacebookScreen(),
+          appBar: AppBar(
+            title: const Text(
+              "Social Media",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            backgroundColor: const Color(0xff261350),
+            elevation: 0,
+            centerTitle: true,
+            actions: const <Widget>[],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(kToolbarHeight),
+              child: Container(
+                color: const Color(0xff261350),
+                child: const TabBar(
+                    unselectedLabelColor: Color(0xff00c1c1),
+                    labelColor: Colors.white,
+                    indicatorColor: Colors.white,
+                    tabs:[
+                      Tab( // Facebook tab restored
+                        child: Text("FACEBOOK"),
                       ),
-                      Container(
-                        child: InstagramScreen(),
+                      Tab(
+                        text:"INSTAGRAM",
                       ),
-                      Container(
-                        child: LINKEDINScreen(),
-                      ),
-                    ],
-                    ),
+                      Tab(
+                        text:"LINKEDIN",
+                      )
+                    ]
                 ),
-              ],
+              ),
+            ),
+          ),
+          body: Container(
+            color: Colors.white,
+            child: TabBarView(children: [
+              Container( // Facebook content restored
+                child :FacebookScreen(),
+              ),
+              Container(
+                child: InstagramScreen(),
+              ),
+              Container(
+                child: LINKEDINScreen(),
+              ),
+            ],
             ),
           ),
         ));

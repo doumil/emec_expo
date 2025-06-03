@@ -38,6 +38,8 @@ dependencies:
   carousel_slider:
   flutter_staggered_grid_view:
   webview_flutter:
+  webview_flutter_android:
+  webview_flutter_wkwebview:
   flutter_carousel_slider:
   flutter_easyloading:
   http:
