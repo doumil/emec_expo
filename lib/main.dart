@@ -455,7 +455,7 @@ class _WelcomPageState extends State<WelcomPage> {
             } else if (id == 2) {
               currentPage = DrawerSections.networking;
             } else if (id == 3) {
-              currentPage = DrawerSections.congressmenu;
+              currentPage = DrawerSections.congress;
             } else if (id == 4) {
               currentPage = DrawerSections.speakers;
             } else if (id == 5) {
