@@ -26,7 +26,7 @@ class _FacebookScreenState extends State<FacebookScreen> {
             children: <Widget>[
               WebView(
                 key: _key,
-                initialUrl: 'https://web.facebook.com/EMECEXPO?locale=fr_FR',
+                initialUrl: 'https://www.facebook.com/EMECEXPO?locale=fr_FR',
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (finish) {
                   setState(() {
