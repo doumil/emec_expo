@@ -141,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Center(child: Text("Settings")),
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xff261350),
           actions: const <Widget>[],
           elevation: 0,
           //leading: const SizedBox.shrink(),
