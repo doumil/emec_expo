@@ -65,36 +65,40 @@ class _DetailCongressScreenState extends State<DetailCongressScreen> {
     //List<Speakers> speaker = (json.decode(res.body) as List)
     //  .map((data) => Speakers.fromJson(data))
     // .toList();
-    var sp1 = Speakers("ali", "lahrichi", "fondateur et ceo kertys",
-        "fondateur et ceo kertys,", "assets/av.jpg");
+    var sp1 = Speakers("ali", "lahrichi","oky", "fondateur et ceo kertys",
+        "fondateur et ceo kertys,", "assets/av.jpg",false);
     litems.add(sp1);
     var sp2 = Speakers(
         "hamza",
         "aboulfeth",
+        "oky",
         "fondateur",
         "président-directeur général de genious communications",
-        "assets/speakers/hamza.jpg");
+        "assets/speakers/hamza.jpg",false);
     litems.add(sp2);
     var sp3 = Speakers(
         "hamza",
         "aboulfeth",
+        "oky",
         "fondateur",
         "président-directeur général de genious communications",
-        "assets/speakers/hamza.jpg");
+        "assets/speakers/hamza.jpg",false);
     litems.add(sp3);
     var sp4 = Speakers(
         "hamza",
         "aboulfeth",
+        "oky",
         "fondateur",
         "président-directeur général de genious communications",
-        "assets/speakers/hamza.jpg");
+        "assets/speakers/hamza.jpg",false);
     litems.add(sp4);
     var sp5 = Speakers(
         "hamza",
         "aboulfeth",
+        "oky",
         "fondateur",
         "président-directeur général de genious communications",
-        "assets/speakers/hamza.jpg");
+        "assets/speakers/hamza.jpg",false);
     litems.add(sp5);
 
     if (this.mounted) {

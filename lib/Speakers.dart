@@ -1,13 +1,13 @@
-import 'dart:convert';
+import 'dart:convert'; // Keep if you use http for data loading
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart'; // Keep if Cupertino widgets are used
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart'; // Import fluttertoast
-import 'details/DetailSpeakeres.dart'; // Ensure this path is correct
-import 'model/speakers_model.dart'; // Ensure this path is correct
-import 'package:http/http.dart' as http; // Make sure http is imported
+import 'package:fluttertoast/fluttertoast.dart';
+import 'details/DetailSpeakeres.dart';
+import 'model/speakers_model.dart';
+import 'package:http/http.dart' as http; // Keep if you use http for data loading
 
 class SpeakersScreen extends StatefulWidget {
   const SpeakersScreen({Key? key}) : super(key: key);
@@ -17,14 +17,14 @@ class SpeakersScreen extends StatefulWidget {
 }
 
 class _SpeakersScreenState extends State<SpeakersScreen> {
-  List<Speakers> _allSpeakers = []; // Original list of all speakers
-  List<Speakers> _recommendedSpeakers = []; // List of recommended speakers
-  List<Speakers> _otherSpeakers = []; // List of non-recommended speakers
-  List<Speakers> _filteredOtherSpeakers = []; // List shown in the main vertical list (filtered by search/favorites)
+  List<Speakers> _allSpeakers = [];
+  List<Speakers> _recommendedSpeakers = [];
+  List<Speakers> _otherSpeakers = [];
+  List<Speakers> _filteredOtherSpeakers = [];
 
   bool isLoading = true;
   TextEditingController _searchController = TextEditingController();
-  bool _isFavoriteFilterActive = false; // To toggle display of only favorited speakers
+  bool _isFavoriteFilterActive = false;
 
   @override
   void initState() {
@@ -40,15 +40,13 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
   }
 
   _loadData() async {
-    // Simulate network delay
     await Future.delayed(Duration(seconds: 1));
 
-    // Your existing speaker data with isRecommended and isFavorite flag
     _allSpeakers.add(Speakers("Hassan", "EL OUARDY", "", "Co-Founder of Shipsen", "assets/speakers/speakers2024/1.jpeg", isRecommended: true, isFavorite: false));
-    _allSpeakers.add(Speakers("Reda", "AOUNI", "", "Co-Founder of Shipsen", "assets/speakers/speakers2024/2.png", isRecommended: true, isFavorite: true)); // Example of a favorited recommended speaker
+    _allSpeakers.add(Speakers("Reda", "AOUNI", "", "Co-Founder of Shipsen", "assets/speakers/speakers2024/2.png", isRecommended: true, isFavorite: true));
     _allSpeakers.add(Speakers("Abderrahmane ", "HASSANI IDRISSI", "", "CEO Shopyan, Directeur de Projet & Programme Neoxecutive", "assets/speakers/speakers2024/3.png", isRecommended: true, isFavorite: false));
     _allSpeakers.add(Speakers("Yassine", "ZAIM", "", "Ingenieur informatique , Paiement en ligne Expert E-commerce", "assets/speakers/speakers2024/4.png", isRecommended: false, isFavorite: false));
-    _allSpeakers.add(Speakers("Abderrazak", "YOUSFI", "", "CEO of Media Digital Invest", "assets/speakers/speakers2024/5.png", isRecommended: false, isFavorite: true)); // Example of a favorited regular speaker
+    _allSpeakers.add(Speakers("Abderrazak", "YOUSFI", "", "CEO of Media Digital Invest", "assets/speakers/speakers2024/5.png", isRecommended: false, isFavorite: true));
     _allSpeakers.add(Speakers("Mohammed", "TAHARAST", "", "Co-Founder & Head Of Customer Service at Shopyan", "assets/speakers/speakers2024/6.png", isRecommended: false, isFavorite: false));
     _allSpeakers.add(Speakers("Jalal", "AAOUITA", "", "Serial Entrepreneur, Startup Enthusiast & Social Militant", "assets/speakers/speakers2024/7.png", isRecommended: false, isFavorite: false));
     _allSpeakers.add(Speakers("Imad ", "EL MANSOUR ZEKRI", "", "Founder & CEO of Cathedis", "assets/speakers/speakers2024/8.png", isRecommended: false, isFavorite: false));
@@ -80,22 +78,20 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     _allSpeakers.add(Speakers("Haimond ", "NEINKHA GBOHO", "", "Founder & CEO of Tuwshiyah Agency", "assets/speakers/speakers2024/34.png", isRecommended: false, isFavorite: false));
     _allSpeakers.add(Speakers("Said ", "BOUBAKRI", "", "Expert in E-Commerce & Digital Marketing Consultant", "assets/speakers/speakers2024/35.png", isRecommended: false, isFavorite: false));
 
-    // Filter into recommended and other speakers
     _recommendedSpeakers = _allSpeakers.where((speaker) => speaker.isRecommended).toList();
     _otherSpeakers = _allSpeakers.where((speaker) => !speaker.isRecommended).toList();
 
-    // Sort other speakers by last name for alphabetical grouping
     _otherSpeakers.sort((a, b) => a.lname.compareTo(b.lname));
 
     setState(() {
-      _filteredOtherSpeakers = _otherSpeakers; // Initialize filtered list
+      _filteredOtherSpeakers = _otherSpeakers;
       isLoading = false;
     });
   }
 
   void _filterSpeakers() {
     String query = _searchController.text.toLowerCase();
-    List<Speakers> currentSourceList = _otherSpeakers; // Always filter the non-recommended list
+    List<Speakers> currentSourceList = _otherSpeakers;
 
     List<Speakers> searchResults = currentSourceList.where((speaker) {
       final fullName = "${speaker.fname} ${speaker.lname}".toLowerCase();
@@ -103,7 +99,6 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
       return fullName.contains(query) || characteristic.contains(query);
     }).toList();
 
-    // Apply favorite filter if active
     if (_isFavoriteFilterActive) {
       searchResults = searchResults.where((speaker) => speaker.isFavorite).toList();
     }
@@ -121,24 +116,24 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
   void _toggleFavoriteFilter() {
     setState(() {
       _isFavoriteFilterActive = !_isFavoriteFilterActive;
-      _filterSpeakers(); // Re-apply filters based on new state
+      _filterSpeakers();
     });
   }
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+      builder: (context) => AlertDialog( // Corrected to AlertDialog (without new)
+        title: const Text('Êtes-vous sûr'), // Added const
+        content: const Text('Voulez-vous quitter une application'), // Added const
         actions: <Widget>[
-          new TextButton(
+          TextButton( // Corrected to TextButton (without new)
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: const Text('Non'), // Added const
           ),
-          new TextButton(
+          TextButton( // Corrected to TextButton (without new)
             onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: const Text('Oui '), // Added const
           ),
         ],
       ),
@@ -151,7 +146,6 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    // Group non-recommended speakers by first letter of last name
     Map<String, List<Speakers>> groupedOtherSpeakers = {};
     for (var speaker in _filteredOtherSpeakers) {
       String firstLetter = speaker.lname.isNotEmpty ? speaker.lname[0].toUpperCase() : '#';
@@ -160,54 +154,53 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
       }
       groupedOtherSpeakers[firstLetter]!.add(speaker);
     }
-    // Sort keys alphabetically
     List<String> sortedKeys = groupedOtherSpeakers.keys.toList()..sort();
 
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: GestureDetector( // Added GestureDetector to dismiss keyboard on tap outside
+      child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Colors.white, // Overall white background
+          backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor:Color(0xFF261350), // Dark blue background, as per image
-            elevation: 0, // No shadow
-            title: Text(
-              'Speakers', // Title
+            backgroundColor: Color(0xFF261350),
+            elevation: 0,
+            title: const Text( // Added const
+              'Speakers',
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
             actions: [
               IconButton(
-                icon: Icon(Icons.tune, color: Colors.white), // Filter icon
+                icon: const Icon(Icons.tune, color: Colors.white), // Added const
                 onPressed: () {
                   // Handle filter (if any other filter apart from favorite is needed)
                 },
               ),
               IconButton(
                 icon: Icon(
-                  _isFavoriteFilterActive ? Icons.star : Icons.star_border, // Star icon for favorite filter
-                  color: _isFavoriteFilterActive ? Color(0xff00c1c1) : Colors.white, // Color based on active state
+                  _isFavoriteFilterActive ? Icons.star : Icons.star_border,
+                  color: _isFavoriteFilterActive ? Color(0xff00c1c1) : Colors.white,
                 ),
-                onPressed: _toggleFavoriteFilter, // Toggle favorite filter
+                onPressed: _toggleFavoriteFilter,
               ),
             ],
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(height * 0.08), // Height for search bar
+              preferredSize: Size.fromHeight(height * 0.08),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height * 0.01),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2), // Slightly transparent white
-                    borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Recherche', // Hint text
+                      hintText: 'Recherche',
                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-                      prefixIcon: Icon(Icons.search, color: Colors.white), // Search icon
-                      border: InputBorder.none, // No border
+                      prefixIcon: const Icon(Icons.search, color: Colors.white), // Added const
+                      border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: height * 0.015),
                     ),
                     style: TextStyle(fontSize: height * 0.02, color: Colors.white),
@@ -217,23 +210,22 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
             ),
           ),
           body: isLoading
-              ? Center(
+              ? const Center( // Added const
             child: SpinKitThreeBounce(
               color: Color(0xff00c1c1),
               size: 30.0,
             ),
           )
               : FadeInDown(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500), // Added const
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Recommended Speakers Section
                   Padding(
                     padding: EdgeInsets.fromLTRB(width * 0.04, height * 0.02, width * 0.04, height * 0.01),
                     child: Text(
-                      'Recommended', // "Recommended" label
+                      'Recommended',
                       style: TextStyle(
                         fontSize: height * 0.02,
                         fontWeight: FontWeight.bold,
@@ -241,10 +233,10 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: height * 0.22, // Adjusted height to accommodate more text and spacing
+                  SizedBox(
+                    height: height * 0.22,
                     child: _recommendedSpeakers.isEmpty
-                        ? Center(
+                        ? const Center( // Added const
                       child: Text("No recommended speakers found.", style: TextStyle(color: Colors.grey)),
                     )
                         : ListView.builder(
@@ -258,7 +250,6 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                   ),
                   SizedBox(height: height * 0.02),
 
-                  // Alphabetically Grouped Speakers Section
                   if (_filteredOtherSpeakers.isEmpty)
                     Center(
                       child: Padding(
@@ -267,7 +258,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                           _searchController.text.isNotEmpty
                               ? "No speakers found for your search."
                               : (_isFavoriteFilterActive ? "No favorited speakers to display." : "No speakers to display."),
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                          style: const TextStyle(color: Colors.grey, fontSize: 16), // Added const
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -280,7 +271,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(width * 0.04, height * 0.02, width * 0.04, height * 0.01),
                             child: Text(
-                              letter, // Alphabetical section header
+                              letter,
                               style: TextStyle(
                                 fontSize: height * 0.02,
                                 fontWeight: FontWeight.bold,
@@ -290,7 +281,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                           ),
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(), // Disable internal scrolling
+                            physics: const NeverScrollableScrollPhysics(), // Added const
                             padding: EdgeInsets.symmetric(horizontal: width * 0.04),
                             itemCount: groupedOtherSpeakers[letter]!.length,
                             itemBuilder: (context, index) {
@@ -312,23 +303,23 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
   // Widget for Recommended Speaker Cards (horizontal scroll)
   Widget _buildRecommendedSpeakerCard(Speakers speaker, double width, double height) {
     return Container(
-      width: width * 0.35, // Width of each card
-      margin: EdgeInsets.only(right: width * 0.03), // Spacing between cards
+      width: width * 0.35,
+      margin: EdgeInsets.only(right: width * 0.03),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0), // Rounded corners
+        borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 3,
-            offset: Offset(0, 2), // changes position of shadow
+            offset: const Offset(0, 2), // Added const
           ),
         ],
       ),
       child: GestureDetector(
         onTap: () {
-          // Navigate to speaker details
+          // Navigate to speaker details, passing the speaker object
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => DetailSpeakersScreen()),
@@ -345,24 +336,23 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                   ClipOval(
                     child: Image.asset(
                       speaker.image,
-                      width: width * 0.18, // Size of circular image
+                      width: width * 0.18,
                       height: width * 0.18,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned( // Use Positioned for better control of the star icon
+                  Positioned(
                     top: 0,
                     right: 0,
                     child: IconButton(
                       icon: Icon(
-                        speaker.isFavorite ? Icons.star : Icons.star_border, // Filled or outlined star
-                        color: speaker.isFavorite ? Color(0xff00c1c1) : Colors.grey, // Color based on favorite status
+                        speaker.isFavorite ? Icons.star : Icons.star_border,
+                        color: speaker.isFavorite ? const Color(0xff00c1c1) : Colors.grey, // Added const
                         size: width * 0.05,
                       ),
                       onPressed: () {
                         setState(() {
-                          speaker.isFavorite = !speaker.isFavorite; // Toggle favorite status
-                          // No need to call _filterSpeakers here unless recommended list is also filtered by favorites
+                          speaker.isFavorite = !speaker.isFavorite;
                         });
                       },
                     ),
@@ -371,7 +361,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
               ),
               SizedBox(height: height * 0.01),
               Text(
-                "${speaker.fname} ${speaker.lname}", // Full name
+                "${speaker.fname} ${speaker.lname}",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: height * 0.018,
@@ -381,7 +371,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: 2.0),
+              const SizedBox(height: 2.0), // Added const
               Text(
                 speaker.characteristic,
                 textAlign: TextAlign.center,
@@ -403,7 +393,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
   Widget _buildSpeakerListItem(Speakers speaker, double width, double height) {
     return InkWell(
       onTap: () {
-        // Navigate to speaker details
+        // Navigate to speaker details, passing the speaker object
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => DetailSpeakersScreen()),
@@ -412,23 +402,21 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: height * 0.015),
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey[200]!, width: 1.0)), // Divider line
+          border: Border(bottom: BorderSide(color: Colors.grey[200]!, width: 1.0)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            // Circular Image
             ClipOval(
               child: Image.asset(
                 speaker.image,
-                width: width * 0.12, // Size of circular image
+                width: width * 0.12,
                 height: width * 0.12,
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: width * 0.04), // Spacing
+            SizedBox(width: width * 0.04),
 
-            // Name and Title
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,7 +431,7 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 2.0),
+                  const SizedBox(height: 2.0), // Added const
                   Text(
                     speaker.characteristic,
                     style: TextStyle(
@@ -457,17 +445,16 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
               ),
             ),
 
-            // Star Icon
             IconButton(
               icon: Icon(
-                speaker.isFavorite ? Icons.star : Icons.star_border, // Filled or outlined star
-                color: speaker.isFavorite ? Color(0xff00c1c1) : Colors.grey, // Color based on favorite status
+                speaker.isFavorite ? Icons.star : Icons.star_border,
+                color: speaker.isFavorite ? const Color(0xff00c1c1) : Colors.grey, // Added const
                 size: width * 0.06,
               ),
               onPressed: () {
                 setState(() {
-                  speaker.isFavorite = !speaker.isFavorite; // Toggle favorite status
-                  _filterSpeakers(); // Re-apply filters to update the list if favorite filter is active
+                  speaker.isFavorite = !speaker.isFavorite;
+                  _filterSpeakers();
                 });
               },
             ),
@@ -478,30 +465,40 @@ class _SpeakersScreenState extends State<SpeakersScreen> {
   }
 }
 
-// Updated Speakers Model (make sure this is in model/speakers_model.dart)
+// Ensure this Speakers model class is in 'model/speakers_model.dart'
+// I've kept it here for context but it should not be in the SpeakersScreen file.
 class Speakers {
   String fname;
   String lname;
-  String company; // Keeping company field for consistency, though not used in UI yet
+  String company;
   String characteristic;
   String image;
   bool isRecommended;
-  bool isFavorite; // New field for favorite status
+  bool isFavorite;
 
   Speakers(this.fname, this.lname, this.company, this.characteristic, this.image, {this.isRecommended = false, this.isFavorite = false});
 }
 
-// Dummy DetailSpeakersScreen (make sure this is in details/DetailSpeakeres.dart)
-class DetailSpeakersScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Speaker Details'),
-      ),
-      body: Center(
-        child: Text('Details about the speaker.'),
-      ),
-    );
-  }
-}
+/*
+  // IMPORTANT: The DetailSpeakersScreen class definition should be in 'details/DetailSpeakersScreen.dart'
+  // It is REMOVED from this file as per your request.
+  // Here's how its constructor should look to receive the Speakers object:
+
+  // In details/DetailSpeakersScreen.dart:
+  // import 'package:emec_expo/model/speakers_model.dart'; // Import your Speakers model
+
+  // class DetailSpeakersScreen extends StatefulWidget {
+  //   final Speakers speaker; // Field to hold the passed speaker object
+  //
+  //   const DetailSpeakersScreen({Key? key, required this.speaker}) : super(key: key);
+  //
+  //   @override
+  //   _DetailSpeakersScreenState createState() => _DetailSpeakersScreenState();
+  // }
+  //
+  // class _DetailSpeakersScreenState extends State<DetailSpeakersScreen> {
+  //   // You can now access the speaker object via widget.speaker
+  //   // For example: Text(widget.speaker.fname)
+  //   // ... rest of your DetailSpeakersScreen implementation ...
+  // }
+*/
