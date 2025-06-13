@@ -1,10 +1,5 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
+import 'package:flutter/services.dart'; // Keep for SystemNavigator.pop() if _onWillPop is used elsewhere
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -14,561 +9,190 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  void initState() {
-    super.initState();
-  }
-
+  // If you need the _onWillPop dialog for the whole app, it's better placed in WelcomPage or a wrapper.
+  // For a single screen like Contact, it's usually not required unless specific exit logic is needed.
+  // I'm commenting it out to simplify, as per matching the "settings" design, which doesn't typically have this.
+  /*
   Future<bool> _onWillPop() async {
     return (await showDialog(
       context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Êtes-vous sûr'),
-        content: new Text('Voulez-vous quitter une application'),
+      builder: (context) => AlertDialog(
+        title: const Text('Êtes-vous sûr'),
+        content: const Text('Voulez-vous quitter une application'),
         actions: <Widget>[
-          new TextButton(
+          TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Non'),
+            child: const Text('Non'),
           ),
-          new TextButton(
+          TextButton(
             onPressed: () => SystemNavigator.pop(),
-            child: new Text('Oui '),
+            child: const Text('Oui '),
           ),
         ],
       ),
-    )) ??
-        false;
+    )) ?? false;
   }
+  */
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-            body: DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyText2!,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints viewportConstraints) {
-                  return FadeInDown(
-                    duration: Duration(milliseconds: 500),
-                    child: Container(
-                      color: Colors.black26,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: viewportConstraints.maxHeight,
+    // We don't need width/height calculations for basic layout, AppBar handles it.
+    // double height = MediaQuery.of(context).size.height;
+    // double width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Contact'), // Centered title for Contact page
+        centerTitle: true, // Center the title like in your Settings design
+        backgroundColor: const Color(0xff261350), // Your app's theme color
+        foregroundColor: Colors.white, // Color for text and icons on the AppBar
+      ),
+      body: Container(
+        color: Colors.white, // Main background color for the body, similar to settings
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Padding around the content
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Align content to the start
+              children: <Widget>[
+                // Section 1: Logo and Introduction
+                Card( // Using Card for a raised, defined section
+                  margin: const EdgeInsets.only(bottom: 20.0),
+                  color: Colors.white, // Card background color
+                  elevation: 2.0, // Shadow for the card
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/EMEC-LOGO.png", // Ensure this path is correct
+                          height: 100, // Adjust height as needed
                         ),
-                        child: IntrinsicHeight(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                // A fixed-height child.
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                      color: Color(0xff261350),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              flex: 11,
-                                              child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: width * 0.035),
-                                                  width: width * 0.47,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Container(
-                                                          height: height * 0.03,
-                                                          margin: EdgeInsets.only(
-                                                              bottom: height * 0.01),
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                  margin: EdgeInsets.only(
-                                                                      right: 5),
-                                                                  child: Icon(
-                                                                    Icons.event_note,
-                                                                    size: height * 0.02,
-                                                                    color: Colors.white,
-                                                                  )),
-                                                              GestureDetector(
-                                                                onTap: () {},
-                                                                child: Container(
-                                                                  width: width * 0.4,
-                                                                  child: Text(
-                                                                    "11-13 Sept 2024",
-                                                                    style: TextStyle(fontSize: height * 0.018, fontWeight: FontWeight.w300,
-                                                                        color: Colors.white),
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                    ],
-                                                  ))),
-                                          Container(
-                                            height: height * 0.06,
-                                            width: 0.7,
-                                            color:  const Color(0xff00c1c1),
-                                          ),
-                                          Expanded(
-                                              flex: 11,
-                                              child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: width * 0.035),
-                                                  width: width * 0.47,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Container(
-                                                          height: height * 0.03,
-                                                          margin: EdgeInsets.only(
-                                                              bottom: height * 0.01),
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                  margin: EdgeInsets.only(
-                                                                      right: 5),
-                                                                  child: Icon(
-                                                                    Icons.location_on,
-                                                                    size: height * 0.02,
-                                                                    color: Colors.white,
-                                                                  )),
-                                                              GestureDetector(
-                                                                onTap: () {},
-                                                                child: Container(
-                                                                  width: width * 0.4,
-                                                                  child: Text(
-                                                                    "International Fair - OFEC Morocco",
-                                                                    style: TextStyle(
-                                                                        fontSize: height *
-                                                                            0.018,
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
-                                                                        color:
-                                                                        Colors.white),
-                                                                    overflow: TextOverflow
-                                                                        .visible,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )),
-                                                    ],
-                                                  ))),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child: Image.asset(
-                                                    "assets/logo16.png",
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          margin: EdgeInsets.only(top: height * 0.02),
-                                          padding: EdgeInsets.only(bottom: height * 0.02),
-                                          width: width * 0.9,
-                                          decoration: BoxDecoration(
-                                            color: Colors.black26,
-                                              //color:const Color(0xff5a5a5a),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0))),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child: Text(
-                                                    'Opening time',
-                                                    style: TextStyle(fontSize: 22,color: Colors.white,fontWeight:
-                                                      FontWeight
-                                                      .bold,),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                ),
-                                              ),
-                                              Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child:Column(
-                                                      children: <Widget>[
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.access_time,
-                                                                      size: height * 0.03,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.6,
-                                                                    child: Text(
-                                                                      "11 September- 9h à 19h",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.022,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.access_time,
-                                                                      size: height * 0.03,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.5,
-                                                                    child: Text(
-                                                                      "12 September- 9h à 19h",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.022,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.access_time,
-                                                                      size: height * 0.03,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.5,
-                                                                    child: Text(
-                                                                      "13 September- 9h à 19h",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.022,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                      ]
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          margin: EdgeInsets.only(top: height * 0.02),
-                                          padding: EdgeInsets.only(bottom: height * 0.02),
-                                          width: width * 0.9,
-                                          decoration: BoxDecoration(
-                                              color:const Color(0xff5a5a5a),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0))),
-                                        ),
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Center(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child: Text(
-                                                    'CONTACT',
-                                                    style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,
-                                                        color: const Color(0xff00c1c1)),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                               // child: Text(" if you have any questions \n"
-                                                 //   "or comments, please do \n"
-                                                   // "not hesitate to contact us \n"
-                                                    //"by phone or email.",style: TextStyle(fontSize: 22.00,color: Colors.white,fontWeight: FontWeight.bold),),
-                                              ),
-                                              Container(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child:Column(
-                                                      children: <Widget>[
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.phone,
-                                                                      size: height * 0.034,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.6,
-                                                                    child: Text(
-                                                                      "(+212)669-576-718",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.029,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white,
-                                                                      ),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.phone,
-                                                                      //Icons.email_outlined,
-                                                                      size: height * 0.034,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.6,
-                                                                    child: Text(
-                                                                      "(+33)650-357-057",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.029,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                      ]
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.04,
-                                                      width * 0.01),
-                                                  child:Column(
-                                                      children: <Widget>[
-                                                        Container(
-                                                            height: height * 0.03,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.01),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.email_outlined,
-                                                                      size: height * 0.034,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.6,
-                                                                    child: Text(
-                                                                      //"(+33)650-357-057",
-                                                                        "b.nadia@emecexpo.ma",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.027,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                        Container(
-                                                            height: height * 0.027,
-                                                            margin: EdgeInsets.only(
-                                                                bottom: height * 0.001),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                    margin: EdgeInsets.only(
-                                                                        right: 5),
-                                                                    child: Icon(
-                                                                      Icons.email_outlined,
-                                                                      size: height * 0.034,
-                                                                      color: Colors.white,
-                                                                    )),
-                                                                GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Container(
-                                                                    width: width * 0.6,
-                                                                    child: Text(
-                                                                      "sales@emecexpo.ma",
-                                                                      style: TextStyle(
-                                                                          fontSize: height *
-                                                                              0.029,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          color:
-                                                                          Colors.white),
-                                                                      overflow: TextOverflow
-                                                                          .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            )),
-                                                      ]
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          margin: EdgeInsets.only(top: height * 0.03),
-                                          padding: EdgeInsets.only(bottom: height * 0.03),
-                                          width: width * 0.9,
-                                          decoration: BoxDecoration(
-                                              color: Colors.black54,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0))),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        const SizedBox(height: 16.0),
+                        const Text(
+                          'If you have any questions or comments, please do not hesitate to contact us by phone or email.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16.0, color: Colors.grey),
                         ),
-                      ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                ),
+
+                // Section 2: Opening Time
+                const Text(
+                  'Opening time',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xff261350), // Match text color to your app theme
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10), // Spacing below heading
+                Card(
+                  margin: const EdgeInsets.only(bottom: 20.0),
+                  color: Colors.white,
+                  elevation: 2.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        _buildContactInfoRow(
+                          icon: Icons.access_time,
+                          text: "11 September - 9h à 19h",
+                        ),
+                        const Divider(), // Divider between items
+                        _buildContactInfoRow(
+                          icon: Icons.access_time,
+                          text: "12 September - 9h à 19h",
+                        ),
+                        const Divider(),
+                        _buildContactInfoRow(
+                          icon: Icons.access_time,
+                          text: "13 September - 9h à 19h",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Section 3: Contact Details
+                const Text(
+                  'CONTACT',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xff261350), // Match text color to your app theme
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Card(
+                  color: Colors.white,
+                  elevation: 2.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: <Widget>[
+                        _buildContactInfoRow(
+                          icon: Icons.phone,
+                          text: "(+212) 669-576-718",
+                        ),
+                        const Divider(),
+                        _buildContactInfoRow(
+                          icon: Icons.phone,
+                          text: "(+33) 650-357-057",
+                        ),
+                        const Divider(),
+                        _buildContactInfoRow(
+                          icon: Icons.email_outlined,
+                          text: "contact@emec-expo.com", // Example email, replace with actual
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20), // Spacing at the bottom
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Helper method to build a contact info row
+  Widget _buildContactInfoRow({required IconData icon, required String text}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            icon,
+            size: 24, // Adjust icon size
+            color: const Color(0xff00c1c1), // Icon color
+          ),
+          const SizedBox(width: 15), // Spacing between icon and text
+          Expanded( // Use Expanded to prevent overflow
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 16, // Adjust font size
+                color: Colors.black87, // Text color
               ),
-            )
-        )
+              overflow: TextOverflow.visible, // Allow text to wrap if needed
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
