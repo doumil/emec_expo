@@ -41,7 +41,13 @@ class _GetThereScreenState extends State<GetThereScreen> {
     return WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
-          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            title: const Text('How to get there'), // Your existing title
+            centerTitle: true, // <--- ADD THIS LINE to center the title
+            backgroundColor: const Color(0xff261350),
+            foregroundColor: Colors.white,
+          ),
+          //extendBodyBehindAppBar: true,
           body: WebView(
             javascriptMode: JavascriptMode.unrestricted,
             initialUrl: 'https://www.google.com/maps/place/Foire+Internationale+De+Casablanca/@33.6044593,-7.6291446,17z/data=!3m1!4b1!4m6!3m5!1s0xda7d389daa94585:0x2f99e524f1deb6d3!8m2!3d33.6044593!4d-7.6291446!16s%2Fg%2F11fj7j9mkh?entry=ttu',
