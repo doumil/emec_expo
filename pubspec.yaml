@@ -40,6 +40,9 @@ dependencies:
   webview_flutter:
   webview_flutter_android:
   webview_flutter_wkwebview:
+  badges:
+  flutter_app_badger:
+  permission_handler:
   flutter_carousel_slider:
   flutter_easyloading:
   http:

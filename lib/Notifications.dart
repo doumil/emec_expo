@@ -1,196 +1,118 @@
-import 'dart:convert';
-import 'package:animate_do/animate_do.dart';
-import 'package:emec_expo/database_helper/database_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'model/notification_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:emec_expo/model/notification_model.dart'; // Import your NotifClass model
+import 'package:emec_expo/main.dart'; // Import main.dart to access globalLitems and notificationCountNotifier
+import 'details/notification_detail_screen.dart'; // Import the detail screen
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
 
   @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
-  late SharedPreferences prefs;
-  var db = new DataBaseHelperNotif();
-  List<NotifClass> litems = [];
-  bool isLoading = true;
+
+  @override
   void initState() {
-    litems.clear();
-    isLoading = true;
-    _loadData();
     super.initState();
+    // Ensure the badge count reflects the current number of items when this screen is initialized.
+    // The main.dart handles resetting the badge to 0 when navigating *to* this screen from bottom nav/drawer.
+    notificationCountNotifier.value = globalLitems.length;
   }
 
-  _loadData() async {
-    var data = await db.getListNoti();
-    litems = data;
-    litems=litems.reversed.toList();
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
+  // Method to handle tapping on a notification
+  void _onNotificationTap(int index) async {
+    // Ensure the index is valid before proceeding
+    if (index < 0 || index >= globalLitems.length) {
+      print("Error: Invalid index tapped: $index");
+      return;
     }
-  }
-    // var url = "http://192.168.8.100/emecexpo/loadspeakers.php";
-    // var res = await http.post(Uri.parse(url));
-    // List<NotifClass> notif = (json.decode(res.body) as List)
-    //   .map((data) => NotifClass.fromJson(data))
-    // .toList();
-    //litems=notif;
-    //liste of notifications
-    /*
-    var nt1=NotifClass("EMEC EXPO 2023","tue,14 jun","09:00",
-        "Thank you for joining us in sixth edition"
-        "of Digital Entreprise How! See you from June 10 to 11 2023");
-    litems.add(nt1);
-    var nt2=NotifClass("EMEC EXPO 2023","tue,14 jun","09:00",
-        "Thank you for joining us in sixth edition"
-        "of Digital Entreprise How! See you from June 10 to 11 2023");
-    litems.add(nt2);
-    var nt3=NotifClass("EMEC EXPO 2023","tue,14 jun","09:00",
-        "Thank you for joining us in sixth edition"
-        "of Digital Entreprise How! See you from June 10 to 11 2023");
-    litems.add(nt3);
-    var nt4=NotifClass("EMEC EXPO 2023","tue,14 jun","09:00",
-        "Thank you for joining us in sixth edition"
-        "of Digital Entreprise How! See you from June 10 to 11 2023");
-    litems.add(nt4);
-    */
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Êtes-vous sûr'),
-            content: new Text('Voulez-vous quitter une application'),
-            actions: <Widget>[
-              new TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Non'),
-              ),
-              new TextButton(
-                onPressed: () => SystemNavigator.pop(),
-                child: new Text('Oui '),
-              ),
-            ],
-          ),
-        )) ??
-        false;
+
+    final NotifClass tappedNotification = globalLitems[index];
+
+    // Navigate to detail screen and await its return
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NotificationDetailScreen(notification: tappedNotification),
+      ),
+    );
+
+    // This part executes ONLY when the user navigates back from the detail screen.
+    // Check if the item at the original index still exists and is the same before trying to remove it.
+    if (index < globalLitems.length && globalLitems[index] == tappedNotification) {
+      setState(() {
+        globalLitems.removeAt(index); // Remove the tapped notification
+        notificationCountNotifier.value = globalLitems.length; // Update badge count
+      });
+      print("Notification at index $index deleted after viewing detail. Badge count: ${notificationCountNotifier.value}");
+    } else {
+      // If the item at `index` is no longer the same, or the index is out of bounds,
+      // it means the list was modified, or this item was already processed.
+      // Re-evaluate the count to ensure accuracy.
+      setState(() {
+        notificationCountNotifier.value = globalLitems.length;
+      });
+      print("List changed or item already removed. Re-evaluating badge count: ${notificationCountNotifier.value}");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: isLoading == true
-              ? Center(
-                  child: SpinKitThreeBounce(
-                  color: Color(0xff00c1c1),
-                  size: 30.0,
-                ))
-              : FadeInDown(
-            duration: Duration(milliseconds: 500),
-                child: Container(
-                  child: new ListView.builder(
-                      itemCount: litems.length,
-                      itemBuilder: (_, int position) {
-                        return new Card(
-                          margin: EdgeInsets.only(
-                            left: height * 0.016,
-                              right: height * 0.016,
-                              top: height * 0.016),
-                          color: Colors.white,
-                          shape: BorderDirectional(
-                            bottom: BorderSide(color: Colors.black12, width: 1),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    flex: 10,
-                                    child: Container(
-                                      //padding: EdgeInsets.only(bottom: height * 0.01),
-                                      child: ClipOval(
-                                        child: Image.asset(
-                                          'assets/ICON-EMEC.png',
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 60,
-                                    child: Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            child: Text(
-                                              "${litems[position].name}",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 30,
-                                    child: Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            width: double.maxFinite,
-                                            child: Text(
-                                              "${litems[position].date} ${litems[position].dtime}",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,)
-                                              ,maxLines: 1,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Text("\n ${litems[position].discriptions}\n"),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-
-                        );
-                      }),
-                ),
-              ),
-        ));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notifications'),
+        centerTitle: true, // Center the title
+        backgroundColor: const Color(0xff261350),
+        leading: IconButton( // Add a back arrow
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // This pops the current NotificationsScreen off the navigation stack
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: globalLitems.isEmpty // Check if the global list of notifications is empty
+          ? Center( // If empty, display a centered message
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center, // Center content vertically
+          children: [
+            Icon(
+              Icons.notifications_off, // Bell icon with a slash
+              size: 80,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 16),
+            Text(
+              "No notifications found", // Main text for empty state
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+            SizedBox(height: 8),
+            Text(
+              "Check back later for updates!", // Subtext for empty state
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
+          ],
+        ),
+      )
+          : ListView.builder( // If not empty, display the list of notifications
+        itemCount: globalLitems.length,
+        itemBuilder: (context, index) {
+          final notification = globalLitems[index];
+          return Card(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            elevation: 3,
+            child: ListTile(
+              title: Text(notification.name),
+              subtitle: Text(
+                  '${notification.date} at ${notification.dtime}\n${notification.discription}'),
+              isThreeLine: true,
+              onTap: () => _onNotificationTap(index), // Handle tap to view detail and trigger deletion on back
+            ),
+          );
+        },
+      ),
+      // FloatingActionButton is removed as requested
+    );
   }
 }

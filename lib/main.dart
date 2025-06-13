@@ -1,11 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // NEW: For FontAwesome icons
+
+// Your custom imports (adjust paths as per your project structure)
 import 'package:emec_expo/Busniess%20Safe.dart';
 import 'package:emec_expo/Congress.dart';
 import 'package:emec_expo/Contact.dart';
 import 'package:emec_expo/Exhibitors.dart';
-import 'package:emec_expo/Expo%20Floor%20Plan.dart';
+import 'package:emec_expo/Expo%20Floor%20Plan.dart'; // Renamed to EFPScreen
 import 'package:emec_expo/Food.dart';
 import 'package:emec_expo/How%20to%20get%20there.dart';
 import 'package:emec_expo/Information.dart';
@@ -17,140 +27,168 @@ import 'package:emec_expo/Settings.dart';
 import 'package:emec_expo/Social%20Media.dart';
 import 'package:emec_expo/Speakers.dart';
 import 'package:emec_expo/details/DetailCongress.dart';
-import 'details/DetailNetworkin.dart';
+import 'package:emec_expo/details/DetailNetworkin.dart';
 import 'package:emec_expo/partners.dart';
-import 'package:emec_expo/product.dart';
+import 'package:emec_expo/product.dart'; // Your existing product screen
 import 'package:emec_expo/services/local_notification_service.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:emec_expo/home_screen.dart';
-import 'package:googleapis/admin/reports_v1.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'Activities.dart';
-import 'package:emec_expo/My Agenda.dart';
-import 'Suporting Partners.dart';
-import 'details/CongressMenu.dart';
-import 'details/DetailExhibitors.dart';
-import 'model/notification_model.dart';
-import 'model/user_scanner.dart';
-import 'my_drawer_header.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'Schedule.dart';
-import 'database_helper/database_helper.dart';
-import 'package:http/http.dart' as http;
-import 'networking.dart';
+import 'package:emec_expo/Activities.dart';
+import 'package:emec_expo/My%20Agenda.dart';
+import 'package:emec_expo/Suporting%20Partners.dart'; // Your existing Supporting Partners screen
+import 'package:emec_expo/details/CongressMenu.dart'; // Your existing CongressMenu screen
+import 'package:emec_expo/model/notification_model.dart';
+import 'package:emec_expo/my_drawer_header.dart';
+import 'package:emec_expo/Schedule.dart';
+import 'package:emec_expo/networking.dart';
 
-var db = new DataBaseHelperNotif();
-var  name="1",date="1",dtime="1",discription="1";
-var fbm=FirebaseMessaging.instance;
+// NEW IMPORTS FOR NEW SCREENS (Ensure these files exist in your lib folder)
+import 'package:emec_expo/app_user_guide_screen.dart';
+import 'package:emec_expo/my_profile_screen.dart';
+import 'package:emec_expo/my_badge_screen.dart';
+import 'package:emec_expo/favourites_screen.dart';
+import 'package:emec_expo/scanned_badges_screen.dart';
+import 'package:emec_expo/messages_screen.dart';
+import 'package:emec_expo/meeting_ratings_screen.dart';
+// If you want new distinct screens for Products/Congresses/Sponsors:
+// import 'package:emec_expo/products_screen.dart';
+// import 'package:emec_expo/congresses_screen.dart';
+// import 'package:emec_expo/sponsors_screen.dart';
 
-Future _onMessage(RemoteMessage event) async{
-  name=event.notification!.title.toString();
-  date="${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
-  dtime="${DateTime.now().hour}:${DateTime.now().minute}";
-  discription=event.notification!.body.toString();
-  if(name=="missed notification"){
-    print("notification not save");
-  }
-  else{
-    await db.saveNoti(NotifClass(name, date, dtime, discription));
-  }
+
+// Global ValueNotifier to hold the current notification count for UI updates
+ValueNotifier<int> notificationCountNotifier = ValueNotifier(0);
+
+// GLOBAL LIST FOR NOTIFICATIONS - This is the in-memory source of truth for your notifications
+List<NotifClass> globalLitems = [];
+
+// Global variables for notification details (could be local to _onMessage, but kept global as in your previous code)
+var name = "1", date = "1", dtime = "1", discription = "1";
+var fbm = FirebaseMessaging.instance;
+
+// Firebase background message handler (runs in its own isolate)
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage event) async {
+  await Firebase.initializeApp(); // Ensure Firebase is initialized for background messages
+  print("Handling a background message: ${event.messageId}");
+
+  name = event.notification?.title ?? "No Title";
+  date = "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+  dtime = "${DateTime.now().hour}:${DateTime.now().minute}";
+  discription = event.notification?.body ?? "No Body";
+
+  globalLitems.add(NotifClass(name, date, dtime, discription));
+  print("Background notification received. Total items in globalLitems: ${globalLitems.length}");
 }
-class MyHttpOverrides extends HttpOverrides{
+
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
+
+  await _requestNotificationPermission();
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.getBool("isChecked1");
   prefs.getBool("isChecked2");
   prefs.getBool("isChecked3");
-  Timer.periodic(Duration(seconds: 5), (timer) {
-    myMethod();
-  });
+
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(
-    _onMessage
-  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Initialize globalLitems with 4 items on every app start/hot reload
+  globalLitems = [
+    NotifClass(
+      "Welcome to EMEC EXPO!",
+      "01 Jan",
+      "09:00",
+      "Get ready for an amazing experience. Explore exhibitors and sessions.",
+    ),
+    NotifClass(
+      "New Exhibitor Alert",
+      "05 Jan",
+      "10:00",
+      "TechInnovate Inc. has just joined! Visit their booth at Stand 23.",
+    ),
+    NotifClass(
+      "Upcoming Session Reminder",
+      "09 Jun",
+      "14:30",
+      "Don't miss the 'Future of AI' panel discussion today at Hall B, Room 7. Join us live!",
+    ),
+    NotifClass(
+      "Networking Event Tonight",
+      "10 Jun",
+      "18:00",
+      "Join us for a casual networking reception at the Grand Ballroom.",
+    ),
+  ];
+  notificationCountNotifier.value = globalLitems.length;
+
+  notificationCountNotifier.addListener(() {
+    int currentCount = notificationCountNotifier.value;
+    if (currentCount > 0) {
+      FlutterAppBadger.updateBadgeCount(currentCount);
+      print("App icon badge updated to: $currentCount");
+    } else {
+      FlutterAppBadger.removeBadge();
+      print("App icon badge removed.");
+    }
+  });
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (notificationCountNotifier.value > 0) {
+      FlutterAppBadger.updateBadgeCount(notificationCountNotifier.value);
+    }
+  });
+
   runApp(MyApp());
 }
-sendNotify(String title, String body, String id) async {
-  final String serverToken = 'AAAAVy_P_0g:APA91bGckzY8RIWOLFp7TK36FOB4yaJCaQdU-en_Q-BUN2rfiK9bgvZMuEs8HslL7_EGIwW20y9cJISstJmiXvDCq4LridWcWhlDG-YZajFkeFU19v-R_iu8EQHT0F7BdSe6vW0XSLMz';
-  await http.post(Uri.parse("https://fcm.googleapis.com/fcm/send"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=$serverToken',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'notification': <String, dynamic>{
-          'title': '$title',
-          'body': '$body',
-        },
-          'priority': 'high',
-          'data': <String, dynamic>{
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          'id': id,
-          'status': 'done'
-        },
-        'to': '/topics/Rec'
-        //await messaging.getToken(),
-      }));
 
+Future<void> _requestNotificationPermission() async {
+  final status = await Permission.notification.status;
+  if (status.isDenied) {
+    print("Notification permission denied. Requesting...");
+    await Permission.notification.request();
+  } else if (status.isPermanentlyDenied) {
+    print("Notification permission permanently denied. Opening settings.");
+    openAppSettings();
+  }
 }
-onMessage(){
-  FirebaseMessaging.onMessage.listen((event) {
-    //FlutterRingtonePlayer.playNotification();
-    String? title,body;
-    print("test 2");
-    title=event.notification?.title.toString();
-    body=event.notification?.body.toString();
-    NotificationService().NotifDataChanged(
-        title:title,
-        body:body);
-    print(event.notification?.title.toString());
-    print(event.notification?.body.toString());
-    //Get.snackbar(title!,body!);
+
+void onMessage(){
+  FirebaseMessaging.onMessage.listen((event) async {
+    String? title = event.notification?.title;
+    String? body = event.notification?.body;
+
+    String current_date = "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}";
+    String current_dtime = "${DateTime.now().hour}:${DateTime.now().minute}";
+
+    if (title != null && body != null) {
+      globalLitems.add(NotifClass(title, current_date, current_dtime, body));
+      notificationCountNotifier.value = globalLitems.length;
+      print("Foreground notification received and added. Badge count: ${notificationCountNotifier.value}");
+    }
+
+    NotificationService().NotifDataChanged(title: title, body: body);
+    print("FCM Foreground Notification Title: ${event.notification?.title}");
+    print("FCM Foreground Notification Body: ${event.notification?.body}");
   });
 }
-List<Userscan> litems = [];
-int count=0;
-void myMethod() async{
-  var id =33;
-  var url = "https://okydigital.com/buzz_login/loadsync.php";
-  //var res = await http.get(Uri.parse(url));
-  var data = {
-    "id_buzz":id.toString(),
-  };
-  var res = await http.post(Uri.parse(url), body: data);
-  //String jsn ='[{"id":"17","firstname":"yassine","lastname":"doumil","company":"okysolutions","email":"yassinedoumil96@gmail.com","phone":"06877778787","adresse":"hay hassani casablanca","evolution":"bonne","action":"14","notes":"note1","created":"","updated":null},{"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null},
-  // {"id":"18","firstname":"amine","lastname":"faouzi","company":"okysolutions","email":"amine.normane@gmail.com","phone":"089687676","adresse":"annassi casablanca","evolution":"moyenne","action":"23","notes":"note 2","created":"","updated":null}]';
-  List<Userscan> users = (json.decode(res.body) as List)
-      .map((data) => Userscan.fromJson(data))
-      .toList();
-  if(int.parse(users.length.toString())!=int.parse(count.toString())){
-    print("data has changed");
-    sendNotify("missed notification","see updates from EMEC EXPO\n that you may have missed","0");
-    print("notification has show it");
-  }
-  print("user${users.length}");
-  count=users.length;
-  print("count${count}");
 
-}
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      //home: MyApp1(),
-      home: WelcomPage()
+        debugShowCheckedModeBanner: false,
+        home: WelcomPage()
     );
   }
 }
@@ -168,16 +206,22 @@ class _WelcomPageState extends State<WelcomPage> {
 
   @override
   void initState() {
-    _goTo_notification_back();
-    _loadData();
     super.initState();
+    _initSharedPreferencesAndLoadData();
+    _goTo_notification_back();
+    onMessage();
   }
 
-  _loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> _initSharedPreferencesAndLoadData() async {
+    prefs = await SharedPreferences.getInstance();
+    _loadData();
+  }
+
+  _loadData() {
     _data = (prefs.getString("Data") ?? '');
     print("-------------$_data------------------");
     setState(() {
+      // Logic to set initial currentPage based on stored data
       if (_data == "1") {
         currentPage = DrawerSections.exhibitors;
       } else if (_data == "2") {
@@ -186,6 +230,7 @@ class _WelcomPageState extends State<WelcomPage> {
         currentPage = DrawerSections.business;
       } else if (_data == "4") {
         currentPage = DrawerSections.notifications;
+        notificationCountNotifier.value = 0;
       } else if (_data == "5") {
         currentPage = DrawerSections.congressmenu;
       } else if (_data == "6") {
@@ -202,10 +247,11 @@ class _WelcomPageState extends State<WelcomPage> {
     });
   }
 
-  _goTo_notification_back() async {
+  _goTo_notification_back() {
     FirebaseMessaging.onMessageOpenedApp.listen((event) async {
       prefs = await SharedPreferences.getInstance();
       prefs.setString("Data", "4");
+      notificationCountNotifier.value = 0;
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => WelcomPage()));
     });
@@ -217,22 +263,22 @@ class _WelcomPageState extends State<WelcomPage> {
     } else if (currentPage == DrawerSections.notifications) {
       return 1;
     } else if (currentPage == DrawerSections.settings) {
-      return 2; // Assuming settings is now linked to the menu icon
+      return 2;
     }
-    return 0; // Default to home if no match
+    return 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    var container;
+    Widget container;
     if (currentPage == DrawerSections.home) {
       container = HomeScreen();
     } else if (currentPage == DrawerSections.networking) {
       container = NetworkinScreen();
     } else if (currentPage == DrawerSections.myAgenda) {
-      container = NetworkinScreen();
+      container = MyAgendaScreen();
     } else if (currentPage == DrawerSections.congress) {
-      container = CongressScreen();
+      container = CongressScreen(); // Old Congress screen
     } else if (currentPage == DrawerSections.speakers) {
       container = SpeakersScreen();
     } else if (currentPage == DrawerSections.officialEvents) {
@@ -241,19 +287,7 @@ class _WelcomPageState extends State<WelcomPage> {
       container = PartnersScreen();
     } else if (currentPage == DrawerSections.exhibitors) {
       container = ExhibitorsScreen();
-    }
-    /*
-    else if (currentPage == DrawerSections.product) {
-      container = ProductScreen();
-    }
-    else if (currentPage == DrawerSections.act) {
-      container = ActivitesScreen();
-    }
-    else if (currentPage == DrawerSections.news) {
-      container = NewsScreen();
-    }
-     */
-    else if (currentPage == DrawerSections.eFP) {
+    } else if (currentPage == DrawerSections.eFP) {
       container = EFPScreen();
     } else if (currentPage == DrawerSections.supportingP) {
       container = SupportingPScreen();
@@ -269,47 +303,60 @@ class _WelcomPageState extends State<WelcomPage> {
       container = SchelduleScreen();
     } else if (currentPage == DrawerSections.getThere) {
       container = GetThereScreen();
-    }
-    //else if (currentPage == DrawerSections.food) {
-    //container = FoodScreen();
-    //}
-    //else if (currentPage == DrawerSections.business) {
-    //container = BusinessScreen();
-    //}
-    else if (currentPage == DrawerSections.notifications) {
+    } else if (currentPage == DrawerSections.notifications) {
       container = NotificationsScreen();
     } else if (currentPage == DrawerSections.settings) {
       container = SettingsScreen();
     } else if (currentPage == DrawerSections.congressmenu) {
       container = CongressMenu();
     } else if (currentPage == DrawerSections.detailcongress) {
-      container = DetailCongressScreen(
-        check: false,
-      );
+      container = DetailCongressScreen(check: false,);
     } else if (currentPage == DrawerSections.DetailNetworkin) {
       container = DetailNetworkinScreen();
     } else if (currentPage == DrawerSections.detailexhib) {
       container = ExhibitorsScreen();
     }
+    // NEW SCREEN MAPPINGS
+    else if (currentPage == DrawerSections.appUserGuide) {
+      container = const AppUserGuideScreen();
+    } else if (currentPage == DrawerSections.myProfile) {
+      container = const MyProfileScreen();
+    } else if (currentPage == DrawerSections.myBadge) {
+      container = const MyBadgeScreen();
+    } else if (currentPage == DrawerSections.favourites) {
+      container = const FavouritesScreen();
+    } else if (currentPage == DrawerSections.scannedBadges) {
+      container = const ScannedBadgesScreen();
+    } else if (currentPage == DrawerSections.messages) {
+      container = const MessagesScreen();
+    } else if (currentPage == DrawerSections.meetingRatings) {
+      container = const MeetingRatingsScreen();
+    } else if (currentPage == DrawerSections.products) {
+      container = ProductScreen(); // Using your existing ProductScreen
+      // Or if you made a new one: container = const ProductsScreen();
+    } else if (currentPage == DrawerSections.congresses) {
+      container = CongressMenu(); // Using your existing CongressMenu
+      // Or if you made a new one: container = const CongressesScreen();
+    } else if (currentPage == DrawerSections.sponsors) {
+      container = SupportingPScreen(); // Using your existing SupportingPScreen
+      // Or if you made a new one: container = const SponsorsScreen();
+    }
+    // END NEW SCREEN MAPPINGS
+    else {
+      container = HomeScreen();
+    }
+
     return Scaffold(
       key: _scaffoldKey,
-/*      appBar: AppBar(
-        //title: Text("EMEC EXPO"),
-        backgroundColor: Colors.black,
-        actions: const <Widget>[],
-        elevation: 0,
-        //leading: const SizedBox.shrink(),
-      ),*/
-      body: container, // 'container' is a variable holding the current screen's widget
+      body: container,
       endDrawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
+            color: const Color(0xff261350), // Drawer background color
             child: Column(
               children: [
                 MyHeaderDrawer(),
-                const SizedBox(
-                  height: 05.0,
-                ),
+                const SizedBox(height: 5.0),
                 MyDrawerList(),
               ],
             ),
@@ -317,33 +364,50 @@ class _WelcomPageState extends State<WelcomPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: ValueListenableBuilder<int>(
+              valueListenable: notificationCountNotifier,
+              builder: (context, count, child) {
+                return badges.Badge(
+                  showBadge: count > 0,
+                  badgeContent: Text(
+                    count.toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                  badgeStyle: const badges.BadgeStyle(
+                    badgeColor: Colors.red,
+                    padding: EdgeInsets.all(5),
+                  ),
+                  position: badges.BadgePosition.topEnd(top: -10, end: -12),
+                  child: const Icon(Icons.notifications),
+                );
+              },
+            ),
             label: 'Notifications',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.menu),
             label: 'Menu',
           ),
         ],
         currentIndex: _getBottomNavIndexForBottomNav(),
-        selectedItemColor: Color(0xff00c1c1),
+        selectedItemColor: const Color(0xff00c1c1),
         unselectedItemColor: Colors.white,
-        backgroundColor: Color(0xff261350),
-        onTap: (index) {
+        backgroundColor: const Color(0xff261350),
+        onTap: (index) async {
           setState(() {
             if (index == 0) {
               currentPage = DrawerSections.home;
             } else if (index == 1) {
               currentPage = DrawerSections.notifications;
+              notificationCountNotifier.value = 0;
             } else if (index == 2) {
-              _scaffoldKey.currentState?.openEndDrawer();// Assuming menu navigates to settings
-              // _scaffoldKey.currentState?.openDrawer(); // Only open drawer if that's the sole purpose of menu
+              _scaffoldKey.currentState?.openEndDrawer();
             }
           });
         },
@@ -353,171 +417,140 @@ class _WelcomPageState extends State<WelcomPage> {
 
   Widget MyDrawerList() {
     return Container(
-      padding: EdgeInsets.only(
-        top: 15,
-      ),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
-        // shows the list of menu drawer
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          menuItem(1, "Home", Icons.home_outlined,
-              currentPage == DrawerSections.home ? true : false, false),
-          menuItem(2, "Networking", Icons.calendar_today,
-              currentPage == DrawerSections.networking ? true : false, false),
-          menuItem(3, "Congress", Icons.web,
-              currentPage == DrawerSections.congressmenu ? true : false, false),
-          menuItem(4, "Speakers", Icons.speaker_group_outlined,
-              currentPage == DrawerSections.speakers ? true : false, false),
-          //menuItem(5, "Official Events", Icons.event,
-          //currentPage == DrawerSections.officialEvents ? true : false),
-          menuItem(6, "Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.partners ? true : false, false),
-          menuItem(
-              7,
-              "Exhibitors",
-              Icons.work_outline,
-              currentPage == DrawerSections.exhibitors ? true : false,
-              currentPage == DrawerSections.product ||
-                  currentPage == DrawerSections.act ||
-                  currentPage == DrawerSections.news
-                  ? true
-                  : false),
-          /*
-        Padding(
-              padding: EdgeInsets.only(left: 35.0),
-            child: menuItem(8, "Product", Icons.all_inbox,
-                currentPage == DrawerSections.product ? true : false,currentPage == DrawerSections.product  ? true : false),
+          menuItem(1, "Home", Icons.home_outlined, currentPage == DrawerSections.home),
+          // Notifications is also a top-level item as per your design
+          menuItem(21, "Notifications", Icons.notifications_none, currentPage == DrawerSections.notifications),
+
+          // Event Information Section Header
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(
+              "EVENT INFORMATION",
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 35.0),
-            child: menuItem(9, "Activities", Icons.local_activity_outlined,
-                currentPage == DrawerSections.act ? true : false,false),
+          menuItem(24, "App User Guide", Icons.menu_book, currentPage == DrawerSections.appUserGuide),
+          menuItem(11, "Floor Plan", Icons.location_on_outlined, currentPage == DrawerSections.eFP),
+          menuItem(7, "Exhibitors", Icons.work_outline, currentPage == DrawerSections.exhibitors),
+          menuItem(25, "Products", Icons.shopping_bag_outlined, currentPage == DrawerSections.products),
+          menuItem(4, "Speakers", Icons.speaker_group_outlined, currentPage == DrawerSections.speakers),
+          menuItem(26, "Congresses", Icons.account_balance, currentPage == DrawerSections.congresses), // Using a general icon, adjust as needed
+          menuItem(27, "Sponsors", Icons.star_border, currentPage == DrawerSections.sponsors),
+          menuItem(6, "Partners", Icons.handshake, currentPage == DrawerSections.partners),
+
+          const Divider(color: Colors.white24, height: 20),
+
+          // My Account Section Header
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(
+              "ACCOUNT",
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 35.0),
-            child: menuItem(10, "News", Icons.insert_drive_file_outlined,
-                currentPage == DrawerSections.news ? true : false,false),
-          ),
-        */
-          menuItem(11, "Expo Floor Plan", Icons.location_on_outlined,
-              currentPage == DrawerSections.eFP ? true : false, false),
-          menuItem(12, "Suporting Partners", Icons.account_tree_outlined,
-              currentPage == DrawerSections.supportingP ? true : false, false),
-          // menuItem(13, "Media Partners", Icons.account_tree_outlined,
-          //     currentPage == DrawerSections.mediaP ? true : false,false),
-          menuItem(14, "Social Media", Icons.language,
-              currentPage == DrawerSections.socialM ? true : false, false),
-          menuItem(15, "Contact", Icons.contact_phone_outlined,
-              currentPage == DrawerSections.contact ? true : false, false),
-          menuItem(16, "Information", Icons.info_outline,
-              currentPage == DrawerSections.information ? true : false,
-              currentPage == DrawerSections.schedule ? true : false),
-          Padding(
-            padding: EdgeInsets.only(left: 35.0),
-            child: menuItem(17, "Schedule", Icons.schedule,
-                currentPage == DrawerSections.schedule ? true : false,
-                currentPage == DrawerSections.information ? true : false),
-          ),
-          menuItem(18, "How to get there", Icons.map,
-              currentPage == DrawerSections.getThere ? true : false, false),
-          menuItem(19, "myAgenda", Icons.calendar_today,
-              currentPage == DrawerSections.myAgenda ? true : false, false),
-          // menuItem(19, "Food", Icons.fastfood_outlined,
-          //   currentPage == DrawerSections.food ? true : false),
-          //menuItem(20, "Business Safe", Icons.health_and_safety_outlined,
-          //  currentPage == DrawerSections.business ? true : false),
-          menuItem(21, "Notifications", Icons.notifications_none,
-              currentPage == DrawerSections.notifications ? true : false, false),
-          menuItem(22, "Settings", Icons.settings,
-              currentPage == DrawerSections.settings ? true : false, false),
+          menuItem(28, "My Profile", Icons.person_outline, currentPage == DrawerSections.myProfile),
+          menuItem(29, "My Badge", FontAwesomeIcons.idBadge, currentPage == DrawerSections.myBadge), // FontAwesome icon
+          menuItem(30, "Favourites", Icons.favorite_border, currentPage == DrawerSections.favourites),
+          menuItem(31, "Scanned Badges", Icons.qr_code_scanner, currentPage == DrawerSections.scannedBadges),
+          menuItem(32, "Messages", Icons.message_outlined, currentPage == DrawerSections.messages),
+          menuItem(19, "My Agenda", Icons.calendar_today, currentPage == DrawerSections.myAgenda),
+          menuItem(33, "Meeting ratings", Icons.star_half, currentPage == DrawerSections.meetingRatings),
+          menuItem(2, "Networking", Icons.share_rounded, currentPage == DrawerSections.networking),
+
+          const Divider(color: Colors.white24, height: 20),
+
+          // Other top-level items that don't fit the new categories
+          menuItem(15, "Contact", Icons.contact_phone_outlined, currentPage == DrawerSections.contact),
+          menuItem(18, "How to get there", Icons.map, currentPage == DrawerSections.getThere),
+          menuItem(14, "Social Media", Icons.language, currentPage == DrawerSections.socialM),
+          menuItem(22, "Settings", Icons.settings, currentPage == DrawerSections.settings),
         ],
       ),
     );
   }
 
-  Widget menuItem(int id, String title, IconData icon, bool selected, bool childSelected) {
-    var color = Colors.grey[300];
-    if (childSelected == true) {
-      selected = true;
-    }
+  Widget menuItem(int id, String title, IconData icon, bool selected) {
     return Material(
-      color: selected ? color : Colors.transparent,
-      shape: Border(
-        bottom: selected
-            ? BorderSide(width: 0.4, color: Colors.black12)
-            : BorderSide(width: 0.0, color: Colors.transparent),
-      ),
+      color: selected ? Colors.white12 : Colors.transparent,
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
           setState(() {
-            if (id == 1) {
-              currentPage = DrawerSections.home;
-            } else if (id == 2) {
-              currentPage = DrawerSections.networking;
-            } else if (id == 3) {
-              currentPage = DrawerSections.congress;
-            } else if (id == 4) {
-              currentPage = DrawerSections.speakers;
-            } else if (id == 5) {
-              currentPage = DrawerSections.officialEvents;
-            } else if (id == 6) {
-              currentPage = DrawerSections.partners;
-            } else if (id == 7) {
-              currentPage = DrawerSections.exhibitors;
-            } else if (id == 8) {
-              currentPage = DrawerSections.product;
-            } else if (id == 9) {
-              currentPage = DrawerSections.act;
-            } else if (id == 10) {
-              currentPage = DrawerSections.news;
-            } else if (id == 11) {
-              currentPage = DrawerSections.eFP;
-            } else if (id == 12) {
-              currentPage = DrawerSections.supportingP;
-            } else if (id == 13) {
-              currentPage = DrawerSections.mediaP;
-            } else if (id == 14) {
-              currentPage = DrawerSections.socialM;
-            } else if (id == 15) {
-              currentPage = DrawerSections.contact;
-            } else if (id == 16) {
-              currentPage = DrawerSections.information;
-            } else if (id == 17) {
-              currentPage = DrawerSections.schedule;
-            } else if (id == 18) {
-              currentPage = DrawerSections.getThere;
-            } else if (id == 19) {
-              currentPage = DrawerSections.food;
-            } else if (id == 20) {
-              currentPage = DrawerSections.business;
-            } else if (id == 21) {
-              currentPage = DrawerSections.notifications;
-            } else if (id == 22) {
-              currentPage = DrawerSections.settings;
-            } else if (id == 23) {
-              currentPage = DrawerSections.myAgenda;
+            switch (id) {
+              case 1: currentPage = DrawerSections.home; break;
+              case 2: currentPage = DrawerSections.networking; break;
+              case 3: currentPage = DrawerSections.congress; break; // Original Congress, consider if 'congresses' replaces it
+              case 4: currentPage = DrawerSections.speakers; break;
+              case 6: currentPage = DrawerSections.partners; break;
+              case 7: currentPage = DrawerSections.exhibitors; break;
+              case 11: currentPage = DrawerSections.eFP; break;
+              case 12: currentPage = DrawerSections.supportingP; break; // Original Supporting Partners
+              case 14: currentPage = DrawerSections.socialM; break;
+              case 15: currentPage = DrawerSections.contact; break;
+              case 18: currentPage = DrawerSections.getThere; break;
+              case 19: currentPage = DrawerSections.myAgenda; break;
+              case 21: currentPage = DrawerSections.notifications; notificationCountNotifier.value = 0; break;
+              case 22: currentPage = DrawerSections.settings; break;
+
+            // NEW NAVIGATION CASES
+              case 24: currentPage = DrawerSections.appUserGuide; break;
+              case 25: currentPage = DrawerSections.products; break;
+              case 26: currentPage = DrawerSections.congresses; break;
+              case 27: currentPage = DrawerSections.sponsors; break;
+              case 28: currentPage = DrawerSections.myProfile; break;
+              case 29: currentPage = DrawerSections.myBadge; break;
+              case 30: currentPage = DrawerSections.favourites; break;
+              case 31: currentPage = DrawerSections.scannedBadges; break;
+              case 32: currentPage = DrawerSections.messages; break;
+              case 33: currentPage = DrawerSections.meetingRatings; break;
+
+            // Fallback for existing specific detail pages if they are still entry points
+              case 5: currentPage = DrawerSections.officialEvents; break; // If still needed
+              case 8: currentPage = DrawerSections.product; break; // If original product link is separate
+              case 9: currentPage = DrawerSections.act; break; // If still needed
+              case 10: currentPage = DrawerSections.news; break; // If still needed
+              case 13: currentPage = DrawerSections.mediaP; break; // If still needed
+              case 16: currentPage = DrawerSections.information; break; // If still needed
+              case 17: currentPage = DrawerSections.schedule; break; // If still needed
+              case 20: currentPage = DrawerSections.business; break; // If still needed
+              case 23: currentPage = DrawerSections.myAgenda; break; // Duplicate for myAgenda
+              case 3: currentPage = DrawerSections.congressmenu; break; // If congressmenu is distinct from congresses
+              case 7: currentPage = DrawerSections.detailexhib; break; // Detail exhibitor from old flow
+              case 7: currentPage = DrawerSections.detailcongress; break; // Detail congress from old flow
+              case 8: currentPage = DrawerSections.DetailNetworkin; break; // Detail networking from old flow
+
+              default: currentPage = DrawerSections.home;
             }
           });
         },
         child: Container(
-          padding: EdgeInsets.only(left: 8.0, right: 20.0, top: 12.0, bottom: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Row(
             children: [
-              Expanded(
-                flex: 1,
-                child: Icon(
-                  icon,
-                  size: 27,
-                  color: Color(0xff00c1c1),
-                ),
+              Icon(
+                icon,
+                size: 24,
+                color: const Color(0xff00c1c1),
               ),
-              Expanded(
-                flex: 3,
+              const SizedBox(width: 16),
+              Expanded( // Use Expanded to prevent overflow if text is long
                 child: Text(
                   title,
-                  style: TextStyle(
-                      color: Color(0xff261350),
-                      fontSize: 17.2,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500),
                 ),
               ),
@@ -533,28 +566,40 @@ enum DrawerSections {
   home,
   myAgenda,
   networking,
-  congress,
+  congress, // Existing, consider if 'congresses' replaces it
   speakers,
-  officialEvents,
+  officialEvents, // Not in new menu, consider removal if not used
   partners,
   exhibitors,
-  product,
-  act,
-  news,
-  eFP,
-  supportingP,
-  mediaP,
+  product, // Existing, consider if 'products' replaces it
+  act, // Not in new menu, consider removal if not used
+  news, // Not in new menu, consider removal if not used
+  eFP, // Renamed to Floor Plan in menu
+  supportingP, // Existing, consider if 'sponsors' replaces it
+  mediaP, // Not in new menu, consider removal if not used
   socialM,
   contact,
-  information,
-  schedule,
+  information, // Not in new menu (broken into sub-items), consider removal if not used
+  schedule, // Not in new menu (broken into sub-items), consider removal if not used
   getThere,
   food,
   business,
   notifications,
-  congressmenu,
+  congressmenu, // Existing, consider if 'congresses' replaces it
   settings,
   detailexhib,
   detailcongress,
-  DetailNetworkin
+  DetailNetworkin,
+
+  // NEW SECTIONS FROM DESIGN
+  appUserGuide,
+  myProfile,
+  myBadge,
+  favourites,
+  scannedBadges,
+  messages,
+  meetingRatings,
+  products, // New distinct section, or re-map to existing 'product'
+  congresses, // New distinct section, or re-map to existing 'congress'/'congressmenu'
+  sponsors, // New distinct section, or re-map to existing 'partners'/'supportingP'
 }
