@@ -2,27 +2,19 @@ class ProductClass {
   String name;
   String shortname;
   String shortdiscription;
-  String discriptions;
+  String image; // To hold the product image path
+  bool isFavorite; // For the star icon in the grid
 
+  ProductClass(this.name, this.shortname, this.shortdiscription, this.image, {this.isFavorite = false});
 
-
-
-  ProductClass(this.name, this.shortname, this.shortdiscription,this.discriptions);
-  factory ProductClass.fromJson(dynamic json) {
-    return ProductClass(json['name'] as String, json['shortname'] as String,
-        json['shortdiscription'] as String,json['discriptions'] as String);
-  }
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'date': shortname,
-      'shortdiscription':shortdiscription,
-      'discriptions': discriptions,
-
-    };
-  }
-  @override
-  String toString() {
-    return 'firstname : $name,lastname : $shortname,shortdiscription : $shortdiscription,discriptions : $discriptions';
-  }
+// If you are loading from JSON, your fromJson method should also include image and isFavorite
+// factory ProductClass.fromJson(Map<String, dynamic> json) {
+//   return ProductClass(
+//     json['name'] ?? '',
+//     json['shortname'] ?? '',
+//     json['shortdiscription'] ?? '',
+//     json['image'] ?? 'assets/placeholder_product.png', // Default image
+//     isFavorite: json['isFavorite'] ?? false,
+//   );
+// }
 }

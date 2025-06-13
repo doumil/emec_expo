@@ -335,7 +335,7 @@ class _WelcomPageState extends State<WelcomPage> {
       container = ProductScreen(); // Using your existing ProductScreen
       // Or if you made a new one: container = const ProductsScreen();
     } else if (currentPage == DrawerSections.congresses) {
-      container = CongressMenu(); // Using your existing CongressMenu
+      container = CongressScreen(); // Using your existing CongressMenu
       // Or if you made a new one: container = const CongressesScreen();
     } else if (currentPage == DrawerSections.sponsors) {
       container = SupportingPScreen(); // Using your existing SupportingPScreen
