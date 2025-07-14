@@ -42,6 +42,7 @@ dependencies:
   webview_flutter_wkwebview:
   badges:
   flutter_app_badger:
+  flutter_barcode_scanner:
   permission_handler:
   flutter_carousel_slider:
   flutter_easyloading:

@@ -49,6 +49,8 @@ import 'package:emec_expo/favourites_screen.dart';
 import 'package:emec_expo/scanned_badges_screen.dart';
 import 'package:emec_expo/messages_screen.dart';
 import 'package:emec_expo/meeting_ratings_screen.dart';
+
+import 'conversations_screen.dart';
 // If you want new distinct screens for Products/Congresses/Sponsors:
 // import 'package:emec_expo/products_screen.dart';
 // import 'package:emec_expo/congresses_screen.dart';
@@ -309,9 +311,11 @@ class _WelcomPageState extends State<WelcomPage> {
       container = SettingsScreen();
     } else if (currentPage == DrawerSections.congressmenu) {
       container = CongressMenu();
-    } else if (currentPage == DrawerSections.detailcongress) {
-      container = DetailCongressScreen(check: false,);
-    } else if (currentPage == DrawerSections.DetailNetworkin) {
+    }
+    // else if (currentPage == DrawerSections.detailcongress) {
+    //   container = DetailCongressScreen(check: false,);
+    // }
+    else if (currentPage == DrawerSections.DetailNetworkin) {
       container = DetailNetworkinScreen();
     } else if (currentPage == DrawerSections.detailexhib) {
       container = ExhibitorsScreen();
@@ -328,7 +332,7 @@ class _WelcomPageState extends State<WelcomPage> {
     } else if (currentPage == DrawerSections.scannedBadges) {
       container = const ScannedBadgesScreen();
     } else if (currentPage == DrawerSections.messages) {
-      container = const MessagesScreen();
+      container = const ConversationsScreen();
     } else if (currentPage == DrawerSections.meetingRatings) {
       container = const MeetingRatingsScreen();
     } else if (currentPage == DrawerSections.products) {
