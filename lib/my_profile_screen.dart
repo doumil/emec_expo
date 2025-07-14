@@ -1,48 +1,59 @@
+// lib/my_profile_screen.dart
 import 'package:flutter/material.dart';
+import 'package:emec_expo/model/profile_model.dart'; // Adjust import path
 
 class MyProfileScreen extends StatelessWidget {
   const MyProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Example Profile data. In a real app, this would come from a backend or state management.
+    final Profile userProfile = Profile(
+      initials: 'YD', // From your last update
+      name: 'YASSINE DOUMIL', // From your last update
+      role: 'devloper', // From your last update
+      company: 'SUBGENIOS sarl',
+      location: 'Morocco',
+      interests: ['Networking & Infrastructure', 'Other', 'Mobile Development', 'Web Technologies'],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
-        backgroundColor: const Color(0xff261350), // Dark purple color for AppBar
-        foregroundColor: Colors.white, // White text/icons on AppBar
-        centerTitle: true, // Center the title
-        elevation: 0, // No shadow below the AppBar, making it flat
+        backgroundColor: const Color(0xff261350),
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: Stack( // Using Stack to layer the background cover and scrollable content
+      body: Stack(
         children: [
-          // Background "Cover" Area - top section of the profile screen
+          // Background "Cover" Area
           Container(
-            height: 180, // Height of the background cover area
-            color: const Color(0xFFE0E0E0), // Light grey color, mimicking the image background
+            height: 180,
+            color: const Color(0xFFE0E0E0),
           ),
-          // SingleChildScrollView for the main profile content, allowing it to scroll if needed
           SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch children to fill horizontal space
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const SizedBox(height: 30), // Initial spacing from the top of the screen
+                const SizedBox(height: 30),
 
                 // Profile Picture/Initials section
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0), // Pushes the profile picture down into the cover area
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Center(
                     child: Container(
-                      width: 120, // Diameter of the circular profile picture
+                      width: 120,
                       height: 120,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blueAccent, // Pink background for the initials
+                        color: Colors.pinkAccent,
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          'YD', // Initials updated to 'YD'
-                          style: TextStyle(
-                            color: Colors.white, // White text for initials
+                          userProfile.initials, // Using data from model
+                          style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
                           ),
@@ -51,42 +62,42 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20), // Spacing below the profile picture
+                const SizedBox(height: 20),
 
                 // User Name
-                const Center(
+                Center(
                   child: Text(
-                    'YASSINE DOUMIL', // User name updated to 'YASSINE DOUMIL'
-                    style: TextStyle(
+                    userProfile.name, // Using data from model
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
                 ),
-                const SizedBox(height: 10), // Spacing below the name
+                const SizedBox(height: 10),
 
-                // User Details (Manager, Company, Location)
+                // User Details (Role, Company, Location)
                 Center(
                   child: Column(
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
-                        'devloper', // Role updated to 'devloper'
-                        style: TextStyle(
+                        userProfile.role, // Using data from model
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'SUBGENIOS sarl', // Company detail
-                        style: TextStyle(
+                        userProfile.company, // Using data from model
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'Morocco', // Location detail
-                        style: TextStyle(
+                        userProfile.location, // Using data from model
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
                         ),
@@ -94,68 +105,62 @@ class MyProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30), // Spacing before "My Interests" section
+                const SizedBox(height: 30),
 
                 // My Interests Section
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0), // Horizontal padding for this section
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start (left)
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        'My Interests', // Section heading
+                        'My Interests',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 10), // Spacing below the heading
-                      Wrap( // Allows interests chips to wrap to the next line
-                        spacing: 8.0, // Horizontal space between chips
-                        runSpacing: 4.0, // Vertical space between rows of chips
-                        children: <Widget>[
-                          _buildInterestTag('Networking & Infrastructure', context), // Interest tag
-                          _buildInterestTag('Other', context), // Interest tag
-                          // Add more _buildInterestTag widgets here for additional interests
-                        ],
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 4.0,
+                        children: userProfile.interests.map((interest) { // Using data from model
+                          return _buildInterestTag(interest);
+                        }).toList(),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 80), // Provides space at the bottom so FAB doesn't overlap content
+                const SizedBox(height: 80),
               ],
             ),
           ),
         ],
       ),
-      // Floating Action Button for editing profile
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // TODO: Implement the logic for editing the profile when this button is pressed
           debugPrint('Edit profile button tapped!');
         },
-        backgroundColor: Colors.black87, // Dark background for the FAB
-        foregroundColor: Colors.white, // White text and icon color for the FAB
-        icon: const Icon(Icons.edit), // Pencil icon
-        label: const Text('Edit'), // Text label "Edit"
+        backgroundColor: Colors.black87,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.edit),
+        label: const Text('Edit'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Positions the FAB at the bottom-right
-
-      // Removed bottomNavigationBar as per your latest code
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  // Helper method to build individual interest tags (Chips)
-  Widget _buildInterestTag(String interest, BuildContext context) {
+  // _buildInterestTag no longer needs BuildContext as it's not directly styling from theme
+  Widget _buildInterestTag(String interest) {
     return Chip(
       label: Text(
         interest,
-        style: const TextStyle(color: Colors.black87), // Text color for the chip label
+        style: const TextStyle(color: Colors.black87),
       ),
-      backgroundColor: Colors.grey.shade200, // Light grey background for the chip
+      backgroundColor: Colors.grey.shade200,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0), // Rounded corners for the chip
+        borderRadius: BorderRadius.circular(20.0),
       ),
     );
   }
