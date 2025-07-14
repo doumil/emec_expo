@@ -64,10 +64,10 @@ class _SocialMScreenState extends State<SocialMScreen> {
                     indicatorColor: Colors.white,
                     tabs:[
                       Tab( // Facebook tab restored
-                        child: Text("FACEBOOK"),
+                        child: Text("INSTAGRAM"),
                       ),
                       Tab(
-                        text:"INSTAGRAM",
+                        text:"FACEBOOK",
                       ),
                       Tab(
                         text:"LINKEDIN",
@@ -81,10 +81,10 @@ class _SocialMScreenState extends State<SocialMScreen> {
             color: Colors.white,
             child: TabBarView(children: [
               Container( // Facebook content restored
-                child :FacebookScreen(),
+                child :InstagramScreen(),
               ),
               Container(
-                child: InstagramScreen(),
+                child: FacebookScreen(),
               ),
               Container(
                 child: LINKEDINScreen(),
