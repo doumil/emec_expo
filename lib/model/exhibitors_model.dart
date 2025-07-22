@@ -1,15 +1,17 @@
+// lib/model/exhibitors_model.dart
+
 class ExhibitorsClass {
   int id;
   String title;
-  String stand;
-  String discriptions; //  existing field for full description
-  String shortDiscriptions; //  existing field for short description
-  String adress; //  existing field for address
-  String siteweb; //  existing field for website
-  String image; // This must be String
-  bool fav;
-  bool star;
-  bool isRecommended;
+  String stand; // Not directly from API, will be an empty string
+  String discriptions; // Mapped from 'bio'
+  String shortDiscriptions; // Mapped from 'bio'
+  String adress; // Mapped from 'address' (if available, or empty)
+  String siteweb; // Mapped from 'site'
+  String image; // Mapped from 'pic'
+  bool fav; // Not from API, will be false by default
+  bool star; // Not from API, will be false by default
+  bool isRecommended; // Mapped from 'valid' field in API, or false
 
   ExhibitorsClass(
       this.id,
@@ -19,24 +21,43 @@ class ExhibitorsClass {
       this.adress,
       this.discriptions,
       this.siteweb,
-      this.image, // Ensure 'image' is here and is String
+      this.image,
       this.fav,
       this.star,
       {this.isRecommended = false});
 
   factory ExhibitorsClass.fromJson(Map<String, dynamic> json) {
+    // --- MAPPING API FIELDS TO YOUR MODEL FIELDS ---
+    // 'title': Using 'name' if available, otherwise 'societe', else 'No Title'
+    String extractedTitle = (json['name'] as String?) ?? (json['societe'] as String?) ?? 'No Title';
+
+    // 'discriptions' and 'shortDiscriptions': Using 'bio' from API
+    String extractedDescription = (json['bio'] as String?) ?? '';
+
+    // 'adress': Using 'address' from API (if available), else empty
+    String extractedAddress = (json['address'] as String?) ?? '';
+
+    // 'siteweb': Using 'site' from API
+    String extractedWebsite = (json['site'] as String?) ?? '';
+
+    // 'image': Using 'pic' from API
+    String extractedImage = (json['pic'] as String?) ?? '';
+
+    // 'isRecommended': Assuming 'valid' == 1 in API means recommended
+    bool extractedIsRecommended = (json['valid'] == 1);
+
     return ExhibitorsClass(
       json['id'] as int,
-      json['title'] as String,
-      json['stand'] as String,
-      json['shortDiscriptions'] as String,
-      json['adress'] as String,
-      json['discriptions'] as String,
-      json['siteweb'] as String,
-      json['image'] as String, // Ensure this reads as String
-      json['fav'] as bool,
-      json['star'] as bool,
-      isRecommended: json['isRecommended'] as bool? ?? false,
+      extractedTitle,
+      json['stand'] as String? ?? '', // 'stand' field is NOT present in your API sample, defaulting to empty string
+      extractedDescription,
+      extractedAddress,
+      extractedDescription, // Using 'bio' for full description as well
+      extractedWebsite,
+      extractedImage,
+      json['fav'] as bool? ?? false, // 'fav' field is NOT present in your API sample, defaulting to false
+      json['star'] as bool? ?? false, // 'star' field is NOT present in your API sample, defaulting to false
+      isRecommended: extractedIsRecommended,
     );
   }
 
@@ -49,7 +70,7 @@ class ExhibitorsClass {
       'shortDiscriptions': shortDiscriptions,
       'adress': adress,
       'siteweb': siteweb,
-      'image': image, // Ensure this is included
+      'image': image,
       'fav': fav,
       'star': star,
       'isRecommended': isRecommended,
