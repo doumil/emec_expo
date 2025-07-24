@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:emec_expo/model/user_model.dart';
-import 'package:emec_expo/home_screen.dart'; // Direct target after login
-import 'package:emec_expo/my_profile_screen.dart';
+// import 'package:emec_expo/home_screen.dart'; // <--- REMOVED: This was the old direct target
+import 'package:emec_expo/my_profile_screen.dart'; // Keep if used for other purposes
 
-import 'api_services/auth_api_service.dart'; // Keep import for potential later navigation if needed
+// IMPORT THE FILE WHERE WELCOMPAGE IS DEFINED (WHICH IS MAIN.DART IN YOUR CASE)
+import 'package:emec_expo/main.dart'; // <--- ADDED: To access WelcomPage
+
+import 'api_services/auth_api_service.dart'; // Your authentication service
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -51,11 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
             const SnackBar(content: Text('Login Successful!')),
           );
 
-          // --- MODIFIED: Navigate directly to HomeScreen ---
-          Navigator.of(context).pushReplacement(
+          // --- CRITICAL CHANGE HERE ---
+          // Navigate to WelcomPage (your main app shell that has the bottom nav)
+          // and clear the entire navigation stack, making WelcomPage the new root.
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(user: loggedInUser), // Go to HomeScreen
+              // Now we build WelcomPage, which lives in main.dart
+              builder: (context) => WelcomPage(user: loggedInUser),
             ),
+                (Route<dynamic> route) => false, // This predicate removes all previous routes
           );
         } else {
           _showErrorDialog(result['message'] ?? 'Login Failed: Missing token or user data.');
@@ -110,9 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                // Logo or app icon (optional)
+                // Logo or app icon
                 Image.asset(
-                  'assets/EMEC-LOGO.png',
+                  'assets/EMEC-LOGO.png', // Ensure this asset path is correct
                   height: 120,
                 ),
                 const SizedBox(height: 48.0),
@@ -173,11 +180,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24.0),
                 _isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator()) // <--- FIX IS HERE
                     : ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff261350),
+                    backgroundColor: const Color(0xff261350), // Your primary color
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -193,20 +200,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     // TODO: Implement Forgot Password navigation
                     print('Forgot Password?');
+                    // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                   },
                   child: const Text(
                     'Forgot Password?',
-                    style: TextStyle(color: Color(0xff00c1c1)),
+                    style: TextStyle(color: Color(0xff00c1c1)), // Your accent color
                   ),
                 ),
                 TextButton(
                   onPressed: () {
                     // TODO: Implement Register navigation
                     print('Register an account');
+                    // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationScreen()));
                   },
                   child: const Text(
                     'Don\'t have an account? Register',
-                    style: TextStyle(color: Color(0xff00c1c1)),
+                    style: TextStyle(color: Color(0xff00c1c1)), // Your accent color
                   ),
                 ),
               ],
