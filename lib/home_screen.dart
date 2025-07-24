@@ -1,48 +1,103 @@
+import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
-import 'package:emec_expo/model/notification_model.dart';
-import 'package:emec_expo/services/local_notification_service.dart';
+// import 'package:emec_expo/model/notification_model.dart'; // Keep if used for local notifications
+// import 'package:emec_expo/services/local_notification_service.dart'; // Keep if used for local notifications
 import 'package:emec_expo/services/onwillpop_services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
-import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
-import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
+import 'package:flutter/material.dart'; // Consolidated material and cupertino
+// import 'package:flutter/cupertino.dart'; // Not strictly needed if using Material widgets
+// import 'package:flutter/services.dart'; // Keep if SystemUiOverlayStyle is used elsewhere
+// Removed unused carousel slider imports
+// import 'package:flutter_carousel_slider/carousel_slider.dart';
+// import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
+// import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Busniess Safe.dart';
-import 'Notifications.dart';
+
+// Consider renaming Busniess Safe.dart to Business_Safe.dart for consistency and typo fix
+// import 'Busniess Safe.dart'; // Removed as not used in this snippet
+// import 'Notifications.dart'; // Removed as not used in this snippet
+
 import 'database_helper/database_helper.dart';
-import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'login_screen.dart';
+import 'model/user_model.dart';
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final User? user;
+
+  const HomeScreen({Key? key, this.user}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var db = new DataBaseHelperNotif();
-  String name = "1", date = "1", dtime = "1", discription = "1";
-  var fbm = FirebaseMessaging.instance;
-  late SharedPreferences prefs;
+  User? _loggedInUser;
+  String? _authToken;
+
+  final DataBaseHelperNotif db = DataBaseHelperNotif(); // Use final for non-changing instances
+  final FirebaseMessaging fbm = FirebaseMessaging.instance; // Use final
+  late SharedPreferences prefs; // prefs will be initialized in initState
 
   @override
   void initState() {
-    _loadData();
-    fbm.getToken().then((token) {
-      print("----------- token ------------");
-      print(token);
-      print("------------------------------------------------");
-    });
     super.initState();
+    _initializeUserAndToken();
+    fbm.getToken().then((token) {
+      if (token != null) { // Check if token is not null
+        print("----------- Firebase Token ------------");
+        print(token);
+        print("---------------------------------------");
+      }
+    });
   }
 
-  _loadData() async {
-    prefs = await SharedPreferences.getInstance();
+  // Method to handle loading user data and token
+  _initializeUserAndToken() async {
+    prefs = await SharedPreferences.getInstance(); // Initialize prefs here
+
+    // Use widget.user if provided, otherwise try loading from SharedPreferences
+    User? userFromWidget = widget.user;
+    User? userFromPrefs;
+
+    final String? userJsonString = prefs.getString('currentUserJson');
+    if (userJsonString != null) {
+      try {
+        final Map<String, dynamic> userMap = json.decode(userJsonString);
+        userFromPrefs = User.fromJson(userMap);
+      } catch (e) {
+        print("Error parsing stored user JSON: $e");
+        // Optionally clear corrupted data: await prefs.remove('currentUserJson');
+      }
+    }
+
+    setState(() {
+      // Prioritize user from widget (passed from login)
+      // If not available, use user from prefs
+      // If neither, fallback to a basic Guest user
+      _loggedInUser = userFromWidget ?? userFromPrefs ?? User(
+        id: 0,
+        name: "Guest",
+        nom: "User",
+        prenom: "",
+        email: "guest@example.com",
+      );
+      _authToken = prefs.getString('authToken');
+    });
+
+    // Consider if this `Data` setting is still necessary or should be elsewhere
     prefs.setString("Data", "0");
+  }
+
+  Future<void> _logout() async {
+    await prefs.remove('authToken');
+    await prefs.remove('currentUserJson');
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+          (Route<dynamic> route) => false,
+    );
   }
 
   @override
@@ -50,21 +105,38 @@ class _HomeScreenState extends State<HomeScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     OnWillPop on = OnWillPop();
+
     return WillPopScope(
       onWillPop: on.onWillPop1,
       child: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text("Home")),
+          title:  Center(child:  Text(
+            'Welcome, ${_loggedInUser?.name ?? 'Guest'}!',
+            style: const TextStyle( // Added const
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),), // Added const
           backgroundColor: Colors.black,
-          actions: const <Widget>[],
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout, color: Colors.white),
+              onPressed: _logout,
+              tooltip: 'Logout',
+            ),
+          ],
           elevation: 0,
-          //leading: const SizedBox.shrink(),
         ),
         body: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText2!,
+          style: Theme.of(context).textTheme.bodyMedium!, // bodyText2 is deprecated, use bodyMedium
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
+                // Use a Column here instead of ConstrainedBox for simpler layout flow
+                // if the IntrinsicHeight isn't strictly necessary for a dynamic height parent.
+                // However, if it prevents scroll issues with a fixed parent height, keep it.
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -72,116 +144,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: IntrinsicHeight(
                     child: Column(
                       children: <Widget>[
+                        // Consider if this Container is still needed or can be removed
                         Container(
                           alignment: Alignment.center,
                           child: Column(
-                            children: <Widget>[
-                              /*Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                color: Colors.black,
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 11,
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: width * 0.035),
-                                        width: width * 0.47,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              height: height * 0.03,
-                                              margin: EdgeInsets.only(bottom: height * 0.01),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.only(right: 5),
-                                                    child: Icon(
-                                                      Icons.event_note,
-                                                      size: height * 0.02,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      width: width * 0.4,
-                                                      child: Text(
-                                                        "11-13 Sept 2024",
-                                                        style: TextStyle(
-                                                          fontSize: height * 0.018,
-                                                          fontWeight: FontWeight.w300,
-                                                          color: Colors.white,
-                                                        ),
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: height * 0.06,
-                                      width: 0.7,
-                                      color: const Color(0xff00c1c1),
-                                    ),
-                                    Expanded(
-                                      flex: 11,
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: width * 0.035),
-                                        width: width * 0.47,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              height: height * 0.03,
-                                              margin: EdgeInsets.only(bottom: height * 0.01),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.only(right: 5),
-                                                    child: Icon(
-                                                      Icons.location_on,
-                                                      size: height * 0.02,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {},
-                                                    child: Container(
-                                                      width: width * 0.4,
-                                                      child: Text(
-                                                        "International Fair - OFEC Morocco",
-                                                        style: TextStyle(
-                                                          fontSize: height * 0.018,
-                                                          fontWeight: FontWeight.w300,
-                                                          color: Colors.white,
-                                                        ),
-                                                        overflow: TextOverflow.visible,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),*/
+                            children: const <Widget>[ // Added const
+                              // Existing UI for event date/location
                             ],
                           ),
                         ),
                         Expanded(
                           child: SingleChildScrollView(
                             child: FadeInDown(
-                              duration: Duration(milliseconds: 500),
+                              duration: const Duration(milliseconds: 500), // Added const
                               child: Container(
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
@@ -195,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: width * 0.04, vertical: height * 0.02),
-                                child: Column( // Main Column for content below banner
+                                child: Column(
                                   children: [
                                     Container(
                                       padding: EdgeInsets.fromLTRB(
@@ -207,17 +182,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                         "assets/banner.png",
                                       ),
                                     ),
-                                    SizedBox(height: height * 0.02), // Spacing after banner
+                                    SizedBox(height: height * 0.02),
 
                                     // Custom Row for "My Badge" and the first two cards
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start, // Align top
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        // My Badge Card (takes up full left column space)
+                                        // My Badge Card
                                         Expanded(
-                                          flex: 3, // Increased flex for My Badge
+                                          flex: 3,
                                           child: SizedBox(
-                                            height: height * 0.28, // Approximate height for My Badge to span two rows
+                                            height: height * 0.28,
                                             child: _buildMyBadgeCard(
                                               context: context,
                                               title: 'My Badge',
@@ -227,14 +202,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: width * 0.099), // Spacing between columns
+                                        SizedBox(width: width * 0.099),
                                         // Column for Floor Plan and Networking
                                         Expanded(
-                                          flex: 2, // Reduced flex for this column
+                                          flex: 2,
                                           child: Column(
                                             children: [
                                               SizedBox(
-                                                height: height * 0.13, // Height for regular cards
+                                                height: height * 0.13,
                                                 child: _buildGridCard(
                                                   context: context,
                                                   title: 'Floor Plan',
@@ -243,9 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   width: width,
                                                 ),
                                               ),
-                                              SizedBox(height: height * 0.018), // Spacing between cards
+                                              SizedBox(height: height * 0.018),
                                               SizedBox(
-                                                height: height * 0.13, // Height for regular cards
+                                                height: height * 0.13,
                                                 child: _buildGridCard(
                                                   context: context,
                                                   title: 'Networking',
@@ -259,12 +234,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: height * 0.025), // Spacing between this row and the grid below
+                                    SizedBox(height: height * 0.025),
 
                                     // Remaining cards in a GridView
                                     GridView.count(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(), // Added const
                                       crossAxisCount: 2,
                                       childAspectRatio: 1.1,
                                       crossAxisSpacing: width * 0.04,
@@ -341,9 +316,10 @@ class _HomeScreenState extends State<HomeScreen> {
     required double width,
   }) {
     return GestureDetector(
-      onTap: () async {
-        prefs = await SharedPreferences.getInstance();
-        prefs.setString("Data", dataValue);
+      onTap: () {
+        // No need to await SharedPreferences.getInstance() here again,
+        // as 'prefs' is already initialized in initState.
+        prefs.setString("Data", dataValue); // Consider a more specific key
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => WelcomPage()),
@@ -355,24 +331,23 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(color: Colors.white.withOpacity(0.2)),
         ),
-        // Adjusted padding to create more space around content and align left
         padding: EdgeInsets.only(left: width * 0.05, top: width * 0.05, bottom: width * 0.05),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-          crossAxisAlignment: CrossAxisAlignment.start, // Align to start (left)
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Icon(
               icon,
-              size: 60, // Significantly larger icon
-              color: Color(0xff00c1c1),
+              size: 60,
+              color: const Color(0xff00c1c1), // Added const
             ),
-            SizedBox(height: 12.0), // More space between icon and text
+            const SizedBox(height: 12.0), // Added const
             Text(
               title,
-              textAlign: TextAlign.left, // Left align text
-              style: TextStyle(
+              textAlign: TextAlign.left,
+              style: const TextStyle( // Added const
                 color: Colors.white,
-                fontSize: 22.0, // Larger font size for "My Badge"
+                fontSize: 22.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -382,7 +357,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   // General function for other grid cards
   Widget _buildGridCard({
     required BuildContext context,
@@ -390,13 +364,11 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
     required String dataValue,
     required double width,
-    // height is not directly used here for internal card sizing,
-    // but the SizedBox wrapping it in the build method handles the height
   }) {
     return GestureDetector(
-      onTap: () async {
-        prefs = await SharedPreferences.getInstance();
-        prefs.setString("Data", dataValue);
+      onTap: () {
+        // No need to await SharedPreferences.getInstance() here again.
+        prefs.setString("Data", dataValue); // Consider a more specific key
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => WelcomPage()),
@@ -408,21 +380,21 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(color: Colors.white.withOpacity(0.2)),
         ),
-        padding: EdgeInsets.all(width * 0.03), // Overall padding
+        padding: EdgeInsets.all(width * 0.03),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center, // Keep centered for other cards
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(
               icon,
               size: 40,
-              color: Color(0xff00c1c1),
+              color: const Color(0xff00c1c1), // Added const
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0), // Added const
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle( // Added const
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
@@ -436,14 +408,17 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 // Ensure WelcomPage and other required classes are defined in your project
+// This is a placeholder; you'll likely want different screens based on card taps.
 class WelcomPage extends StatelessWidget {
+  const WelcomPage({super.key}); // Added const constructor and super.key
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome'),
+        title: const Text('Welcome'), // Added const
       ),
-      body: Center(
+      body: const Center( // Added const
         child: Text('Welcome to the next page!'),
       ),
     );

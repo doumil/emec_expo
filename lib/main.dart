@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert'; // Added for json.decode
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // NEW: For FontAwesome icons
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Your custom imports (adjust paths as per your project structure)
+import 'package:emec_expo/model/user_model.dart'; // Added: Import your User model
+import 'package:emec_expo/login_screen.dart'; // Added: Import LoginScreen
+import 'package:emec_expo/home_screen.dart'; // Your HomeScreen, now accepts User
 import 'package:emec_expo/Busniess%20Safe.dart';
 import 'package:emec_expo/Congress.dart';
 import 'package:emec_expo/Contact.dart';
@@ -31,7 +34,7 @@ import 'package:emec_expo/details/DetailNetworkin.dart';
 import 'package:emec_expo/partners.dart';
 import 'package:emec_expo/product.dart'; // Your existing product screen
 import 'package:emec_expo/services/local_notification_service.dart';
-import 'package:emec_expo/home_screen.dart';
+// import 'package:emec_expo/home_screen.dart'; // Already imported above
 import 'package:emec_expo/Activities.dart';
 import 'package:emec_expo/My%20Agenda.dart';
 import 'package:emec_expo/Suporting%20Partners.dart'; // Your existing Supporting Partners screen
@@ -47,15 +50,10 @@ import 'package:emec_expo/my_profile_screen.dart';
 import 'package:emec_expo/my_badge_screen.dart';
 import 'package:emec_expo/favourites_screen.dart';
 import 'package:emec_expo/scanned_badges_screen.dart';
-import 'package:emec_expo/messages_screen.dart';
+// import 'package:emec_expo/messages_screen.dart'; // Assuming this is replaced by conversations_screen
 import 'package:emec_expo/meeting_ratings_screen.dart';
 
-import 'conversations_screen.dart';
-// If you want new distinct screens for Products/Congresses/Sponsors:
-// import 'package:emec_expo/products_screen.dart';
-// import 'package:emec_expo/congresses_screen.dart';
-// import 'package:emec_expo/sponsors_screen.dart';
-
+import 'conversations_screen.dart'; // This seems to be your Messages screen
 
 // Global ValueNotifier to hold the current notification count for UI updates
 ValueNotifier<int> notificationCountNotifier = ValueNotifier(0);
@@ -97,13 +95,43 @@ void main() async {
 
   await _requestNotificationPermission();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.getBool("isChecked1");
-  prefs.getBool("isChecked2");
-  prefs.getBool("isChecked3");
-
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); // Initialize Firebase early
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // --- LOGIN/AUTH CHECK START ---
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  // Check if a token exists
+  final String? authToken = prefs.getString('authToken');
+  User? initialUser;
+
+  if (authToken != null && authToken.isNotEmpty) {
+    // If token exists, try to load user data
+    final String? userJson = prefs.getString('currentUserJson');
+    if (userJson != null && userJson.isNotEmpty) {
+      try {
+        initialUser = User.fromJson(json.decode(userJson));
+      } catch (e) {
+        print("Error parsing stored user JSON in main: $e");
+        // Clear corrupted data to force re-login
+        await prefs.remove('authToken');
+        await prefs.remove('currentUserJson');
+        initialUser = null; // Force login screen if data is corrupt
+      }
+    }
+  }
+
+  // Determine the initial screen
+  Widget initialScreen;
+  if (initialUser != null && authToken != null && authToken.isNotEmpty) {
+    // User is logged in, go to WelcomPage (your main shell with the drawer)
+    initialScreen = WelcomPage(user: initialUser); // Pass user to WelcomPage
+  } else {
+    // No token or user data, go to Login Screen
+    initialScreen = const LoginScreen();
+  }
+  // --- LOGIN/AUTH CHECK END ---
+
 
   // Initialize globalLitems with 4 items on every app start/hot reload
   globalLitems = [
@@ -134,6 +162,7 @@ void main() async {
   ];
   notificationCountNotifier.value = globalLitems.length;
 
+  // Existing notification badge logic
   notificationCountNotifier.addListener(() {
     int currentCount = notificationCountNotifier.value;
     if (currentCount > 0) {
@@ -151,7 +180,7 @@ void main() async {
     }
   });
 
-  runApp(MyApp());
+  runApp(MyApp(initialScreen: initialScreen)); // Pass initialScreen to MyApp
 }
 
 Future<void> _requestNotificationPermission() async {
@@ -186,16 +215,24 @@ void onMessage(){
 }
 
 class MyApp extends StatelessWidget {
+  final Widget initialScreen; // Added: Define initialScreen parameter
+
+  const MyApp({Key? key, required this.initialScreen}) : super(key: key); // Added: Constructor for initialScreen
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: WelcomPage()
+        home: initialScreen // Use the passed initialScreen
     );
   }
 }
 
 class WelcomPage extends StatefulWidget {
+  final User? user; // Added: WelcomPage now accepts a user object
+
+  const WelcomPage({Key? key, this.user}) : super(key: key); // Updated: Constructor to accept user
+
   @override
   _WelcomPageState createState() => _WelcomPageState();
 }
@@ -206,22 +243,50 @@ class _WelcomPageState extends State<WelcomPage> {
   late SharedPreferences prefs;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  User? _loggedInUser; // Added: To store the current user for WelcomPage's state
+
   @override
   void initState() {
     super.initState();
-    _initSharedPreferencesAndLoadData();
+    _initializeUserAndLoadData(); // Renamed and updated init method
     _goTo_notification_back();
     onMessage();
   }
 
-  Future<void> _initSharedPreferencesAndLoadData() async {
+  Future<void> _initializeUserAndLoadData() async {
     prefs = await SharedPreferences.getInstance();
-    _loadData();
-  }
 
-  _loadData() {
+    // Prioritize user passed from constructor (from main.dart if logged in)
+    _loggedInUser = widget.user;
+
+    // If user was NOT passed (e.g., this might happen if WelcomPage is navigated to without user),
+    // try to load from SharedPreferences. This is a fallback now.
+    if (_loggedInUser == null) {
+      final String? userJsonString = prefs.getString('currentUserJson');
+      if (userJsonString != null) {
+        try {
+          final Map<String, dynamic> userMap = json.decode(userJsonString);
+          _loggedInUser = User.fromJson(userMap);
+        } catch (e) {
+          print("Error parsing stored user JSON in WelcomPage: $e");
+          // If data is corrupt, clear token and user to force re-login
+          await prefs.remove('authToken');
+          await prefs.remove('currentUserJson');
+          // Navigate to login if data is bad
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (Route<dynamic> route) => false,
+            );
+          });
+          return; // Stop further loading if data is bad
+        }
+      }
+    }
+
+    // Now proceed with your existing _loadData logic using the initialized prefs
     _data = (prefs.getString("Data") ?? '');
-    print("-------------$_data------------------");
+    print("-------------Data from prefs: $_data------------------");
     setState(() {
       // Logic to set initial currentPage based on stored data
       if (_data == "1") {
@@ -249,13 +314,14 @@ class _WelcomPageState extends State<WelcomPage> {
     });
   }
 
+
   _goTo_notification_back() {
     FirebaseMessaging.onMessageOpenedApp.listen((event) async {
       prefs = await SharedPreferences.getInstance();
       prefs.setString("Data", "4");
       notificationCountNotifier.value = 0;
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => WelcomPage()));
+          context, MaterialPageRoute(builder: (context) => WelcomPage(user: _loggedInUser,))); // Pass user to WelcomPage again
     });
   }
 
@@ -273,81 +339,85 @@ class _WelcomPageState extends State<WelcomPage> {
   @override
   Widget build(BuildContext context) {
     Widget container;
+    // IMPORTANT: Pass _loggedInUser to screens that need it
     if (currentPage == DrawerSections.home) {
-      container = HomeScreen();
+      container = HomeScreen(user: _loggedInUser); // Pass user here
     } else if (currentPage == DrawerSections.networking) {
-      container = NetworkinScreen();
+      container = NetworkinScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.myAgenda) {
-      container = MyAgendaScreen();
+      container = MyAgendaScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.congress) {
-      container = CongressScreen(); // Old Congress screen
+      container = CongressScreen(); // Old Congress screen, check if needs User
     } else if (currentPage == DrawerSections.speakers) {
-      container = SpeakersScreen();
+      container = SpeakersScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.officialEvents) {
-      container = OfficialEventsScreen();
+      container = OfficialEventsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.partners) {
-      container = PartnersScreen();
+      container = PartnersScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.exhibitors) {
-      container = ExhibitorsScreen();
+      container = ExhibitorsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.eFP) {
-      container = EFPScreen();
+      container = EFPScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.supportingP) {
-      container = SupportingPScreen();
+      container = SupportingPScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.mediaP) {
-      container = MediaPScreen();
+      container = MediaPScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.socialM) {
-      container = SocialMScreen();
+      container = SocialMScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.contact) {
-      container = ContactScreen();
+      container = ContactScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.information) {
-      container = InformationScreen();
+      container = InformationScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.schedule) {
-      container = SchelduleScreen();
+      container = SchelduleScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.getThere) {
-      container = GetThereScreen();
+      container = GetThereScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.notifications) {
-      container = NotificationsScreen();
+      container = NotificationsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.settings) {
-      container = SettingsScreen();
+      container = SettingsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.congressmenu) {
-      container = CongressMenu();
+      container = CongressMenu(); // Check if this needs User
     }
     // else if (currentPage == DrawerSections.detailcongress) {
-    //   container = DetailCongressScreen(check: false,);
+    //   container = DetailCongressScreen(check: false,); // Check if this needs User
     // }
     else if (currentPage == DrawerSections.DetailNetworkin) {
-      container = DetailNetworkinScreen();
+      container = DetailNetworkinScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.detailexhib) {
-      container = ExhibitorsScreen();
+      container = ExhibitorsScreen(); // Check if this needs User
     }
-    // NEW SCREEN MAPPINGS
+    // NEW SCREEN MAPPINGS (Ensure to pass _loggedInUser if they need it)
     else if (currentPage == DrawerSections.appUserGuide) {
       container = const AppUserGuideScreen();
     } else if (currentPage == DrawerSections.myProfile) {
-      container = const MyProfileScreen();
+      // MyProfileScreen requires a non-null User object
+      if (_loggedInUser != null) {
+        container = MyProfileScreen(user: _loggedInUser!);
+      } else {
+        // Fallback or show an error if user is somehow null here
+        container = const Text("User data not available for profile.");
+      }
     } else if (currentPage == DrawerSections.myBadge) {
-      container = const MyBadgeScreen();
+      container = const MyBadgeScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.favourites) {
-      container = const FavouritesScreen();
+      container = const FavouritesScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.scannedBadges) {
-      container = const ScannedBadgesScreen();
+      container = const ScannedBadgesScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.messages) {
-      container = const ConversationsScreen();
+      container = const ConversationsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.meetingRatings) {
-      container = const MeetingRatingsScreen();
+      container = const MeetingRatingsScreen(); // Check if this needs User
     } else if (currentPage == DrawerSections.products) {
-      container = ProductScreen(); // Using your existing ProductScreen
-      // Or if you made a new one: container = const ProductsScreen();
+      container = ProductScreen(); // Using your existing ProductScreen, check if needs User
     } else if (currentPage == DrawerSections.congresses) {
-      container = CongressScreen(); // Using your existing CongressMenu
-      // Or if you made a new one: container = const CongressesScreen();
+      container = CongressScreen(); // Using your existing CongressScreen, check if needs User
     } else if (currentPage == DrawerSections.sponsors) {
-      container = SupportingPScreen(); // Using your existing SupportingPScreen
-      // Or if you made a new one: container = const SponsorsScreen();
+      container = SupportingPScreen(); // Using your existing SupportingPScreen, check if needs User
     }
     // END NEW SCREEN MAPPINGS
     else {
-      container = HomeScreen();
+      container = HomeScreen(user: _loggedInUser); // Default to HomeScreen, pass user
     }
 
     return Scaffold(
@@ -359,7 +429,8 @@ class _WelcomPageState extends State<WelcomPage> {
             color: const Color(0xff261350), // Drawer background color
             child: Column(
               children: [
-                MyHeaderDrawer(),
+                // Pass _loggedInUser to MyHeaderDrawer if it displays user info
+                MyHeaderDrawer(user: _loggedInUser,), // Pass user here
                 const SizedBox(height: 5.0),
                 MyDrawerList(),
               ],
@@ -495,12 +566,12 @@ class _WelcomPageState extends State<WelcomPage> {
             switch (id) {
               case 1: currentPage = DrawerSections.home; break;
               case 2: currentPage = DrawerSections.networking; break;
-              case 3: currentPage = DrawerSections.congress; break; // Original Congress, consider if 'congresses' replaces it
+              case 3: currentPage = DrawerSections.congress; break;
               case 4: currentPage = DrawerSections.speakers; break;
               case 6: currentPage = DrawerSections.partners; break;
               case 7: currentPage = DrawerSections.exhibitors; break;
               case 11: currentPage = DrawerSections.eFP; break;
-              case 12: currentPage = DrawerSections.supportingP; break; // Original Supporting Partners
+              case 12: currentPage = DrawerSections.supportingP; break;
               case 14: currentPage = DrawerSections.socialM; break;
               case 15: currentPage = DrawerSections.contact; break;
               case 18: currentPage = DrawerSections.getThere; break;
@@ -521,19 +592,19 @@ class _WelcomPageState extends State<WelcomPage> {
               case 33: currentPage = DrawerSections.meetingRatings; break;
 
             // Fallback for existing specific detail pages if they are still entry points
-              case 5: currentPage = DrawerSections.officialEvents; break; // If still needed
-              case 8: currentPage = DrawerSections.product; break; // If original product link is separate
-              case 9: currentPage = DrawerSections.act; break; // If still needed
-              case 10: currentPage = DrawerSections.news; break; // If still needed
-              case 13: currentPage = DrawerSections.mediaP; break; // If still needed
-              case 16: currentPage = DrawerSections.information; break; // If still needed
-              case 17: currentPage = DrawerSections.schedule; break; // If still needed
-              case 20: currentPage = DrawerSections.business; break; // If still needed
-              case 23: currentPage = DrawerSections.myAgenda; break; // Duplicate for myAgenda
-              case 3: currentPage = DrawerSections.congressmenu; break; // If congressmenu is distinct from congresses
-              case 7: currentPage = DrawerSections.detailexhib; break; // Detail exhibitor from old flow
-              case 7: currentPage = DrawerSections.detailcongress; break; // Detail congress from old flow
-              case 8: currentPage = DrawerSections.DetailNetworkin; break; // Detail networking from old flow
+              case 5: currentPage = DrawerSections.officialEvents; break;
+              case 8: currentPage = DrawerSections.product; break;
+              case 9: currentPage = DrawerSections.act; break;
+              case 10: currentPage = DrawerSections.news; break;
+              case 13: currentPage = DrawerSections.mediaP; break;
+              case 16: currentPage = DrawerSections.information; break;
+              case 17: currentPage = DrawerSections.schedule; break;
+              case 20: currentPage = DrawerSections.business; break;
+              case 23: currentPage = DrawerSections.myAgenda; break;
+              case 3: currentPage = DrawerSections.congressmenu; break;
+              case 7: currentPage = DrawerSections.detailexhib; break;
+              case 7: currentPage = DrawerSections.detailcongress; break;
+              case 8: currentPage = DrawerSections.DetailNetworkin; break;
 
               default: currentPage = DrawerSections.home;
             }
@@ -570,26 +641,26 @@ enum DrawerSections {
   home,
   myAgenda,
   networking,
-  congress, // Existing, consider if 'congresses' replaces it
+  congress,
   speakers,
-  officialEvents, // Not in new menu, consider removal if not used
+  officialEvents,
   partners,
   exhibitors,
-  product, // Existing, consider if 'products' replaces it
-  act, // Not in new menu, consider removal if not used
-  news, // Not in new menu, consider removal if not used
-  eFP, // Renamed to Floor Plan in menu
-  supportingP, // Existing, consider if 'sponsors' replaces it
-  mediaP, // Not in new menu, consider removal if not used
+  product,
+  act,
+  news,
+  eFP,
+  supportingP,
+  mediaP,
   socialM,
   contact,
-  information, // Not in new menu (broken into sub-items), consider removal if not used
-  schedule, // Not in new menu (broken into sub-items), consider removal if not used
+  information,
+  schedule,
   getThere,
   food,
   business,
   notifications,
-  congressmenu, // Existing, consider if 'congresses' replaces it
+  congressmenu,
   settings,
   detailexhib,
   detailcongress,
@@ -603,7 +674,7 @@ enum DrawerSections {
   scannedBadges,
   messages,
   meetingRatings,
-  products, // New distinct section, or re-map to existing 'product'
-  congresses, // New distinct section, or re-map to existing 'congress'/'congressmenu'
-  sponsors, // New distinct section, or re-map to existing 'partners'/'supportingP'
+  products,
+  congresses,
+  sponsors,
 }
